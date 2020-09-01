@@ -5,7 +5,8 @@
         <h3 class="card-title">
           Form - Save & Edit
         </h3>
-        <form>
+         <!-- <form id="add-form" (ngSubmit)="f.form.valid && saveEditLocation(f)" #f="ngForm" novalidate> -->
+         <form id="add-form" #f="ngForm" novalidate>
           <div class="row">
             <div div class="col-md-6">
               <div class="card card-plain">
@@ -14,19 +15,22 @@
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Country Code</label>
-                        <input type="text" class="form-control" placeholder="Input Country Code" value="Chet">
+                        <input type="text" class="form-control" placeholder="Input Country Code" [(ngModel)]="locatioOne_Obj.codCountry" name="codCountry_input" required>
                       </div>
                     </div>
                     <div class="col-md-6 pl-1">
                       <div class="form-group">
                         <label>Country Name</label>
-                        <input type="text" class="form-control" placeholder="Input Country Name" value="Faker">
+                        <input type="text" class="form-control" placeholder="Input Country Name" [(ngModel)]="locatioOne_Obj.countryName" name="nameCountry_input" required>
                       </div>
                     </div>
-                  </div>
 
+                  </div>
                   <div class="update ml-auto mr-auto">
-                    <button type="submit" class="btn btn-primary btn-round">Save Country</button>
+                    <button type="submit" ng-disabled="isDisabled"
+                    (click)="saveEditLocation(f)" class="btn btn-primary btn-round">Save</button>
+                    <button ng-disabled="isDisabled"  (click)="deleteLocation(f)"  [disabled]="statusDelete_btn" class="btn btn-primary btn-round">Delete</button>
+                    <button (click)="newRecord(f)" [disabled]="statusNew_btn" class="btn btn-primary btn-round">New</button>
                   </div>
                 </div>
               </div>
@@ -40,45 +44,35 @@
 <div class="row">
   <div class="col-md-12">
     <div class="card">
+      <div class="card-header">
+        <h4 class="card-title"> Location List</h4>
+      </div>
       <div class="card-body">
-        <div class="places-buttons">
-          <div class="row">
-            <div class="col-md-12">
-              <h4 class="card-title">
-                List - Saved
-              </h4>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-8 ml-auto mr-auto">
-              <div class="row">
-                <div class="col-md-4">
-                  <button class="btn btn-primary btn-block" (click)="showNotification('top','left')">Top Left</button>
-                </div>
-                <div class="col-md-4">
-                  <button class="btn btn-primary btn-block" (click)="showNotification('top','center')">Top Center</button>
-                </div>
-                <div class="col-md-4">
-                  <button class="btn btn-primary btn-block" (click)="showNotification('top','right')">Top Right</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-8 ml-auto mr-auto">
-              <div class="row">
-                <div class="col-md-4">
-                  <button class="btn btn-primary btn-block" (click)="showNotification('bottom','left')">Bottom Left</button>
-                </div>
-                <div class="col-md-4">
-                  <button class="btn btn-primary btn-block" (click)="showNotification('bottom','center')">Bottom Center</button>
-                </div>
-                <div class="col-md-4">
-                  <button class="btn btn-primary btn-block" (click)="showNotification('bottom','right')">Bottom Right</button>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <th>
+                Country Name
+              </th>
+              <th>
+                CodCountry
+              </th>
+              <th>
+                City Name
+              </th>
+              <th>
+                State Name
+              </th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let loc of locations; let i = index" (click)="selectLocation($event, loc)">
+                <td>{{loc.codCountry}}</td>
+                <td>{{loc.countryName}}</td>
+                <td>{{loc.cityName}}</td>
+                <td>{{loc.stateName}}</td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

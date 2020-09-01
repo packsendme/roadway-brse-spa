@@ -2,16 +2,13 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ToastrModule } from "ngx-toastr";
-
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { FooterModule } from './shared/footer/footer.module';
 import { NavbarModule} from './shared/navbar/navbar.module';
-
 import { AppComponent } from './app.component';
 import { AppRoutes } from './app.routing';
-
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
-
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -23,6 +20,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { HttpErrorInterceptor } from './service/HttpErrorInterceptor';
 
 
 @NgModule({
@@ -35,6 +33,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     RouterModule.forRoot(AppRoutes,{
       useHash: true
     }),
+    HttpClientModule,
     LayoutModule,
     MatAutocompleteModule,
     MatCheckboxModule,
@@ -50,7 +49,13 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     ToastrModule.forRoot(),
     FooterModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
