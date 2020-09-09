@@ -15,18 +15,20 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { HttpErrorInterceptor } from './service/HttpErrorInterceptor';
+import { HttpErrorInterceptor } from './exception/HttpErrorInterceptor';
+import { VehicletypeComponent } from './pages/vehicletype/vehicletype.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AdminLayoutComponent
+    AdminLayoutComponent,
+   VehicletypeComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -34,6 +36,7 @@ import { HttpErrorInterceptor } from './service/HttpErrorInterceptor';
       useHash: true
     }),
     HttpClientModule,
+    FormsModule,
     LayoutModule,
     MatAutocompleteModule,
     MatCheckboxModule,

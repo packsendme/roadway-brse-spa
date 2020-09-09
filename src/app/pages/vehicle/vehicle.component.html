@@ -1,0 +1,136 @@
+<div class="row">
+  <div class="col-md-11">
+    <div class="card card-user">
+      <div class="card-body">
+        <h3 class="card-title">
+          Vehicle Category - Save & Edit
+        </h3>
+         <!-- <form id="add-form" (ngSubmit)="f.form.valid && saveEditLocation(f)" #f="ngForm" novalidate> -->
+         <form id="add-form" #f="ngForm" novalidate>
+            <div div class="col-md-6">
+              <div class="card card-plain">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-9 px-1">
+                      <div class="form-group">
+                        <label>Type Category Vehicle</label>
+                        <select class="form-control" name="categoryvehicle_select" [(ngModel)]="vehicleOne_Obj.vehicle_type">
+                          <option [value]="item.type_vehicle" *ngFor="let item of vehiclesTypes">{{item.type_vehicle}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-1 col-6 px-1 text-left">
+                      <label>&nbsp;</label>
+                      <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="functionRedirectToVehicleType()">
+                        <i class="fa fa-envelope"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-5 px-1">
+                      <div class="form-group">
+                        <label>Passenger Vehicle:</label>
+                        <br>
+                        <input type="radio" name="people_radio" ng-model="peopleTransport" value="true" (click)=toggleDisplay(true)><label>&nbsp;True</label>
+                        &nbsp;
+                        <input type="radio" name="people_radio" ng-model="peopleTransport" value="false" (click)=toggleDisplay(false)><label>&nbsp;False</label>
+                      </div>
+                    </div>
+
+                    <div class="col-md-5 px-1" [hidden]="!isShow">
+                      <div class="form-group">
+                        <label>People Number</label>
+                        <select class="form-control" name="people_select" [(ngModel)]="vehicleOne_Obj.people">
+                          <option [value]="item" *ngFor="let item of peoples">{{item}}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3 px-1">
+                      <div class="form-group">
+                        <label>Cargo Vehicle</label>
+                        <input type="text" class="form-control" placeholder="Max" [(ngModel)]="vehicleOne_Obj.cargo_max" name="cargomaxvehicle_input" required>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4 px-1">
+                      <div class="form-group">
+                        <label>Unity Measurement</label>
+                        <select class="form-control" name="unitymeasurement_select" [(ngModel)]="vehicleOne_Obj.unity_measurement_weight">
+                          <option [value]="item.unitMeasurement" *ngFor="let item of unityMeasurements">{{item.unitMeasurement}}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3 px-1">
+                      <div class="form-group">
+                        <label>Axis Vehicle</label>
+                        <select class="form-control" name="axis_select" [(ngModel)]="vehicleOne_Obj.axis_total">
+                          <option [value]="item" *ngFor="let item of axis">{{item}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-10 px-1">
+                        <div class="form-group">
+                          <label>Boywork Vehicle</label>
+                          <select class="form-control" name="bodywork_select" [(ngModel)]="vehicleOne_Obj.bodywork_vehicle" multiple>
+                            <option [value]="item.bodyWork" *ngFor="let item of bodyworkes">{{item.bodyWork}}</option>
+                          </select>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="update ml-auto mr-auto">
+                    <button type="submit" ng-disabled="isDisabled"
+                     (click)="saveEditVehicle(f)" class="btn btn-primary btn-round">Save</button>
+                    <button ng-disabled="isDisabled"  (click)="deleteVehicle(f)"  [disabled]="statusDelete_btn" class="btn btn-primary btn-round">Delete</button>
+                    <button (click)="newRecord(f)" [disabled]="statusNew_btn" class="btn btn-primary btn-round">New</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title"> Vehicles List</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <th>
+                Category Type
+              </th>
+              <th>
+                Cargo Max
+              </th>
+              <th>
+                Unity
+              </th>
+              <th>
+                Axis
+              </th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let veh of vehicles; let i = index" (click)="selectLocation($event, veh)">
+                <td>{{veh.vehicle_type}}</td>
+                <td>{{veh.cargo_max}}</td>
+                <td>{{veh.unity_measurement_weight}}</td>
+                <td>{{veh.axis_total}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

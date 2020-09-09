@@ -1,16 +1,15 @@
-import { LocationModel } from './../model/location-model';
-import { Injectable, OnInit } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { VehicleTypeModel } from 'app/model/vehicle-type-model';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LocationService {
-
-  url_location = 'http://192.241.133.13:9008/roadway/manager/location';
+export class VehicleTypeService {
+  url_vehicleType = 'http://192.241.133.13:9008/roadway/manager/vehicletype';
   headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-  location: LocationModel[] = [];
+  vehicleType: VehicleTypeModel[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
@@ -24,30 +23,30 @@ export class LocationService {
     this.headers = this.headers.append('originApp', 'APP-MICROSERVICE');
   }
 
-  getLocation(): Observable<Response>{
+  getVehicleType(): Observable<Response> {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.get<Response>(this.url_location, httpOptions)
+    return this.httpClient.get<Response>(this.url_vehicleType, httpOptions)
     }
 
-  postLocation(location: LocationModel): Observable<Response> {
+  postVehicleType(vehicleType: VehicleTypeModel): Observable<Response> {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.post<Response>(this.url_location, location, httpOptions)
+    return this.httpClient.post<Response>(this.url_vehicleType, vehicleType, httpOptions)
   }
 
-  putLocation(location: LocationModel){
-    console.log(' putLocation ', location.id);
+  putVehicleType(vehicleType: VehicleTypeModel){
+    console.log(' bodyWork ', vehicleType.id);
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.put<Response>(this.url_location + '?id=' + location.id, location, httpOptions)
+    return this.httpClient.put<Response>(this.url_vehicleType + '?id=' + vehicleType.id, vehicleType, httpOptions)
   };
 
-  deleteLocation(location: LocationModel){
-    console.log(' deleteLocation ', location.id);
+  deleteVehicleType(vehicleType: VehicleTypeModel) {
+    console.log(' deleteVehicle ', vehicleType.id);
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.delete<Response>(this.url_location + '?id=' + location.id, httpOptions)
+    return this.httpClient.delete<Response>(this.url_vehicleType + '?id=' + vehicleType.id, httpOptions)
   }
 
 }

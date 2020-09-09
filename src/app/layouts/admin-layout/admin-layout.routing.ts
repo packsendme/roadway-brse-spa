@@ -1,6 +1,4 @@
 import { Routes } from '@angular/router';
-
-import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { UserComponent } from '../../pages/user/user.component';
 import { TableComponent } from '../../pages/table/table.component';
 import { TypographyComponent } from '../../pages/typography/typography.component';
@@ -9,10 +7,13 @@ import { MapsComponent } from '../../pages/maps/maps.component';
 import { NotificationsComponent } from '../../pages/notifications/notifications.component';
 import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
 import { LocationComponent } from 'app/pages/location/location.component';
+import { VehicleComponent } from 'app/pages/vehicle/vehicle.component';
+import { VehicletypeComponent } from 'app/pages/vehicletype/vehicletype.component';
 
 export const AdminLayoutRoutes: Routes = [
-    { path: 'location',      component: LocationComponent },
-    { path: 'dashboard',      component: DashboardComponent },
+    { path: 'location',       component: LocationComponent },
+    { path: 'vehicle',        component: VehicleComponent },
+    { path: 'vehicletype',    component: VehicletypeComponent },
     { path: 'user',           component: UserComponent },
     { path: 'table',          component: TableComponent },
     { path: 'typography',     component: TypographyComponent },

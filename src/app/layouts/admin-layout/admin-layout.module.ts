@@ -27,6 +27,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { VehicleComponent } from 'app/pages/vehicle/vehicle.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MapsComponent,
     NotificationsComponent,
     LocationComponent,
+    VehicleComponent,
   ]
 })
 

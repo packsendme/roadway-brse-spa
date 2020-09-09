@@ -1,69 +1,69 @@
-import { LocationModel } from './../../model/location-model';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { LocationService } from './../../service/location.service';
-import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
+import { VehicleTypeModel } from './../../model/vehicle-type-model';
+import { Component, OnInit } from '@angular/core';
+import { VehicleTypeService } from 'app/service/vehicle-type.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-location',
-  templateUrl: './location.component.html',
-  styleUrls: ['./location.component.css']
+  selector: 'app-vehicletype',
+  templateUrl: './vehicletype.component.html',
+  styleUrls: ['./vehicletype.component.css']
 })
-export class LocationComponent implements OnInit {
-  locations: LocationModel[];
-  locatioOne_Obj = {} as LocationModel;
+export class VehicletypeComponent implements OnInit {
+
+   // List Another Requests
+   vehiclesTypes: VehicleTypeModel[];
+
+  // Screen Option
+  vehicleTypeOne_Obj = {} as VehicleTypeModel;
   statusDelete_btn = true;
   statusNew_btn = true;
 
-  constructor(private locationService: LocationService, private toastr: ToastrService) { }
+  constructor(
+    private vehicleTypeService: VehicleTypeService,
+    private toastr: ToastrService) {
+      this.findVehiclesType();
+    }
 
   ngOnInit(): void {
-    this.findLocations();
-   }
+  }
 
+  //--------- REQUESTs - EXTERNAL ---------------------------------------//
 
-   findLocations(){
-    let locationsVet: LocationModel[] = [];
-    this.locationService.getLocation().subscribe((locationsData: Response) =>{
-      const locationsStr = JSON.stringify(locationsData.body);
-      JSON.parse(locationsStr, function (key, value){
-        if (key === 'locations') {
-          locationsVet = value;
+  findVehiclesType() {
+    let vehiclesTypesVet: VehicleTypeModel [] = [];
+    this.vehicleTypeService.getVehicleType().subscribe((vehicleTypeData: Response) => {
+      const vehicleTypeDataStr = JSON.stringify(vehicleTypeData.body);
+      JSON.parse(vehicleTypeDataStr, function (key, value) {
+        if (key === 'vehiclesType') {
+          vehiclesTypesVet = value;
           return value;
         } else {
-          return value;
+           return value;
         }
       });
-      this.locations = locationsVet;
+      this.vehiclesTypes = vehiclesTypesVet;
     });
   }
 
-  selectLocation(event: any, locationSelect:any){
-    this.statusDelete_btn = false;
-    this.statusNew_btn = false;
-    this.locatioOne_Obj = locationSelect;
-  }
+  // --------- OPERATION TRANSACTION - CRUD ---------------------------------------//
 
   newRecord(event: any){
-    console.log('newRecord');
     event.resetForm(event);
-    this.locatioOne_Obj = {} as LocationModel;
+    this.vehicleTypeOne_Obj = {} as VehicleTypeModel;
     this.statusNew_btn = true;
     this.statusDelete_btn = true;
   }
 
-  saveEditLocation(event: any){
-    console.log(' saveEditLocation ');
-
+  saveEditVehicleType(event: any){
     // Transaction Save
-    if (this.locatioOne_Obj.id == null){
-      this.locationService.postLocation(this.locatioOne_Obj).subscribe({
+    if (this.vehicleTypeOne_Obj.id == null) {
+      this.vehicleTypeService.postVehicleType(this.vehicleTypeOne_Obj).subscribe({
         next: data => this.transactionOrchestrator(event, 'Save'),
         error: error => this.showNotification('bottom','center', error, 'error')
       });
-    } else if (this.locatioOne_Obj.id != null) {
-      this.locationService.putLocation(this.locatioOne_Obj).subscribe({
+    } else if (this.vehicleTypeOne_Obj.id != null) {
+      this.vehicleTypeService.putVehicleType(this.vehicleTypeOne_Obj).subscribe({
         next: data => this.transactionOrchestrator(event, 'Update'),
         error: error => this.showNotification('bottom','center', error, 'error')
       });
@@ -71,20 +71,28 @@ export class LocationComponent implements OnInit {
     this.statusDelete_btn = true;
   }
 
-  deleteLocation(event: any){
-    console.log(' deleteLocation ');
+  deleteVehicleType(event: any){
+    console.log(' deleteVehicle ');
     this.statusDelete_btn = true;
     this.statusNew_btn = true;
     // Transaction Delete
-    if (this.locatioOne_Obj.id != null) {
-      this.locationService.deleteLocation(this.locatioOne_Obj).subscribe({
+    if (this.vehicleTypeOne_Obj.id != null) {
+      this.vehicleTypeService.deleteVehicleType(this.vehicleTypeOne_Obj).subscribe({
         next: data => this.transactionOrchestrator(event, 'Delete'),
         error: error => this.showNotification('bottom', 'center', error, 'error')
       });
     }
   }
 
-  transactionOrchestrator(event: any, type: String) {
+// --------------------------------------------------------------------------------//
+
+selectLocation(event: any, vehicleSelect:any){
+  this.statusDelete_btn = false;
+  this.statusNew_btn = false;
+  this.vehicleTypeOne_Obj = vehicleSelect;
+}
+
+transactionOrchestrator(event: any, type: String) {
     let msgTransaction = '' as  String;
     switch (type) {
       case 'Save': {
@@ -94,19 +102,18 @@ export class LocationComponent implements OnInit {
       case 'Update': {
         msgTransaction = 'Update Success';
       }
-      // tslint:disable-next-line:no-switch-case-fall-through
       case 'Delete': {
         msgTransaction = 'Delete Success';
       }
     }
-    this.findLocations()
-    this.showNotification('bottom','center', msgTransaction, 'success')
+    this.findVehiclesType()
+    this.showNotification('bottom', 'center', msgTransaction, 'success')
     event.resetForm(event);
-    this.locatioOne_Obj = {} as LocationModel;
+    this.vehicleTypeOne_Obj = {} as VehicleTypeModel;
   }
 
   handleClear(f: NgForm){
-    console.log(' CLEAN');
+    console.log(" CLEAN");
     f.resetForm();
   }
 
@@ -145,3 +152,5 @@ export class LocationComponent implements OnInit {
   }
 
 }
+
+
