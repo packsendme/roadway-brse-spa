@@ -1,4 +1,3 @@
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ToastrModule } from "ngx-toastr";
@@ -9,6 +8,7 @@ import { NavbarModule} from './shared/navbar/navbar.module';
 import { AppComponent } from './app.component';
 import { AppRoutes } from './app.routing';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { MatTableModule } from '@angular/material/table';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -22,19 +22,25 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { HttpErrorInterceptor } from './exception/HttpErrorInterceptor';
 import { VehicletypeComponent } from './pages/vehicletype/vehicletype.component';
-
-
+import { BodyworkComponent } from './pages/bodywork/bodywork.component';
+import { CategorytypeComponent } from './pages/categorytype/categorytype.component';
+import { TransportComponent } from './pages/transport/transport.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { MatButtonModule } from '@angular/material/button';
 @NgModule({
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-   VehicletypeComponent
+    VehicletypeComponent,
+    BodyworkComponent,
+    CategorytypeComponent,
+    TransportComponent
   ],
   imports: [
+    BrowserModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(AppRoutes,{
-      useHash: true
-    }),
+    RouterModule.forRoot(AppRoutes, {useHash: true}),
     HttpClientModule,
     FormsModule,
     LayoutModule,
@@ -46,11 +52,13 @@ import { VehicletypeComponent } from './pages/vehicletype/vehicletype.component'
     MatRadioModule,
     MatSelectModule,
     MatSliderModule,
+    MatButtonModule,
     MatSlideToggleModule,
     SidebarModule,
     NavbarModule,
     ToastrModule.forRoot(),
-    FooterModule
+    FooterModule,
+    MatTableModule,
   ],
   providers: [
     {

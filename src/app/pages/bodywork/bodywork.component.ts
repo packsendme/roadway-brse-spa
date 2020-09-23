@@ -1,45 +1,46 @@
-import { VehicleTypeModel } from './../../model/vehicle-type-model';
-import { Component, OnInit } from '@angular/core';
-import { VehicleTypeService } from 'app/service/vehicle-type.service';
+import { BodyWorkModel } from 'app/model/body-work-model';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
+import { BodyWorkService } from 'app/service/body-work.service';
 
 @Component({
-  selector: 'app-vehicletype',
-  templateUrl: './vehicletype.component.html',
-  styleUrls: ['./vehicletype.component.css']
+  selector: 'app-bodywork',
+  templateUrl: './bodywork.component.html',
+  styleUrls: ['./bodywork.component.css']
 })
-export class VehicletypeComponent implements OnInit {
+export class BodyworkComponent implements OnInit {
 
-   // List Another Requests
-   vehiclesTypes: VehicleTypeModel[];
+  // List Another Requests
+  bodyworkes: BodyWorkModel[];
 
-  // Screen Option
-  vehicleTypeOne_Obj = {} as VehicleTypeModel;
-  statusDelete_btn = true;
-  statusNew_btn = true;
+    // Screen Option
+    bodyworkOne_Obj = {} as BodyWorkModel;
+    statusDelete_btn = true;
+    statusNew_btn = true;
 
-  constructor(private vehicleTypeService: VehicleTypeService, private toastr: ToastrService) { }
+  constructor(private bodyworkService: BodyWorkService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.findVehiclesType();
-  }
+    this.findBodyworks();
+   }
 
-  //--------- REQUESTs - EXTERNAL ---------------------------------------//
+   //--------- REQUESTs - INTERNAL ---------------------------------------//
 
-  findVehiclesType() {
-    let vehiclesTypesVet: VehicleTypeModel [] = [];
-    this.vehicleTypeService.getVehicleType().subscribe((vehicleTypeData: Response) => {
-      const vehicleTypeDataStr = JSON.stringify(vehicleTypeData.body);
-      JSON.parse(vehicleTypeDataStr, function (key, value) {
-        if (key === 'vehiclesType') {
-          vehiclesTypesVet = value;
+   findBodyworks() {
+    let bodyworksVet: BodyWorkModel[] = [];
+    this.bodyworkService.getBodyWork().subscribe((bodyworksData: Response) =>{
+      const bodyworksStr = JSON.stringify(bodyworksData.body);
+      JSON.parse(bodyworksStr, function (key, value) {
+        if (key === 'bodies') {
+          bodyworksVet = value;
           return value;
         } else {
-           return value;
+          return value;
         }
       });
-      this.vehiclesTypes = vehiclesTypesVet;
+      this.bodyworkes = bodyworksVet;
     });
   }
 
@@ -47,20 +48,20 @@ export class VehicletypeComponent implements OnInit {
 
   newRecord(event: any){
     event.resetForm(event);
-    this.vehicleTypeOne_Obj = {} as VehicleTypeModel;
+    this.bodyworkOne_Obj = {} as BodyWorkModel;
     this.statusNew_btn = true;
     this.statusDelete_btn = true;
   }
 
-  saveEditVehicleType(event: any){
+  saveEditBodyWork(event: any) {
     // Transaction Save
-    if (this.vehicleTypeOne_Obj.id == null) {
-      this.vehicleTypeService.postVehicleType(this.vehicleTypeOne_Obj).subscribe({
+    if (this.bodyworkOne_Obj.id == null) {
+      this.bodyworkService.postBodyWork(this.bodyworkOne_Obj).subscribe({
         next: data => this.transactionOrchestrator(event, 'Save'),
         error: error => this.showNotification('bottom','center', error, 'error')
       });
-    } else if (this.vehicleTypeOne_Obj.id != null) {
-      this.vehicleTypeService.putVehicleType(this.vehicleTypeOne_Obj).subscribe({
+    } else if (this.bodyworkOne_Obj.id != null) {
+      this.bodyworkService.putBodyWork(this.bodyworkOne_Obj).subscribe({
         next: data => this.transactionOrchestrator(event, 'Update'),
         error: error => this.showNotification('bottom','center', error, 'error')
       });
@@ -68,13 +69,12 @@ export class VehicletypeComponent implements OnInit {
     this.statusDelete_btn = true;
   }
 
-  deleteVehicleType(event: any){
-    console.log(' deleteVehicle ');
+  deleteBodyWork(event: any){
     this.statusDelete_btn = true;
     this.statusNew_btn = true;
     // Transaction Delete
-    if (this.vehicleTypeOne_Obj.id != null) {
-      this.vehicleTypeService.deleteVehicleType(this.vehicleTypeOne_Obj).subscribe({
+    if (this.bodyworkOne_Obj.id != null) {
+      this.bodyworkService.deleteBodyWork(this.bodyworkOne_Obj).subscribe({
         next: data => this.transactionOrchestrator(event, 'Delete'),
         error: error => this.showNotification('bottom', 'center', error, 'error')
       });
@@ -83,10 +83,10 @@ export class VehicletypeComponent implements OnInit {
 
 // --------------------------------------------------------------------------------//
 
-selectLocation(event: any, vehicleSelect:any){
+selectLocation(event: any, vehicleSelect: any) {
   this.statusDelete_btn = false;
   this.statusNew_btn = false;
-  this.vehicleTypeOne_Obj = vehicleSelect;
+  this.bodyworkOne_Obj = vehicleSelect;
 }
 
 transactionOrchestrator(event: any, type: String) {
@@ -95,7 +95,6 @@ transactionOrchestrator(event: any, type: String) {
       case 'Save': {
         msgTransaction = 'Register Success';
       }
-      // tslint:disable-next-line:no-switch-case-fall-through
       case 'Update': {
         msgTransaction = 'Update Success';
       }
@@ -103,16 +102,15 @@ transactionOrchestrator(event: any, type: String) {
         msgTransaction = 'Delete Success';
       }
     }
-    this.findVehiclesType()
+    this.findBodyworks()
     this.showNotification('bottom', 'center', msgTransaction, 'success')
     event.resetForm(event);
-    this.vehicleTypeOne_Obj = {} as VehicleTypeModel;
-  }
+    this.bodyworkOne_Obj = {} as BodyWorkModel;
+}
 
-  handleClear(f: NgForm){
-    console.log(" CLEAN");
-    f.resetForm();
-  }
+handleClear(f: NgForm){
+  f.resetForm();
+}
 
   showNotification(from, align, msg, type) {
     const color = Math.floor(Math.random() * 5 + 1);
@@ -147,7 +145,4 @@ transactionOrchestrator(event: any, type: String) {
         break;
     }
   }
-
 }
-
-

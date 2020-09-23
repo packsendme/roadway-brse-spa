@@ -1,3 +1,5 @@
+import { CategorytypeComponent } from './../../pages/categorytype/categorytype.component';
+import { BodyworkComponent } from './../../pages/bodywork/bodywork.component';
 import { Routes } from '@angular/router';
 import { UserComponent } from '../../pages/user/user.component';
 import { TableComponent } from '../../pages/table/table.component';
@@ -9,13 +11,18 @@ import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
 import { LocationComponent } from 'app/pages/location/location.component';
 import { VehicleComponent } from 'app/pages/vehicle/vehicle.component';
 import { VehicletypeComponent } from 'app/pages/vehicletype/vehicletype.component';
+import { TransportComponent } from 'app/pages/transport/transport.component';
+import { CategoryComponent } from 'app/pages/category/category.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'location',       component: LocationComponent },
     { path: 'vehicle',        component: VehicleComponent },
     { path: 'vehicletype',    component: VehicletypeComponent },
+    { path: 'category',       component: CategoryComponent },
+    { path: 'categorytype',   component: CategorytypeComponent },
+    { path: 'transport',      component: TransportComponent },
+    { path: 'bodywork',       component: BodyworkComponent },
     { path: 'user',           component: UserComponent },
-    { path: 'table',          component: TableComponent },
     { path: 'typography',     component: TypographyComponent },
     { path: 'icons',          component: IconsComponent },
     { path: 'maps',           component: MapsComponent },

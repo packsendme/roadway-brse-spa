@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">
+          Transport Type - Save & Edit
+        </h3>
+         <!-- <form id="add-form" (ngSubmit)="f.form.valid && saveEditLocation(f)" #f="ngForm" novalidate> -->
+         <form id="add-form" #f="ngForm" novalidate>
+          <div class="row">
+            <div div class="col-md-6">
+              <div class="card card-plain">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>Name Transport</label>
+                        <input type="text" class="form-control" placeholder="Input Name Transport Type" [(ngModel)]="transportiesOne_Obj.name_transport" name="nametransport_input" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="update ml-auto mr-auto">
+                    <button type="submit" ng-disabled="isDisabled"
+                    (click)="saveEditTransport(f)" class="btn btn-primary btn-round">Save</button>
+                    <button ng-disabled="isDisabled"  (click)="deleteTransport(f)"  [disabled]="statusDelete_btn" class="btn btn-primary btn-round">Delete</button>
+                    <button (click)="newRecord(f)" [disabled]="statusNew_btn" class="btn btn-primary btn-round">New</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title"> Transport Type List</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <th>
+                Name Transport
+              </th>
+           </thead>
+            <tbody>
+              <tr *ngFor="let tran of transporties; let i = index" (click)="selectTransport($event, tran)">
+                <td>{{tran.name_transport}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

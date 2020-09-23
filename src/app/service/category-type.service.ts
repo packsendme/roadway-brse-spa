@@ -1,15 +1,16 @@
+import { CategoryTypeModel } from './../model/category-type-model';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
-import { BodyWorkModel } from 'app/model/body-work-model';
+import { CategoryModel } from 'app/model/category-model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BodyWorkService {
-  url_bodywork = 'http://192.241.133.13:9008/roadway/manager/bodywork';
+export class CategoryTypeService {
+  url_categorytype = 'http://192.241.133.13:9008/roadway/manager/categorytype';
   headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-  bodyWork: BodyWorkModel[] = [];
+  category: CategoryModel[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
@@ -23,31 +24,27 @@ export class BodyWorkService {
     this.headers = this.headers.append('originApp', 'APP-MICROSERVICE');
   }
 
-  getBodyWork(): Observable<Response> {
+  getCategoryType(): Observable<Response>{
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.get<Response>(this.url_bodywork, httpOptions)
+    return this.httpClient.get<Response>(this.url_categorytype, httpOptions)
     }
 
-  postBodyWork(bodyWork: BodyWorkModel): Observable<Response> {
+  postCategoryType(categoryType: CategoryTypeModel): Observable<Response> {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.post<Response>(this.url_bodywork, bodyWork, httpOptions)
+    return this.httpClient.post<Response>(this.url_categorytype, categoryType, httpOptions)
   }
 
-  putBodyWork(bodyWork: BodyWorkModel){
+  putCategoryType(categoryType: CategoryTypeModel) {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.put<Response>(this.url_bodywork + '?id=' + bodyWork.id, bodyWork, httpOptions)
+    return this.httpClient.put<Response>(this.url_categorytype + '?id=' + categoryType.id, categoryType, httpOptions)
   };
 
-  deleteBodyWork(bodyWork: BodyWorkModel) {
+  deleteCategoryType(categoryType: CategoryTypeModel) {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.delete<Response>(this.url_bodywork + '?id=' + bodyWork.id, httpOptions)
+    return this.httpClient.delete<Response>(this.url_categorytype + '?id=' + categoryType.id, httpOptions)
   }
-
-
-
-
 }

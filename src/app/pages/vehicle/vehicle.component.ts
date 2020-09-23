@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 import { VehicleModel } from 'app/model/vehicle-model';
 import { VehicleService } from 'app/service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormControl } from '@angular/forms';
 import { UnityMeasurementModel } from 'app/model/unity-measurement-model';
 import { Router } from '@angular/router';
 
@@ -30,8 +30,11 @@ export class VehicleComponent implements OnInit {
   vehicleOne_Obj = {} as VehicleModel;
   statusDelete_btn = true;
   statusNew_btn = true;
-  peopleTransport = true;
   isShow = false;
+
+  reactiveForm: FormGroup = new FormGroup({
+    reactiveRadio: new FormControl(true)
+  })
 
   constructor(private vehicleService: VehicleService,
     private bodyworkService: BodyWorkService,
@@ -97,21 +100,21 @@ findVehicleType() {
   });
 }
 
-  findUnityMeasurement() {
-    let unityMeasurementVet: UnityMeasurementModel[] = [];
-    this.unityMeasurementService.getUnityMeasurement().subscribe((unityMeasurementData: Response) => {
-      const unityMeasurementDataStr = JSON.stringify(unityMeasurementData.body);
-      JSON.parse(unityMeasurementDataStr, function (key, value) {
-        if (key === 'unityMeasurements') {
-          unityMeasurementVet = value;
-          return value;
-        } else {
-          return value;
-        }
-      });
-      this.unityMeasurements = unityMeasurementVet;
+findUnityMeasurement() {
+  let unityMeasurementVet: UnityMeasurementModel[] = [];
+  this.unityMeasurementService.getUnityMeasurement().subscribe((unityMeasurementData: Response) => {
+    const unityMeasurementDataStr = JSON.stringify(unityMeasurementData.body);
+    JSON.parse(unityMeasurementDataStr, function (key, value) {
+      if (key === 'unityMeasurements') {
+        unityMeasurementVet = value;
+        return value;
+      } else {
+        return value;
+      }
     });
-  }
+  this.unityMeasurements = unityMeasurementVet;
+  });
+}
 
 
 // --------- OPERATION TRANSACTION - CRUD ---------------------------------------//
@@ -158,6 +161,9 @@ selectLocation(event: any, vehicleSelect: any) {
   this.statusDelete_btn = false;
   this.statusNew_btn = false;
   this.vehicleOne_Obj = vehicleSelect;
+  this.isShow = this.vehicleOne_Obj.people_transport;
+
+
 }
 
 transactionOrchestrator(event: any, type: String) {
@@ -177,11 +183,11 @@ transactionOrchestrator(event: any, type: String) {
     this.showNotification('bottom', 'center', msgTransaction, 'success')
     event.resetForm(event);
     this.vehicleOne_Obj = {} as VehicleModel;
-  }
+}
 
-  handleClear(f: NgForm){
-    f.resetForm();
-  }
+handleClear(f: NgForm){
+  f.resetForm();
+}
 
   showNotification(from, align, msg, type) {
     const color = Math.floor(Math.random() * 5 + 1);
@@ -223,5 +229,9 @@ transactionOrchestrator(event: any, type: String) {
 
   functionRedirectToVehicleType(){
     this.router.navigate(['/vehicletype']);
+  }
+
+  functionRedirectToBodywork(){
+    this.router.navigate(['/bodywork']);
   }
 }

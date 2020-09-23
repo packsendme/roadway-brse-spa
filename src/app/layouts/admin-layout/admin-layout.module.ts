@@ -18,6 +18,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LocationComponent } from 'app/pages/location/location.component';
 
 import { LayoutModule } from '@angular/cdk/layout';
+import {MatIconModule} from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -26,10 +27,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
 import { VehicleComponent } from 'app/pages/vehicle/vehicle.component';
-
-
+import { CategoryComponent } from 'app/pages/category/category.component';
+import { MatButtonModule } from '@angular/material/button';
+import {TableModule} from 'primeng/table';
+import {ButtonModule} from 'primeng/button';
 @NgModule({
   imports: [
     LayoutModule,
@@ -38,14 +41,20 @@ import { VehicleComponent } from 'app/pages/vehicle/vehicle.component';
     MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
+    MatButtonModule,
+    MatTableModule,
+    ButtonModule,
     MatRadioModule,
     MatSelectModule,
     MatSliderModule,
     CommonModule,
     RouterModule.forChild(AdminLayoutRoutes),
     FormsModule,
-    NgbModule
-  ],
+    NgbModule,
+    MatTableModule,
+    MatIconModule,
+    TableModule
+    ],
   declarations: [
     DashboardComponent,
     UserComponent,
@@ -57,6 +66,7 @@ import { VehicleComponent } from 'app/pages/vehicle/vehicle.component';
     NotificationsComponent,
     LocationComponent,
     VehicleComponent,
+    CategoryComponent
   ]
 })
 

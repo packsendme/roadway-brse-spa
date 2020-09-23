@@ -1,15 +1,16 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
-import { BodyWorkModel } from 'app/model/body-work-model';
+import { CategoryModel } from 'app/model/category-model';
+import { Observable } from 'rxjs';
+import { TransportTypeModel } from 'app/model/transport-type-model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BodyWorkService {
-  url_bodywork = 'http://192.241.133.13:9008/roadway/manager/bodywork';
+export class TransportTypeService {
+  url_transportType = 'http://192.241.133.13:9008/roadway/manager/transport';
   headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-  bodyWork: BodyWorkModel[] = [];
+  transportType: TransportTypeModel[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
@@ -23,31 +24,29 @@ export class BodyWorkService {
     this.headers = this.headers.append('originApp', 'APP-MICROSERVICE');
   }
 
-  getBodyWork(): Observable<Response> {
+  getTransportType(): Observable<Response> {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.get<Response>(this.url_bodywork, httpOptions)
+    return this.httpClient.get<Response>(this.url_transportType, httpOptions)
     }
 
-  postBodyWork(bodyWork: BodyWorkModel): Observable<Response> {
+  postTransportType(transportType: TransportTypeModel): Observable<Response> {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.post<Response>(this.url_bodywork, bodyWork, httpOptions)
+    return this.httpClient.post<Response>(this.url_transportType, transportType, httpOptions)
   }
 
-  putBodyWork(bodyWork: BodyWorkModel){
+  putTransportType(transportType: TransportTypeModel){
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.put<Response>(this.url_bodywork + '?id=' + bodyWork.id, bodyWork, httpOptions)
+    return this.httpClient.put<Response>(this.url_transportType + '?id=' + transportType.id, transportType, httpOptions)
   };
 
-  deleteBodyWork(bodyWork: BodyWorkModel) {
+  deleteTransportType(transportType: TransportTypeModel) {
+    console.log(' deleteTransport ', transportType.id);
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.delete<Response>(this.url_bodywork + '?id=' + bodyWork.id, httpOptions)
+    return this.httpClient.delete<Response>(this.url_transportType + '?id=' + transportType.id, httpOptions)
   }
-
-
-
 
 }

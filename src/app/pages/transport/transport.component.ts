@@ -1,66 +1,67 @@
-import { VehicleTypeModel } from './../../model/vehicle-type-model';
+import { TransportTypeService } from 'app/service/transport-type.service';
+import { TransportTypeModel } from 'app/model/transport-type-model';
 import { Component, OnInit } from '@angular/core';
-import { VehicleTypeService } from 'app/service/vehicle-type.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-vehicletype',
-  templateUrl: './vehicletype.component.html',
-  styleUrls: ['./vehicletype.component.css']
+  selector: 'app-transport',
+  templateUrl: './transport.component.html',
+  styleUrls: ['./transport.component.css']
 })
-export class VehicletypeComponent implements OnInit {
+export class TransportComponent implements OnInit {
 
-   // List Another Requests
-   vehiclesTypes: VehicleTypeModel[];
+  // List Another Requests
+  transporties: TransportTypeModel[];
 
   // Screen Option
-  vehicleTypeOne_Obj = {} as VehicleTypeModel;
+  transportiesOne_Obj = {} as TransportTypeModel;
   statusDelete_btn = true;
   statusNew_btn = true;
 
-  constructor(private vehicleTypeService: VehicleTypeService, private toastr: ToastrService) { }
+  constructor(private transportService: TransportTypeService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.findVehiclesType();
-  }
+    this.findTransporties();
+   }
 
-  //--------- REQUESTs - EXTERNAL ---------------------------------------//
+//--------- REQUESTs - EXTERNAL ---------------------------------------//
 
-  findVehiclesType() {
-    let vehiclesTypesVet: VehicleTypeModel [] = [];
-    this.vehicleTypeService.getVehicleType().subscribe((vehicleTypeData: Response) => {
-      const vehicleTypeDataStr = JSON.stringify(vehicleTypeData.body);
-      JSON.parse(vehicleTypeDataStr, function (key, value) {
-        if (key === 'vehiclesType') {
-          vehiclesTypesVet = value;
-          return value;
-        } else {
-           return value;
-        }
-      });
-      this.vehiclesTypes = vehiclesTypesVet;
+findTransporties() {
+  let transportiesVet: TransportTypeModel [] = [];
+  this.transportService.getTransportType().subscribe((transportTypeData: Response) => {
+    const transportTypeDataStr = JSON.stringify(transportTypeData.body);
+    JSON.parse(transportTypeDataStr, function (key, value) {
+      if (key === 'transporties') {
+        transportiesVet = value;
+        return value;
+      } else {
+         return value;
+      }
     });
-  }
+    this.transporties = transportiesVet;
+  });
+}
 
-  // --------- OPERATION TRANSACTION - CRUD ---------------------------------------//
+// --------- OPERATION TRANSACTION - CRUD ---------------------------------------//
 
-  newRecord(event: any){
+  newRecord(event: any) {
     event.resetForm(event);
-    this.vehicleTypeOne_Obj = {} as VehicleTypeModel;
+    this.transportiesOne_Obj = {} as TransportTypeModel;
     this.statusNew_btn = true;
     this.statusDelete_btn = true;
   }
 
-  saveEditVehicleType(event: any){
+  saveEditTransport(event: any) {
     // Transaction Save
-    if (this.vehicleTypeOne_Obj.id == null) {
-      this.vehicleTypeService.postVehicleType(this.vehicleTypeOne_Obj).subscribe({
+    if (this.transportiesOne_Obj.id == null) {
+      this.transportService.postTransportType(this.transportiesOne_Obj).subscribe({
         next: data => this.transactionOrchestrator(event, 'Save'),
         error: error => this.showNotification('bottom','center', error, 'error')
       });
-    } else if (this.vehicleTypeOne_Obj.id != null) {
-      this.vehicleTypeService.putVehicleType(this.vehicleTypeOne_Obj).subscribe({
+    } else if (this.transportiesOne_Obj.id != null) {
+      this.transportService.putTransportType(this.transportiesOne_Obj).subscribe({
         next: data => this.transactionOrchestrator(event, 'Update'),
         error: error => this.showNotification('bottom','center', error, 'error')
       });
@@ -68,13 +69,13 @@ export class VehicletypeComponent implements OnInit {
     this.statusDelete_btn = true;
   }
 
-  deleteVehicleType(event: any){
-    console.log(' deleteVehicle ');
+  deleteTransport(event: any){
+    console.log(' deleteTransport ');
     this.statusDelete_btn = true;
     this.statusNew_btn = true;
     // Transaction Delete
-    if (this.vehicleTypeOne_Obj.id != null) {
-      this.vehicleTypeService.deleteVehicleType(this.vehicleTypeOne_Obj).subscribe({
+    if (this.transportiesOne_Obj.id != null) {
+      this.transportService.deleteTransportType(this.transportiesOne_Obj).subscribe({
         next: data => this.transactionOrchestrator(event, 'Delete'),
         error: error => this.showNotification('bottom', 'center', error, 'error')
       });
@@ -83,10 +84,10 @@ export class VehicletypeComponent implements OnInit {
 
 // --------------------------------------------------------------------------------//
 
-selectLocation(event: any, vehicleSelect:any){
+selectTransport(event: any, transportSelect: any) {
   this.statusDelete_btn = false;
   this.statusNew_btn = false;
-  this.vehicleTypeOne_Obj = vehicleSelect;
+  this.transportiesOne_Obj = transportSelect;
 }
 
 transactionOrchestrator(event: any, type: String) {
@@ -95,7 +96,6 @@ transactionOrchestrator(event: any, type: String) {
       case 'Save': {
         msgTransaction = 'Register Success';
       }
-      // tslint:disable-next-line:no-switch-case-fall-through
       case 'Update': {
         msgTransaction = 'Update Success';
       }
@@ -103,16 +103,15 @@ transactionOrchestrator(event: any, type: String) {
         msgTransaction = 'Delete Success';
       }
     }
-    this.findVehiclesType()
+    this.findTransporties()
     this.showNotification('bottom', 'center', msgTransaction, 'success')
     event.resetForm(event);
-    this.vehicleTypeOne_Obj = {} as VehicleTypeModel;
-  }
+    this.transportiesOne_Obj = {} as TransportTypeModel;
+}
 
-  handleClear(f: NgForm){
-    console.log(" CLEAN");
-    f.resetForm();
-  }
+handleClear(f: NgForm){
+  f.resetForm();
+}
 
   showNotification(from, align, msg, type) {
     const color = Math.floor(Math.random() * 5 + 1);
@@ -149,5 +148,3 @@ transactionOrchestrator(event: any, type: String) {
   }
 
 }
-
-

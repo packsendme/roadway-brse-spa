@@ -31,9 +31,9 @@
                       <div class="form-group">
                         <label>Passenger Vehicle:</label>
                         <br>
-                        <input type="radio" name="people_radio" ng-model="peopleTransport" value="true" (click)=toggleDisplay(true)><label>&nbsp;True</label>
+                        <input type="radio" name="people_radio" [(ngModel)]="vehicleOne_Obj.people_transport" value="true" (click)=toggleDisplay(true)><label>&nbsp;True</label>
                         &nbsp;
-                        <input type="radio" name="people_radio" ng-model="peopleTransport" value="false" (click)=toggleDisplay(false)><label>&nbsp;False</label>
+                        <input type="radio" name="people_radio" [(ngModel)]="vehicleOne_Obj.people_transport" value="false" (click)=toggleDisplay(false)><label>&nbsp;False</label>
                       </div>
                     </div>
 
@@ -74,13 +74,19 @@
                     </div>
                   </div>
                   <div class="row">
-                      <div class="col-md-10 px-1">
+                      <div class="col-md-9 px-1">
                         <div class="form-group">
                           <label>Boywork Vehicle</label>
                           <select class="form-control" name="bodywork_select" [(ngModel)]="vehicleOne_Obj.bodywork_vehicle" multiple>
                             <option [value]="item.bodyWork" *ngFor="let item of bodyworkes">{{item.bodyWork}}</option>
                           </select>
                         </div>
+                      </div>
+                      <div class="col-md-1 col-6 px-1 text-left">
+                        <label>&nbsp;</label>
+                        <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="functionRedirectToBodywork()">
+                          <i class="fa fa-envelope"></i>
+                        </button>
                       </div>
                   </div>
                   <div class="update ml-auto mr-auto">

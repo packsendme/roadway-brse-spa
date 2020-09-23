@@ -21,10 +21,14 @@
               "src/favicon.ico"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "node_modules/bootstrap/scss/bootstrap.scss",
+              "./node_modules/bootstrap/scss/bootstrap.scss",
               "src/assets/scss/roadway-brse.scss",
-              "node_modules/ngx-toastr/toastr.css"
+
+              "./node_modules/primeicons/primeicons.css",
+              "./node_modules/primeng/resources/themes/nova-alt/theme.css",
+              "./node_modules/primeng/resources/primeng.min.css",
+
+              "./node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },
@@ -81,7 +85,7 @@
               "node_modules/bootstrap-notify/bootstrap-notify.js"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.css",
               "src/assets/sass/roadway-brse.scss"
             ],

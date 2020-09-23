@@ -1,0 +1,61 @@
+  <div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">
+          Bodywork - Save & Edit
+        </h3>
+         <!-- <form id="add-form" (ngSubmit)="f.form.valid && saveEditLocation(f)" #f="ngForm" novalidate> -->
+         <form id="add-form" #f="ngForm" novalidate>
+          <div class="row">
+            <div div class="col-md-6">
+              <div class="card card-plain">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>BodyWork</label>
+                        <input type="text" class="form-control" placeholder="Input BodyWork" [(ngModel)]="bodyworkOne_Obj.bodyWork" name="bodyworkname_input" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="update ml-auto mr-auto">
+                    <button type="submit" ng-disabled="isDisabled"
+                    (click)="saveEditBodyWork(f)" class="btn btn-primary btn-round">Save</button>
+                    <button ng-disabled="isDisabled"  (click)="deleteBodyWork(f)"  [disabled]="statusDelete_btn" class="btn btn-primary btn-round">Delete</button>
+                    <button (click)="newRecord(f)" [disabled]="statusNew_btn" class="btn btn-primary btn-round">New</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title"> BodyWork Type List</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <th>
+                Name BodyWork
+              </th>
+           </thead>
+            <tbody>
+              <tr *ngFor="let body of bodyworkes; let i = index" (click)="selectLocation($event, body)">
+                <td>{{body.bodyWork}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
