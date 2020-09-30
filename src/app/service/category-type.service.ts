@@ -1,8 +1,8 @@
 import { CategoryTypeModel } from './../model/category-type-model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CategoryModel } from 'app/model/category-model';
 import { Observable } from 'rxjs';
+import { CategoryRuleModel } from 'app/model/category-rule-model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 export class CategoryTypeService {
   url_categorytype = 'http://192.241.133.13:9008/roadway/manager/categorytype';
   headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-  category: CategoryModel[] = [];
+  category: CategoryRuleModel[] = [];
 
   constructor(private httpClient: HttpClient) { }
 

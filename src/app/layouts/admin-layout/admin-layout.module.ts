@@ -33,6 +33,9 @@ import { CategoryComponent } from 'app/pages/category/category.component';
 import { MatButtonModule } from '@angular/material/button';
 import {TableModule} from 'primeng/table';
 import {ButtonModule} from 'primeng/button';
+import { CategoriesComponent } from 'app/pages/categories/categories.component';
+import { CategoryData } from 'app/model/categoryData';
+import { CategoryupdateComponent } from 'app/pages/categoryupdate/categoryupdate.component';
 @NgModule({
   imports: [
     LayoutModule,
@@ -55,6 +58,8 @@ import {ButtonModule} from 'primeng/button';
     MatIconModule,
     TableModule
     ],
+  providers: [CategoryData],
+
   declarations: [
     DashboardComponent,
     UserComponent,
@@ -66,7 +71,9 @@ import {ButtonModule} from 'primeng/button';
     NotificationsComponent,
     LocationComponent,
     VehicleComponent,
-    CategoryComponent
+    CategoryComponent,
+    CategoriesComponent,
+    CategoryupdateComponent
   ]
 })
 

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CategoryModel } from 'app/model/category-model';
+import { CategoryRuleModel } from 'app/model/category-rule-model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class CategoryService {
   url_category = 'http://192.241.133.13:9008/roadway/manager/category';
   headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-  category: CategoryModel[] = [];
+  category: CategoryRuleModel[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
@@ -29,20 +29,22 @@ export class CategoryService {
     return this.httpClient.get<Response>(this.url_category, httpOptions)
     }
 
-  postCategory(category: CategoryModel): Observable<Response> {
+  postCategory(category: CategoryRuleModel): Observable<Response> {
     this.headersOnInit();
+    //console.log('SERVICE MAPS ', category.categoryCosts.size);
+
     const httpOptions = {headers: this.headers}
     return this.httpClient.post<Response>(this.url_category, category, httpOptions)
   }
 
-  putCategory(category: CategoryModel) {
+  putCategory(category: CategoryRuleModel) {
     console.log(' putVehicle ', category.id);
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
     return this.httpClient.put<Response>(this.url_category + '?id=' + category.id, category, httpOptions)
   };
 
-  deleteCategory(category: CategoryModel) {
+  deleteCategory(category: CategoryRuleModel) {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
     return this.httpClient.delete<Response>(this.url_category + '?id=' + category.id, httpOptions)

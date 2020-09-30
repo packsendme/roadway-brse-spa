@@ -17,11 +17,11 @@ import { CategoryData } from 'app/model/categoryData';
 
 
 @Component({
-  selector: 'app-category',
-  templateUrl: './category.component.html',
-  styleUrls: ['./category.component.css']
+  selector: 'app-categoryupdate',
+  templateUrl: './categoryupdate.component.html',
+  styleUrls: ['./categoryupdate.component.css']
 })
-export class CategoryComponent implements OnInit {
+export class CategoryupdateComponent implements OnInit {
 
   // List Another Requests
   categories: CategoryRuleModel[];
@@ -53,32 +53,25 @@ export class CategoryComponent implements OnInit {
     private locationService: LocationService,
     private vehicleService: VehicleService,
     private toastr: ToastrService,
-    private router: Router) {}
+    private router: Router) {
+      if ( this.categoryData.categoryruleData != null ) {
+        console.log( ' NOT NULL ', this.categoryData.categoryruleData );
+        this.categoryOne_Obj = this.categoryData.categoryruleData;
+        this.isEdit = true;
+      }
+      else{
+        this.categoryOne_Obj = {} as CategoryRuleModel;
+      }
+    }
 
   ngOnInit(): void {
     this.findCategoriesType();
     this.findVehicles();
     this.findLocations();
-    this.findCategories();
+    this.generateCostsTable()
   }
 
   //--------- REQUESTs - EXTERNAL ---------------------------------------//
-
-  findCategories() {
-    let categoriesVet: CategoryRuleModel [] = [];
-    this.categoryService.getCategory().subscribe((categoryData: Response) => {
-      const categoryDataStr = JSON.stringify(categoryData.body);
-      JSON.parse(categoryDataStr, function (key, value) {
-        if (key === 'categoryL') {
-          categoriesVet = value;
-          return value;
-        } else {
-           return value;
-        }
-      });
-      this.categories = categoriesVet;
-    });
-  }
 
   findCategoriesType() {
     let categoriesVet: CategoryTypeModel [] = [];
@@ -196,7 +189,7 @@ export class CategoryComponent implements OnInit {
     }
   }
 
-  generateCostsTable(event: any) {
+  generateCostsTable() {
     if (( this.categoryOne_Obj.locations == null ) || ( this.categoryOne_Obj.vehicles.length  == null )) {
       console.log('generateCostsTable - transactionOrchestrator ');
       this.transactionOrchestrator(event, 'Validation');
@@ -207,32 +200,66 @@ export class CategoryComponent implements OnInit {
       this.statusEditNew_btn = false;
       const locations = this.categoryOne_Obj.locations;
       const vehiclies = this.categoryOne_Obj.vehicles;
+      const costsV = this.categoryOne_Obj.categoryCosts;
+
       const categoryCosts: CategoryCostsModel[] = [];
+      const categoryCostsExclude: CategoryCostsModel[] = [];
       const locationsCosts: String[] = [];
       let countryS: string = null;
       let countryOld: string = null;
+      let countryVetAdd: string = null;
       let countrySame = true;
+      let statusAddVet = false;
 
       locations.forEach(function (value1) {
         locationsCosts.push(value1.countryName);
         countryS = value1.countryName;
-        vehiclies.forEach(function (value) {
-          if ( countryS === countryOld) {
-            countrySame = false;
-          } else {
-            countrySame = true;
+         vehiclies.forEach(function (vehicle) {
+          statusAddVet = false;
+          costsV.forEach(function (costs) {
+            if ( countryS === countryOld) {
+              countrySame = false;
+            } else if ( countryS !== countryOld) {
+              countrySame = true;
+            }
+            console.log('countryS', countryS)
+            console.log('vehicle', vehicle.vehicle_type)
+            console.log('costs', costs.vehicle)
+
+            if (vehicle.vehicle_type === costs.vehicle) {
+              categoryCostsObj = {
+              vehicle: costs.vehicle, countryName: countryS,
+              weight_cost: costs.weight_cost, distance_cost: costs.distance_cost,
+              worktime_cost: costs.worktime_cost, average_consumption_cost: costs.average_consumption_cost,
+              rate_exchange: costs.rate_exchange, current_exchange: costs.current_exchange,
+              countryNew: countrySame};
+              categoryCosts.push(categoryCostsObj);
+              statusAddVet = true;
+            }
+            // Add Object geneate to Array
+            countryOld = countryS;
+          })
+          if ( statusAddVet === false) {
+            console.log(' Entrou AddVet ');
+
+            if (( countryS === countryOld) && (categoryCosts.length === 0)) {
+              countrySame = true;
+            } else if ( countryS === countryVetAdd) {
+              countrySame = false;
+            } else if ( countryS !== countryVetAdd) {
+              countrySame = true;
+            }
+            categoryCostsObj = {
+              vehicle: vehicle.vehicle_type, countryName: countryS,
+              weight_cost: valueCosts, distance_cost: valueCosts,
+              worktime_cost: valueCosts, average_consumption_cost: valueCosts,
+              rate_exchange: valueCosts, current_exchange: valueCosts,
+              countryNew: countrySame};
+            categoryCosts.push(categoryCostsObj);
+            countryVetAdd = countryS;
           }
-          categoryCostsObj = {
-            vehicle: value.vehicle_type, countryName: countryS,
-            weight_cost: valueCosts, distance_cost: valueCosts,
-            worktime_cost: valueCosts, average_consumption_cost: valueCosts,
-            rate_exchange: valueCosts, current_exchange: valueCosts,
-            countryNew: countrySame
-          };
-          // Add Object geneate to Array
-          categoryCosts.push(categoryCostsObj);
-          countryOld = countryS;
         })
+
       })
       this.categoryCostsDS = categoryCosts;
       this.locationCosts = locationsCosts;
@@ -253,21 +280,18 @@ transactionOrchestrator(event: any, type: String) {
     case 'Save': {
       msgTransaction = 'Register Success';
       type = 'success';
-      this.findCategories()
       this.categoryOne_Obj = {} as CategoryRuleModel;
       event.resetForm(event);
     }
     case 'Update': {
       msgTransaction = 'Update Success';
       type = 'success';
-      this.findCategories()
       this.categoryOne_Obj = {} as CategoryRuleModel;
       event.resetForm(event);
     }
     case 'Delete': {
       msgTransaction = 'Delete Success';
       type = 'success';
-      this.findCategories()
       this.categoryOne_Obj = {} as CategoryRuleModel;
       event.resetForm(event);
     }

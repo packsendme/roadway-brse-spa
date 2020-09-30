@@ -1,0 +1,47 @@
+<div class="row">
+  <div class="col-md-12" [hidden]="!isSearch">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title"> Category List</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <th>
+                Category Type
+              </th>
+              <th>
+                Transport Type
+              </th>
+              <th>
+                Cargo Max
+              </th>
+              <th>
+                Unity
+              </th>
+              <th>
+                Status
+              </th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cat of categories; let i = index" (click)="selectCategory($event, cat)">
+                <td>{{cat.categoryType.name_category}}</td>
+                <td>{{cat.categoryType.transport_type}}</td>
+                <td>{{cat.categoryType.weight_max}}</td>
+                <td>{{cat.categoryType.unity_measurement_weight_max}}</td>
+                <td>Activa</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-12">
+          <div class="update ml-auto mr-auto">
+            <button (click)="newCategory()" class="btn btn-primary btn-round">New</button>
+            <button (click)="editCategory()" type="submit" [disabled]="statusEditNew_btn"  class="btn btn-primary btn-round">Edit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

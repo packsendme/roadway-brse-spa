@@ -66,6 +66,7 @@ import { MatButtonModule } from '@angular/material/button';
       useClass: HttpErrorInterceptor,
       multi: true
     }
+
   ],
   bootstrap: [AppComponent]
 })

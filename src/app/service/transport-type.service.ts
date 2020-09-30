@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CategoryModel } from 'app/model/category-model';
 import { Observable } from 'rxjs';
 import { TransportTypeModel } from 'app/model/transport-type-model';
 

@@ -13,7 +13,7 @@
                     <div class="col-md-9 px-1">
                       <div class="form-group">
                         <label>Type Category</label>
-						            <select class="form-control" name="category_select" [(ngModel)]="categoryOne_Obj.categoryType">
+                        <select class="form-control" name="category_select"  [(ngModel)]="categoryOne_Obj.categoryType">
                           <option [ngValue]="item" *ngFor="let item of categoriesTypes">{{item.name_category}}</option>
                         </select>
                       </div>
@@ -96,7 +96,7 @@
           <ng-container *ngIf="rowData.countryNew == true">
             <tr style="background-color:rgba(247, 248, 155, 0.51);">
               <p-column [style]="{'text-align':'center','font-size':'14px','font-weight':'bold'}">
-                &nbsp;&nbsp;&nbsp;{{rowData.country_loc}}
+                &nbsp;&nbsp;&nbsp;{{rowData.countryName}}
               </p-column>
             </tr>
           </ng-container>
@@ -158,56 +158,7 @@
                 </td>
             </tr>
         </ng-template>
-    </p-table>
-
-
-    </div>
-    </div>
-  </div>
-   <!--</div>
-
-
-        <div *ngFor="let item of locationCosts | keyvalue">
-          Key:{{item}}
-        </div>
-        <div *ngFor="let i of categoryCosts">
-           Value:{{}}
-        </div>
-      </div>
+      </p-table>
     </div>
   </div>
 </div>
-
-<div class="row">
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title"> Category List</h4>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table">
-            <thead class=" text-primary">
-              <th>
-                Category
-              </th>
-              <th>
-                Distribution
-              </th>
-              <th>
-                Vehicle
-              </th>
-            </thead>
-            <tbody>
-              <tr *ngFor="let cat of categories; let i = index" (click)="selectCategory($event, cat)">
-                <td>{{cat.type_category.name_category}}</td>
-                <td>{{cat.locations}}</td>
-                <td>{{cat.vehicles}}</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
