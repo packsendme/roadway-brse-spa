@@ -1,3 +1,4 @@
+import { CategorynewComponent } from './../../pages/categorynew/categorynew.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -29,7 +30,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTableModule } from '@angular/material/table';
 import { VehicleComponent } from 'app/pages/vehicle/vehicle.component';
-import { CategoryComponent } from 'app/pages/category/category.component';
 import { MatButtonModule } from '@angular/material/button';
 import {TableModule} from 'primeng/table';
 import {ButtonModule} from 'primeng/button';
@@ -71,7 +71,7 @@ import { CategoryupdateComponent } from 'app/pages/categoryupdate/categoryupdate
     NotificationsComponent,
     LocationComponent,
     VehicleComponent,
-    CategoryComponent,
+    CategorynewComponent,
     CategoriesComponent,
     CategoryupdateComponent
   ]

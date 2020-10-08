@@ -69,7 +69,7 @@ export class CategoriesComponent implements OnInit {
    // --------- OPERATION TRANSACTION - CRUD ---------------------------------------//
 
    newCategory() {
-    this.router.navigate(['/category']);
+    this.router.navigate(['/categorynew']);
   }
 
   editCategory() {

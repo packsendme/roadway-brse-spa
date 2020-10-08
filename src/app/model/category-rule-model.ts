@@ -5,7 +5,7 @@ import { VehicleModel } from './vehicle-model';
 export interface CategoryRuleModel {
     id: string;
     categoryType: CategoryTypeModel;
-    vehicles: [VehicleModel];
-    locations: [LocationModel];
+    vehicles: VehicleModel[];
+    locations: LocationModel[];
     categoryCosts: CategoryCostsModel[];
 }

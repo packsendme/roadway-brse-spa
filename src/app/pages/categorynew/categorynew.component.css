@@ -1,0 +1,13 @@
+.ui-datatable.myTable th {
+  background: red;
+  height: 10px;
+}
+#outPopUp {
+  position: absolute;
+  width: 100px;
+  height: 200px;
+  z-index: 15;
+  top: 50%;
+  left: 50%;
+  margin: -100px 0 0 -150px;
+}

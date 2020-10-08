@@ -7,5 +7,6 @@ export interface CategoryCostsModel {
   average_consumption_cost: string;
   rate_exchange: string;
   current_exchange: string;
-  countryNew: boolean
+  countryNew: boolean;
+  statusChange: boolean;
 }

@@ -28,6 +28,7 @@ import { TransportComponent } from './pages/transport/transport.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatButtonModule } from '@angular/material/button';
+import { ConfirmationDialogComponent } from './pages/confirmation-dialog/confirmation-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +36,8 @@ import { MatButtonModule } from '@angular/material/button';
     VehicletypeComponent,
     BodyworkComponent,
     CategorytypeComponent,
-    TransportComponent
+    TransportComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,

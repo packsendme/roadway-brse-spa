@@ -20,9 +20,6 @@
               <th>
                 Unity
               </th>
-              <th>
-                Status
-              </th>
             </thead>
             <tbody>
               <tr *ngFor="let cat of categories; let i = index" (click)="selectCategory($event, cat)">
@@ -30,17 +27,19 @@
                 <td>{{cat.categoryType.transport_type}}</td>
                 <td>{{cat.categoryType.weight_max}}</td>
                 <td>{{cat.categoryType.unity_measurement_weight_max}}</td>
-                <td>Activa</td>
             </tr>
             </tbody>
           </table>
         </div>
-        <div class="col-md-12">
-          <div class="update ml-auto mr-auto">
-            <button (click)="newCategory()" class="btn btn-primary btn-round">New</button>
-            <button (click)="editCategory()" type="submit" [disabled]="statusEditNew_btn"  class="btn btn-primary btn-round">Edit</button>
-          </div>
-        </div>
+        <br>
+        <br>
+        <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <button type="submit" style="height:50px;width:150px;" (click)="newCategory()" class="btn btn-primary btn-round">New Category</button>
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <button type="submit" style="height:50px;width:150px;" (click)="editCategory()" class="btn btn-primary btn-round">Edit Category</button>
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         </div>
       </div>
     </div>
   </div>
