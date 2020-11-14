@@ -1,9 +1,9 @@
-import { BodyworkViewComponent } from './../../pages/vehicle/bodywork/bodywork-view/bodywork-view.component';
+import { TransportCrudComponent } from '../../pages/transport/transport-crud/transport-crud.component';
+import { TransportViewComponent } from './../../pages/transport/transport-view/transport-view.component';
 import { BodyworkCrudComponent } from './../../pages/vehicle/bodywork/bodywork-crud/bodywork-crud.component';
 import { BusinessruleUpdateComponent } from 'app/pages/bre/businessrule-update/businessrule-update.component';
 import { Routes } from '@angular/router';
 import { LocationComponent } from 'app/pages/location/location.component';
-import { TransportComponent } from 'app/pages/transport/transport.component';
 import { CategorynewComponent } from 'app/pages/category/categorynew/categorynew.component';
 import { CategoriesComponent } from 'app/pages/category/categories/categories.component';
 import { CategoryupdateComponent } from 'app/pages/category/categoryupdate/categoryupdate.component';
@@ -21,9 +21,9 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'categorynew',        component: CategorynewComponent },
     { path: 'categories',         component: CategoriesComponent },
     { path: 'categoryupdate',     component: CategoryupdateComponent },
-    { path: 'transport',          component: TransportComponent },
+    { path: 'transport-view',     component: TransportViewComponent },
+    { path: 'transport-crud',     component: TransportCrudComponent },
     { path: 'bodywork-crud',      component: BodyworkCrudComponent },
-    { path: 'bodywork-view',      component: BodyworkViewComponent },
     { path: 'businessrule-view',  component: BusinessruleViewComponent },
     { path: 'businessrule-new',   component: BusinessruleNewComponent },
     { path: 'businessrule-update',component: BusinessruleUpdateComponent }

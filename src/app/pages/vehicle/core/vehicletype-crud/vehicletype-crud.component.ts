@@ -18,8 +18,8 @@ export class VehicletypeCrudComponent implements OnInit {
 
   // Screen Option
   vehicleTypeOne_Obj = {} as VehicleTypeModel;
-  statusDelete_btn = true;
-  statusNew_btn = true;
+  isDisabled = true;
+
 
   constructor(
     private vehicleTypeService: VehicleTypeService,
@@ -54,7 +54,7 @@ export class VehicletypeCrudComponent implements OnInit {
   validateSave(event: any) {
     let msg: string;
     if (this.vehicleTypeOne_Obj.type_vehicle) {
-      if (this.vehicleTypeOne_Obj.type_vehicle.length < 8) {
+      if (this.vehicleTypeOne_Obj.type_vehicle.length < 5) {
         msg = 'Name VehicleType must be 8 min - 30 max characters long';
         this.showNotification('bottom', 'center', msg, 'error');
       } else {
@@ -65,13 +65,6 @@ export class VehicletypeCrudComponent implements OnInit {
       msg = 'Check the required fields';
       this.showNotification('bottom', 'center', msg, 'error');
     }
-  }
-
-  newRecord(event: any) {
-    event.resetForm(event);
-    this.vehicleTypeOne_Obj = {} as VehicleTypeModel;
-    this.statusNew_btn = true;
-    this.statusDelete_btn = true;
   }
 
   save(event: any, msg: any) {
@@ -114,9 +107,8 @@ export class VehicletypeCrudComponent implements OnInit {
 
 // --------------------------------------------------------------------------------//
 
-selectLocation(event: any, vehicleSelect:any){
-  this.statusDelete_btn = false;
-  this.statusNew_btn = false;
+selectVehicle(event: any, vehicleSelect:any) {
+  this.isDisabled = false;
   this.vehicleTypeOne_Obj = vehicleSelect;
 }
 
@@ -183,7 +175,6 @@ transactionOrchestrator(event: any, type: String) {
       default:
         break;
     }
-    this.functionRedirectToVehicle();
   }
 
   functionRedirectToVehicle() {

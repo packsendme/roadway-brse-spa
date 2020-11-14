@@ -9,7 +9,6 @@ export class DataTO {
 
   public categoryruleData: CategoryModel;
   public roadwayBREData: RoadwaybreModel;
-  public bodyworkData: BodyworkModel;
   public vehicleData: VehicleModel;
 
   public constructor() { }

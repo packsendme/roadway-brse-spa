@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-body">
         <h3 class="card-title">
-          Vehicle Category - Save & Edit
+          Vehicle Category - Save&Update
         </h3>
          <!-- <form id="add-form" (ngSubmit)="f.form.valid && saveEditLocation(f)" #f="ngForm" novalidate> -->
          <form id="add-form" #f="ngForm" novalidate>
@@ -14,20 +14,24 @@
                   <div class="row">
                     <div class="col-md-8 pr-1">
                       <div class="form-group">
-                        <label>Name Category Vehicle</label>
-                        <input type="text" class="form-control" placeholder="Input Name Category" [(ngModel)]="vehicleTypeOne_Obj.type_vehicle" name="vehiclecategory_input"
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Name Category</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <input type="text" class="form-control" [(ngModel)]="vehicleTypeOne_Obj.type_vehicle" name="vehiclecategory_input"
                         maxlength="30"  required>
                       </div>
                     </div>
                   </div>
-                  <div class="update ml-auto mr-auto">
-                    <button type="submit" ng-disabled="isDisabled"
-                    (click)="validateSave(f)" class="btn btn-primary btn-round">Save</button>
-                    <button ng-disabled="isDisabled"  (click)="delete(f)"  [disabled]="statusDelete_btn" class="btn btn-primary btn-round">Delete</button>
-                    <button (click)="newRecord(f)" [disabled]="statusNew_btn" class="btn btn-primary btn-round">New</button>
-                  </div>
                 </div>
               </div>
+            </div>
+
+            <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="submit" style="height:50px;width:150px;" (click)="validateSave(f)" class="btn btn-primary btn-round">Save</button>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="submit" style="height:50px;width:150px;" [disabled]="isDisabled"  (click)="delete(f)" class="btn btn-primary btn-round">Delete</button>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="submit" style="height:50px;width:150px;" (click)="functionRedirectToVehicle(f)" class="btn btn-primary btn-round">Cancelar</button>
             </div>
           </div>
         </form>
@@ -39,18 +43,18 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title"> Vehicle Type List</h4>
+        <h4 class="card-title"> Vehicle Type - List</h4>
       </div>
       <div class="card-body">
         <div class="table-responsive">
           <table class="table">
             <thead class=" text-primary">
               <th>
-                Name Category Vehicle
+                Name Category
               </th>
            </thead>
             <tbody>
-              <tr *ngFor="let veh of vehiclesTypes; let i = index" (click)="selectLocation($event, veh)">
+              <tr *ngFor="let veh of vehiclesTypes; let i = index" (click)="selectVehicle($event, veh)">
                 <td>{{veh.type_vehicle}}</td>
             </tr>
             </tbody>

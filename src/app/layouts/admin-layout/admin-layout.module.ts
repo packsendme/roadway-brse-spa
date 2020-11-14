@@ -1,3 +1,4 @@
+import { TransportViewComponent } from './../../pages/transport/transport-view/transport-view.component';
 import { VehicleViewComponent } from './../../pages/vehicle/core/vehicle-view/vehicle-view.component';
 import { VehicletypeCrudComponent } from '../../pages/vehicle/core/vehicletype-crud/vehicletype-crud.component';
 import { BodyworkCrudComponent } from './../../pages/vehicle/bodywork/bodywork-crud/bodywork-crud.component';
@@ -30,9 +31,7 @@ import { BusinessruleNewComponent } from 'app/pages/bre/businessrule-new/busines
 import { BusinessruleViewComponent } from 'app/pages/bre/businessrule-view/businessrule-view.component';
 import { BusinessruleUpdateComponent } from 'app/pages/bre/businessrule-update/businessrule-update.component';
 import { VehicleCrudComponent } from 'app/pages/vehicle/core/vehicle-crud/vehicle-crud.component';
-import { TransportComponent } from 'app/pages/transport/transport.component';
 import { ConfirmationDialogComponent } from 'app/pages/confirmation-dialog/confirmation-dialog.component';
-import { BodyworkViewComponent } from 'app/pages/vehicle/bodywork/bodywork-view/bodywork-view.component';
 @NgModule({
   imports: [
     LayoutModule,
@@ -69,9 +68,9 @@ import { BodyworkViewComponent } from 'app/pages/vehicle/bodywork/bodywork-view/
     BusinessruleUpdateComponent,
     VehicletypeCrudComponent,
     BodyworkCrudComponent,
-    BodyworkViewComponent,
-    TransportComponent,
-    ConfirmationDialogComponent
+    TransportViewComponent,
+    ConfirmationDialogComponent,
+    TransportViewComponent
   ]
 })
 

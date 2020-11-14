@@ -8,10 +8,10 @@ import { InitialsModel } from 'app/model/initials-model';
 
 @Component({
   selector: 'app-transport',
-  templateUrl: './transport.component.html',
-  styleUrls: ['./transport.component.css']
+  templateUrl: './transport-crud.component.html',
+  styleUrls: ['./transport-crud.component.css']
 })
-export class TransportComponent implements OnInit {
+export class TransportCrudComponent implements OnInit {
 
   // List Another Requests
   transporties: TransportTypeModel[];
@@ -19,8 +19,7 @@ export class TransportComponent implements OnInit {
 
   // Screen Option
   transportiesOne_Obj = {} as TransportTypeModel;
-  statusDelete_btn = true;
-  statusNew_btn = true;
+  isDisabled = false;
 
   constructor(private transportService: TransportTypeService,
     private initialsService: InitialsService,
@@ -70,8 +69,7 @@ findInitialies() {
   newRecord(event: any) {
     event.resetForm(event);
     this.transportiesOne_Obj = {} as TransportTypeModel;
-    this.statusNew_btn = true;
-    this.statusDelete_btn = true;
+    this.isDisabled = true;
   }
 
   saveEditTransport(event: any) {
@@ -104,12 +102,6 @@ findInitialies() {
   }
 
 // --------------------------------------------------------------------------------//
-
-selectTransport(event: any, transportSelect: any) {
-  this.statusDelete_btn = false;
-  this.statusNew_btn = false;
-  this.transportiesOne_Obj = transportSelect;
-}
 
 transactionOrchestrator(event: any, type: String) {
     let msgTransaction = '' as  String;

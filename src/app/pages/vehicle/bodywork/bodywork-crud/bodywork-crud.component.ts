@@ -18,10 +18,11 @@ export class BodyworkCrudComponent implements OnInit {
   // List Another Requests
   bodyworkes: BodyworkModel[];
 
-    // Screen Option
-    bodyworkOne_Obj = {} as BodyworkModel;
-    statusDelete_btn = true;
-    statusNew_btn = true;
+  // Screen Option
+  bodyworkOne_Obj = {} as BodyworkModel;
+  statusDelete_btn = true;
+  statusNew_btn = true;
+  isDisabled = true;
 
   constructor(
     private fb: FormBuilder,
@@ -29,17 +30,29 @@ export class BodyworkCrudComponent implements OnInit {
     private bodyworkTO: DataTO,
     private router: Router,
     private confirmationDialogService: ConfirmationDialogService,
-    private toastr: ToastrService) {
-    if ( this.bodyworkTO.bodyworkData != null ) {
-      this.bodyworkOne_Obj = bodyworkTO.bodyworkData;
-    } else {
-      this.bodyworkOne_Obj = {} as BodyworkModel;
-    }
-  }
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    this.findBodywork();
   }
 
+// --------- REQUESTs - EXTERNAL ---------------------------------------//
+
+  findBodywork() {
+    let bodyworkVet: BodyworkModel[] = [];
+    this.bodyworkService.getBodyWork().subscribe((bodyWorkData: Response) => {
+    const bodyWorkStr = JSON.stringify(bodyWorkData.body);
+    JSON.parse(bodyWorkStr, function (key, value) {
+      if (key === 'bodies') {
+        bodyworkVet = value;
+        return value;
+      } else {
+          return value;
+        }
+      });
+      this.bodyworkes = bodyworkVet;
+    });
+  }
 
   // --------- OPERATION TRANSACTION - CRUD ---------------------------------------//
   validateSave(event: any) {
@@ -99,13 +112,12 @@ export class BodyworkCrudComponent implements OnInit {
 
 // --------------------------------------------------------------------------------//
 
-selectLocation(event: any, vehicleSelect: any) {
-  this.statusDelete_btn = false;
-  this.statusNew_btn = false;
-  this.bodyworkOne_Obj = vehicleSelect;
+selectBodyWork(event: any, bodyworkSelect: any) {
+  this.isDisabled = false;
+  this.bodyworkOne_Obj = bodyworkSelect;
 }
 
-transactionOrchestrator(event: any, type: String) {
+  transactionOrchestrator(event: any, type: String) {
     let msgTransaction = '' as  String;
     switch (type) {
       case 'Save': {
@@ -128,11 +140,11 @@ transactionOrchestrator(event: any, type: String) {
     this.showNotification('bottom', 'center', msgTransaction, 'success')
     event.resetForm(event);
     this.bodyworkOne_Obj = {} as BodyworkModel;
-}
+  }
 
-handleClear(f: NgForm){
-  f.resetForm();
-}
+  handleClear(f: NgForm){
+    f.resetForm();
+  }
 
   showNotification(from, align, msg, type) {
     const color = Math.floor(Math.random() * 5 + 1);
