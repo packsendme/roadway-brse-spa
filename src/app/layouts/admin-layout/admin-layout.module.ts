@@ -1,23 +1,14 @@
-import { CategorynewComponent } from './../../pages/categorynew/categorynew.component';
+import { VehicleViewComponent } from './../../pages/vehicle/core/vehicle-view/vehicle-view.component';
+import { VehicletypeCrudComponent } from '../../pages/vehicle/core/vehicletype-crud/vehicletype-crud.component';
+import { BodyworkCrudComponent } from './../../pages/vehicle/bodywork/bodywork-crud/bodywork-crud.component';
+import { DataTO } from './../../model/dataTO';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { AdminLayoutRoutes } from './admin-layout.routing';
-
-import { DashboardComponent }       from '../../pages/dashboard/dashboard.component';
-import { UserComponent }            from '../../pages/user/user.component';
-import { TableComponent }           from '../../pages/table/table.component';
-import { TypographyComponent }      from '../../pages/typography/typography.component';
-import { IconsComponent }           from '../../pages/icons/icons.component';
-import { MapsComponent }            from '../../pages/maps/maps.component';
-import { NotificationsComponent }   from '../../pages/notifications/notifications.component';
-import { UpgradeComponent }         from '../../pages/upgrade/upgrade.component';
-
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LocationComponent } from 'app/pages/location/location.component';
-
 import { LayoutModule } from '@angular/cdk/layout';
 import {MatIconModule} from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -29,13 +20,19 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTableModule } from '@angular/material/table';
-import { VehicleComponent } from 'app/pages/vehicle/vehicle.component';
 import { MatButtonModule } from '@angular/material/button';
 import {TableModule} from 'primeng/table';
 import {ButtonModule} from 'primeng/button';
-import { CategoriesComponent } from 'app/pages/categories/categories.component';
-import { CategoryData } from 'app/model/categoryData';
-import { CategoryupdateComponent } from 'app/pages/categoryupdate/categoryupdate.component';
+import { CategoriesComponent } from 'app/pages/category/categories/categories.component';
+import { CategoryupdateComponent } from 'app/pages/category/categoryupdate/categoryupdate.component';
+import { CategorynewComponent } from 'app/pages/category/categorynew/categorynew.component';
+import { BusinessruleNewComponent } from 'app/pages/bre/businessrule-new/businessrule-new.component';
+import { BusinessruleViewComponent } from 'app/pages/bre/businessrule-view/businessrule-view.component';
+import { BusinessruleUpdateComponent } from 'app/pages/bre/businessrule-update/businessrule-update.component';
+import { VehicleCrudComponent } from 'app/pages/vehicle/core/vehicle-crud/vehicle-crud.component';
+import { TransportComponent } from 'app/pages/transport/transport.component';
+import { ConfirmationDialogComponent } from 'app/pages/confirmation-dialog/confirmation-dialog.component';
+import { BodyworkViewComponent } from 'app/pages/vehicle/bodywork/bodywork-view/bodywork-view.component';
 @NgModule({
   imports: [
     LayoutModule,
@@ -58,22 +55,23 @@ import { CategoryupdateComponent } from 'app/pages/categoryupdate/categoryupdate
     MatIconModule,
     TableModule
     ],
-  providers: [CategoryData],
+  providers: [DataTO],
 
   declarations: [
-    DashboardComponent,
-    UserComponent,
-    TableComponent,
-    UpgradeComponent,
-    TypographyComponent,
-    IconsComponent,
-    MapsComponent,
-    NotificationsComponent,
     LocationComponent,
-    VehicleComponent,
+    VehicleCrudComponent,
+    VehicleViewComponent,
     CategorynewComponent,
     CategoriesComponent,
-    CategoryupdateComponent
+    CategoryupdateComponent,
+    BusinessruleNewComponent,
+    BusinessruleViewComponent,
+    BusinessruleUpdateComponent,
+    VehicletypeCrudComponent,
+    BodyworkCrudComponent,
+    BodyworkViewComponent,
+    TransportComponent,
+    ConfirmationDialogComponent
   ]
 })
 

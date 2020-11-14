@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { VehicleTypeModel } from 'app/model/vehicle-type-model';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VehicleTypeService {
-  url_vehicleType = 'http://192.241.133.13:9008/roadway/manager/vehicletype';
+  url = environment.ip + environment.vehiclePort + environment.appName + '/vehicle/vehicletype';
   headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
   vehicleType: VehicleTypeModel[] = [];
 
@@ -26,27 +27,27 @@ export class VehicleTypeService {
   getVehicleType(): Observable<Response> {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.get<Response>(this.url_vehicleType, httpOptions)
+    return this.httpClient.get<Response>(this.url, httpOptions)
     }
 
   postVehicleType(vehicleType: VehicleTypeModel): Observable<Response> {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.post<Response>(this.url_vehicleType, vehicleType, httpOptions)
+    return this.httpClient.post<Response>(this.url, vehicleType, httpOptions)
   }
 
   putVehicleType(vehicleType: VehicleTypeModel){
     console.log(' bodyWork ', vehicleType.id);
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.put<Response>(this.url_vehicleType + '?id=' + vehicleType.id, vehicleType, httpOptions)
+    return this.httpClient.put<Response>(this.url + '?id=' + vehicleType.id, vehicleType, httpOptions)
   };
 
   deleteVehicleType(vehicleType: VehicleTypeModel) {
     console.log(' deleteVehicle ', vehicleType.id);
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.delete<Response>(this.url_vehicleType + '?id=' + vehicleType.id, httpOptions)
+    return this.httpClient.delete<Response>(this.url + '?id=' + vehicleType.id, httpOptions)
   }
 
 }

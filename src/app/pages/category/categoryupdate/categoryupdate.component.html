@@ -1,0 +1,157 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card card-user">
+      <div class="card-body">
+        <h3 class="card-title">
+          Update Category
+        </h3>
+        <form id="add-form" #f="ngForm" novalidate>
+          <div div class="col-md-15">
+            <div class="card card-plain">
+              <div class="card-body">
+
+                <!-- ID CATEGORY -->
+                <div class="row">
+                  <div class="col-md-9 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">ID Category</label>
+                      <label [ngStyle]="{'color': 'black', 'font-size': '14px'}">&nbsp; {{categoryOne_Obj.id}}</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FIELD - NAME_CATEGORY -->
+                <div class="row">
+                  <div class="col-md-9 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px','font-weight': 'bold'}">Name Category:</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '15px'}">&nbsp;{{categoryOne_Obj.name_category}}</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FIELD - TRANSPORT -->
+                <div class="row">
+                  <div class="col-md-9 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Transport Category</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                      <select class="form-control" name="transport_select"  [(ngModel)]="transportEdit_Obj" (change)="onChangeTransportLevel()">
+                        <option [ngValue]="item" *ngFor="let item of transporties">{{item.name_transport}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-3 px-0 text-left">
+                    <label>&nbsp;</label>
+                    <br>
+                    <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="functionRedirectToTransport()">
+                      <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+
+                  <!-- FIELD WEIGHTY_MIN AND UNITU_MEASUREMENT -->
+                <div class="row">
+                  <div class="col-md-3 px-3">
+                    <div class="form-group">
+                      <label  [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Weight Cargo - Minimum</label>
+                      <input type="text" class="form-control" placeholder="Min" [(ngModel)]="categoryOne_Obj.weight_min" name="cargomincategory_input" required>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 px-3">
+                    <div class="form-group">
+                      <label  [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Unity Measurement</label>
+                      <select class="form-control" name="unitymin_select" [(ngModel)]="categoryOne_Obj.unity_measurement_weight_min">
+                        <option [ngValue]="item.unitMeasurement" *ngFor="let item of unityMeasurements">{{item.unitMeasurement}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FIELD WEIGHTY_MAX AND UNITU_MEASUREMENT -->
+                <div class="row">
+                  <div class="col-md-3 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Weight Cargo - Maximum</label>
+                      <input type="text" class="form-control" placeholder="Max" [(ngModel)]="categoryOne_Obj.weight_max" name="cargomaxcategory_input" required>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 px-3">
+                    <div class="form-group">
+                      <label  [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Unity Measurement</label>
+                      <select class="form-control" name="unitymax_select" [(ngModel)]="categoryOne_Obj.unity_measurement_weight_max">
+                        <option [ngValue]="item.unitMeasurement" *ngFor="let item of unityMeasurements">{{item.unitMeasurement}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ROW FIELD -  VEHICLE -->
+                <div class="row">
+                  <div class="col-md-9 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Vehicle</label>
+						          <select class="form-control" name="vehicle_select" [(ngModel)]="vehicleEdit_Obj">
+                        <option [ngValue]="item" *ngFor="let item of vehicles">{{item.vehicle_type}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-1 col-1 px-2 text-left">
+                    <div class="form-group">
+                      <br>
+                      <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="addVehicle()">
+                        <i class="fa fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <!-- Table Edit Change-->
+                  <div class="col-md-9 px-3">
+                    <div class="form-group">
+                      <label>Registered *</label>
+                      <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
+                        <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '13px', 'font-weight': 'bold'}">
+                          <th class="text-center">Vehicle Type</th>
+                          <th class="text-center">Cargo Max</th>
+                          <th class="text-center">Axis</th>
+                          <th class="text-center">Action</th>
+                        </tr>
+                        <tr *ngFor="let vehic of categoryOne_Obj.vehicles; let id = index">
+                          <td>
+                            {{vehic.vehicle_type}}
+                          </td>
+                          <td>
+                            {{vehic.cargo_max}}
+                          </td>
+                          <td>
+                            {{vehic.axis_total}}
+                          </td>
+                          <td>
+                            <span class="table-remove">
+                              <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="removeVehicle(vehic)">
+                                <i class="fa fa-minus" aria-hidden="true"></i>
+                              </button>
+                            </span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="submit" style="height:50px;width:150px;" (click)="prepareUpdate(f)" class="btn btn-primary btn-round">Save</button>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="submit" style="height:50px;width:150px;" (click)="prepareDelete(f)" class="btn btn-primary btn-round">Delete</button>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="submit" style="height:50px;width:150px;" (click)="functionRedirectToCategories(f)" class="btn btn-primary btn-round">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

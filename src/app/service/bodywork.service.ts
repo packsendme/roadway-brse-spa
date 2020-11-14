@@ -1,16 +1,16 @@
+import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { VehicleModel } from 'app/model/vehicle-model';
-import { environment } from 'environments/environment';
+import { BodyworkModel } from 'app/model/bodywork-model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class VehicleService {
-  url = environment.ip + environment.vehiclePort + environment.appName + '/vehicle';
+export class BodyworkService {
+  url = environment.ip + environment.vehiclePort + environment.appName + '/vehicle/bodywork';
   headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-  vehicle: VehicleModel[] = [];
+  bodyWork: BodyworkModel[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
@@ -24,29 +24,31 @@ export class VehicleService {
     this.headers = this.headers.append('originApp', 'APP-MICROSERVICE');
   }
 
-  getVehicle(): Observable<Response>{
+  getBodyWork(): Observable<Response> {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
     return this.httpClient.get<Response>(this.url, httpOptions)
     }
 
-  postVehicle(vehicle: VehicleModel): Observable<Response> {
+  postBodyWork(bodyWork: BodyworkModel): Observable<Response> {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.post<Response>(this.url, vehicle, httpOptions)
+    return this.httpClient.post<Response>(this.url, bodyWork, httpOptions)
   }
 
-  putVehicle(vehicle: VehicleModel){
-    console.log(' putVehicle ', vehicle.id);
+  putBodyWork(bodyWork: BodyworkModel){
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.put<Response>(this.url + '?id=' + vehicle.id, vehicle, httpOptions)
+    return this.httpClient.put<Response>(this.url + '?id=' + bodyWork.id, bodyWork, httpOptions)
   };
 
-  deleteVehicle(vehicle: VehicleModel){
-    console.log(' deleteVehicle ', vehicle.id);
+  deleteBodyWork(bodyWork: BodyworkModel) {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.delete<Response>(this.url + '?id=' + vehicle.id, httpOptions)
+    return this.httpClient.delete<Response>(this.url + '?id=' + bodyWork.id, httpOptions)
   }
+
+
+
+
 }

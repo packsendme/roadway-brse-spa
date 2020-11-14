@@ -21,23 +21,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { HttpErrorInterceptor } from './exception/HttpErrorInterceptor';
-import { VehicletypeComponent } from './pages/vehicletype/vehicletype.component';
-import { BodyworkComponent } from './pages/bodywork/bodywork.component';
-import { CategorytypeComponent } from './pages/categorytype/categorytype.component';
-import { TransportComponent } from './pages/transport/transport.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatButtonModule } from '@angular/material/button';
-import { ConfirmationDialogComponent } from './pages/confirmation-dialog/confirmation-dialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
-    AdminLayoutComponent,
-    VehicletypeComponent,
-    BodyworkComponent,
-    CategorytypeComponent,
-    TransportComponent,
-    ConfirmationDialogComponent
+    AdminLayoutComponent
   ],
   imports: [
     BrowserModule,
@@ -48,6 +39,7 @@ import { ConfirmationDialogComponent } from './pages/confirmation-dialog/confirm
     LayoutModule,
     MatAutocompleteModule,
     MatCheckboxModule,
+    ReactiveFormsModule,
     MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,

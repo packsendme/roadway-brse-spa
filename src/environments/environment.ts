@@ -4,5 +4,13 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
-};
+  production: false,
+
+  ip: 'http://192.241.133.13:',
+  appName: '/roadbrewa',
+  roadwayPort: '9018',
+  categoryPort: '9019',
+  transportPort: '9020',
+  locationPort: '9021',
+  vehiclePort: '9022'
+}

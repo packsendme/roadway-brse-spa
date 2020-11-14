@@ -1,16 +1,16 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CategoryModel } from 'app/model/category-model';
+import { RoadwaybreModel } from 'app/model/roadwaybre-model';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryService {
-  url = environment.ip + environment.categoryPort + environment.appName + '/category';
+export class RoadwaybreService {
+  url = environment.ip + environment.roadwayPort + environment.appName + '/roadway';
   headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-  category: CategoryModel[] = [];
+  roadway: RoadwaybreModel[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
@@ -24,38 +24,28 @@ export class CategoryService {
     this.headers = this.headers.append('originApp', 'APP-MICROSERVICE');
   }
 
-  getCategory(): Observable<Response> {
+  getRoadwayBRE(): Observable<Response> {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
     return this.httpClient.get<Response>(this.url, httpOptions)
-  }
+    }
 
-  getCategoryByTransport(transport: String): Observable<Response> {
-    this.headersOnInit();
-    const urlCategory_Transp = this.url + '/transport/' + transport
-    console.log(' URL ', urlCategory_Transp);
-    const httpOptions = {headers: this.headers}
-    return this.httpClient.get<Response>(urlCategory_Transp, httpOptions)
-  }
-
-  postCategory(category: CategoryModel): Observable<Response> {
-    this.headersOnInit();
-    //console.log('SERVICE MAPS ', category.categoryCosts.size);
-
-    const httpOptions = {headers: this.headers}
-    return this.httpClient.post<Response>(this.url, category, httpOptions)
-  }
-
-  putCategory(category: CategoryModel) {
-    console.log(' putVehicle ', category.id);
+  postRoadwayBRE(roadway: RoadwaybreModel): Observable<Response> {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.put<Response>(this.url + '?id=' + category.id, category, httpOptions)
+    return this.httpClient.post<Response>(this.url, roadway, httpOptions)
+  }
+
+  putRoadwayBRE(roadway: RoadwaybreModel) {
+    console.log(' putVehicle ', roadway.id);
+    this.headersOnInit();
+    const httpOptions = {headers: this.headers}
+    return this.httpClient.put<Response>(this.url + '?id=' + roadway.id, roadway, httpOptions)
   };
 
-  deleteCategory(category: CategoryModel) {
+  deleteRoadwayBRE(roadway: RoadwaybreModel) {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.delete<Response>(this.url + '?id=' + category.id, httpOptions)
+    return this.httpClient.delete<Response>(this.url + '?id=' + roadway.id, httpOptions)
   }
 }

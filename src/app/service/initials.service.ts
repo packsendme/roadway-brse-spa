@@ -1,16 +1,16 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CategoryModel } from 'app/model/category-model';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import { Observable, of, throwError } from 'rxjs';
+import { InitialsModel } from 'app/model/initials-model';
 import { environment } from 'environments/environment';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryService {
-  url = environment.ip + environment.categoryPort + environment.appName + '/category';
+export class InitialsService {
+  url = environment.ip + environment.transportPort + environment.appName + '/transport/initials';
   headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-  category: CategoryModel[] = [];
+  initials: InitialsModel[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
@@ -24,38 +24,28 @@ export class CategoryService {
     this.headers = this.headers.append('originApp', 'APP-MICROSERVICE');
   }
 
-  getCategory(): Observable<Response> {
+  get(): Observable<Response> {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
     return this.httpClient.get<Response>(this.url, httpOptions)
-  }
+    }
 
-  getCategoryByTransport(transport: String): Observable<Response> {
-    this.headersOnInit();
-    const urlCategory_Transp = this.url + '/transport/' + transport
-    console.log(' URL ', urlCategory_Transp);
-    const httpOptions = {headers: this.headers}
-    return this.httpClient.get<Response>(urlCategory_Transp, httpOptions)
-  }
-
-  postCategory(category: CategoryModel): Observable<Response> {
-    this.headersOnInit();
-    //console.log('SERVICE MAPS ', category.categoryCosts.size);
-
-    const httpOptions = {headers: this.headers}
-    return this.httpClient.post<Response>(this.url, category, httpOptions)
-  }
-
-  putCategory(category: CategoryModel) {
-    console.log(' putVehicle ', category.id);
+  post(initials: InitialsModel): Observable<Response> {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.put<Response>(this.url + '?id=' + category.id, category, httpOptions)
+    return this.httpClient.post<Response>(this.url, initials, httpOptions)
+  }
+
+  put(initials: InitialsModel) {
+    this.headersOnInit();
+    const httpOptions = {headers: this.headers}
+    return this.httpClient.put<Response>(this.url + '?id=' + initials.id, location, httpOptions)
   };
 
-  deleteCategory(category: CategoryModel) {
+  delete(initials: InitialsModel) {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.delete<Response>(this.url + '?id=' + category.id, httpOptions)
+    return this.httpClient.delete<Response>(this.url + '?id=' + initials.id, httpOptions)
   }
+
 }

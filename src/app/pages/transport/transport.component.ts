@@ -3,6 +3,8 @@ import { TransportTypeModel } from 'app/model/transport-type-model';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
+import { InitialsService } from 'app/service/initials.service';
+import { InitialsModel } from 'app/model/initials-model';
 
 @Component({
   selector: 'app-transport',
@@ -13,6 +15,7 @@ export class TransportComponent implements OnInit {
 
   // List Another Requests
   transporties: TransportTypeModel[];
+  initialies: InitialsModel[];
 
   // Screen Option
   transportiesOne_Obj = {} as TransportTypeModel;
@@ -20,10 +23,12 @@ export class TransportComponent implements OnInit {
   statusNew_btn = true;
 
   constructor(private transportService: TransportTypeService,
+    private initialsService: InitialsService,
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.findTransporties();
+    this.findInitialies();
    }
 
 //--------- REQUESTs - EXTERNAL ---------------------------------------//
@@ -41,6 +46,22 @@ findTransporties() {
       }
     });
     this.transporties = transportiesVet;
+  });
+}
+
+findInitialies() {
+  let initialiesVet: InitialsModel [] = [];
+  this.initialsService.get().subscribe((initialiesData: Response) => {
+    const initialsDataStr = JSON.stringify(initialiesData.body);
+    JSON.parse(initialsDataStr, function (key, value) {
+      if (key === 'initials') {
+        initialiesVet = value;
+        return value;
+      } else {
+         return value;
+      }
+    });
+    this.initialies = initialiesVet;
   });
 }
 

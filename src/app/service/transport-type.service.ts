@@ -2,12 +2,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TransportTypeModel } from 'app/model/transport-type-model';
+import { environment } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransportTypeService {
-  url_transportType = 'http://192.241.133.13:9008/roadway/manager/transport';
+  url = environment.ip + environment.transportPort + environment.appName + '/transport';
   headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
   transportType: TransportTypeModel[] = [];
 
@@ -26,26 +27,27 @@ export class TransportTypeService {
   getTransportType(): Observable<Response> {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.get<Response>(this.url_transportType, httpOptions)
+    return this.httpClient.get<Response>(this.url, httpOptions)
     }
 
   postTransportType(transportType: TransportTypeModel): Observable<Response> {
+    console.log('TRANSPORT', transportType);
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.post<Response>(this.url_transportType, transportType, httpOptions)
+    return this.httpClient.post<Response>(this.url, transportType, httpOptions)
   }
 
   putTransportType(transportType: TransportTypeModel){
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.put<Response>(this.url_transportType + '?id=' + transportType.id, transportType, httpOptions)
+    return this.httpClient.put<Response>(this.url + '?id=' + transportType.id, transportType, httpOptions)
   };
 
   deleteTransportType(transportType: TransportTypeModel) {
     console.log(' deleteTransport ', transportType.id);
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.delete<Response>(this.url_transportType + '?id=' + transportType.id, httpOptions)
+    return this.httpClient.delete<Response>(this.url + '?id=' + transportType.id, httpOptions)
   }
 
 }

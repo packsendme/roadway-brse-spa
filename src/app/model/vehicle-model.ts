@@ -1,4 +1,3 @@
-import { BodyWorkModel } from './body-work-model';
 
 export interface VehicleModel {
   id: string;

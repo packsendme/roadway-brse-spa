@@ -1,0 +1,265 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card card-user">
+      <div class="card-body">
+        <h3 class="card-title">
+          New Roadway - BRE
+        </h3>
+        <form id="add-form" #f="ngForm" novalidate>
+          <div div class="col-md-15">
+            <div class="card card-plain">
+              <div class="card-body">
+
+                <!-- FIELD - NAME_CATEGORY -->
+                <div class="row">
+                  <div class="col-md-9 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '15px','font-weight': 'bold'}">Name BRE:</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '15px'}">&nbsp;{{nameBRENew_Obj}}</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FIELD - TRANSPORT -->
+                <div class="row">
+                  <div class="col-md-9 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Transport</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                      <select class="form-control" name="transport_select"  [(ngModel)]="transportNew_Obj" (change)="findCategoriesByTransport()">
+                        <option [ngValue]="item" *ngFor="let item of transporties">{{item.name_transport}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-3 px-0 text-left">
+                    <label>&nbsp;</label>
+                    <br>
+                    <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="functionRedirectToTransport()">
+                      <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- FIELD - LOCATION -->
+                <div class="row">
+                  <div class="col-md-9 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Rule Distribution</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                      <select class="form-control" name="location_select" [(ngModel)]="countryNew_Obj">
+                        <option [ngValue]="item" *ngFor="let item of locations">{{item.countryName}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-3 px-0 text-left">
+                    <br>
+                    <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="functionRedirectToLocation()">
+                      <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="addCountry()">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                  </div>
+
+                  <!-- Table Edit Change-->
+                  <div class="col-md-9 px-3">
+                    <div class="form-group">
+                      <label>Selected to Register</label>
+                      <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
+                        <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '13px', 'font-weight': 'bold'}">
+                          <th class="text-center">CodCountry</th>
+                          <th class="text-center">Country Acronym</th>
+                          <th class="text-center">Country Name</th>
+                          <th class="text-center">Action</th>
+                        </tr>
+                        <tr *ngFor="let loc of countryNew_Vet; let id = index">
+                          <td>
+                            {{loc.codCountry}}
+                          </td>
+                          <td>
+                            {{loc.countryName}}
+                          </td>
+                          <td>
+                            {{loc.countryName}}
+                          </td>
+                          <td>
+                            <span class="table-remove">
+                              <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="removeCountry(loc)">
+                                <i class="fa fa-minus" aria-hidden="true"></i>
+                              </button>
+                            </span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FIELD - CATEGORY -->
+                <div class="row">
+                  <div class="col-md-9 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Type Category</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                      <select class="form-control" name="category_select"  [(ngModel)]="categoryNew_Obj" (change)="onChangeNameBRE()">
+                        <option [ngValue]="item" *ngFor="let item of categories">{{item.name_category}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3 px-0 text-left">
+                    <label>&nbsp;</label>
+                    <br>
+                    <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="functionRedirectToCategories()">
+                      <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="addCategory()">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                  </div>
+                  <!-- Table Edit Change-->
+                  <div class="col-md-9 px-3">
+                    <div class="form-group">
+                      <label>Selected to Register</label>
+                      <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
+                        <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '13px', 'font-weight': 'bold'}">
+                          <th class="text-center">Name Category</th>
+                          <th class="text-center">Transport</th>
+                          <th class="text-center">Weight Min</th>
+                          <th class="text-center">Weight Max</th>
+                          <th class="text-center">Action</th>
+                        </tr>
+                        <tr *ngFor="let cat of categoriesNew_Vet; let id = index">
+                          <td>
+                            {{cat.name_category}}
+                          </td>
+                          <td>
+                            {{cat.transport}}
+                          </td>
+                          <td>
+                            {{cat.weight_min}}
+                          </td>
+                          <td>
+                            {{cat.weight_max}}
+                          </td>
+                          <td>
+                            <span class="table-remove">
+                              <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="removeCountry(cat)">
+                                <i class="fa fa-minus" aria-hidden="true"></i>
+                              </button>
+                            </span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="col-md-9" layout-align="center center" [style]="{'background-color':'aliceblue'}">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <button type="submit"  style="height:40px;width:200px;" ng-disabled="isDisabled" (click)="prepareCostsTable(f)" class="btn btn-primary btn-round">Generar Costs</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="col-md-9 px-3" [hidden]="!isShow">
+        <label [ngStyle]="{'color': 'black', 'font-size': '15px', 'font-weight': 'bold'}">Costs Category by Country</label>
+          <p-table [value]="costsBRE_DS" dataKey="vehicle" editMode="row" [autoLayout]="true">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Vehicle</th>
+                    <th>Weight</th>
+                    <th>Distance/KM</th>
+                    <th>Worktime</th>
+                    <th>Consumption/L</th>
+                    <th>Action</th>
+                  </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+
+              <ng-container *ngIf="rowData.countryNew == true">
+                <tr style="background-color:rgba(247, 248, 155, 0.51);">
+                  <td [style]="{'text-align':'center','font-size':'14px','font-weight':'bold'}">
+                    &nbsp;&nbsp;&nbsp;{{rowData.countryName}}
+                  </td>
+                </tr>
+              </ng-container>
+
+              <tr [pEditableRow]="rowData">
+                <td>
+                  {{rowData.vehicle}}
+                </td>
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input pInputText size="10"  type="text" [(ngModel)]="rowData.weight_cost" (keypress)="validateNumber($event)">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{rowData.weight_cost}}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input pInputText size="10" type="text" [(ngModel)]="rowData.distance_cost" (keypress)="validateNumber($event)">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{rowData.distance_cost}}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input pInputText  size="10" type="text" [(ngModel)]="rowData.worktime_cost" (keypress)="validateNumber($event)">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{rowData.worktime_cost}}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input pInputText  size="10" type="text" [(ngModel)]="rowData.average_consumption_cost" (keypress)="validateNumber($event)">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{rowData.average_consumption_cost}}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+                <td style="text-align:center">
+                  <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil"
+                  class="p-button-info" (click)="onRowEditInit(rowData)" style="height:30px;width:30px;"></button>
+                  <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check"
+                  class="p-button-success" style="height:30px;width:30px;" (click)="onRowEditSave(rowData)"></button>
+                  &nbsp;
+                  <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times"
+                  class="p-button-danger" style="height:30px;width:30px;" (click)="onRowEditCancel(rowData, ri)"></button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <br>
+          <br>
+          <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit" style="height:50px;width:150px;" [disabled]="statusEditNew_btn" (click)="prepareSave(f)" class="btn btn-primary btn-round">Save</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button (click)="newRecord(f)" style="height:50px;width:150px;" [disabled]="statusEditNew_btn" class="btn btn-primary btn-round">New</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit" style="height:50px;width:150px;" (click)="functionRedirectToRoadwayBREView(f)" class="btn btn-primary btn-round">Cancelar</button>
+          </div>
+          <br>
+          <br>
+      </div>
+    </div>
+  </div>
+</div>
