@@ -15,7 +15,8 @@
                     <div class="col-md-9 px-1">
                       <div class="form-group">
                         <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Type Category</label>
-                        <select class="form-control" name="categoryvehicle_select" [(ngModel)]="vehicleOne_Obj.vehicle_type">
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <select class="form-control" name="categoryvehicle_select" [(ngModel)]="vehicleOne_Obj.vehicle_type"  required>
                           <option [value]="item.type_vehicle" *ngFor="let item of vehiclesTypes">{{item.type_vehicle}}</option>
                         </select>
                       </div>
@@ -32,6 +33,7 @@
                     <div class="col-md-5 px-1">
                       <div class="form-group">
                         <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Passenger:</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                         <br>
                         <input type="radio" name="people_radio" [(ngModel)]="vehicleOne_Obj.people_transport" [value]="true" (click)=toggleDisplay(true)><label>&nbsp;True</label>
                         &nbsp;
@@ -42,6 +44,7 @@
                     <div class="col-md-5 px-1" [hidden]="!isShow">
                       <div class="form-group">
                         <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">People Number</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                         <select class="form-control" name="people_select" [(ngModel)]="vehicleOne_Obj.people">
                           <option [value]="item" *ngFor="let item of peoples">{{item}}</option>
                         </select>
@@ -53,6 +56,7 @@
                     <div class="col-md-3 px-1">
                       <div class="form-group">
                         <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Cargo</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                         <input type="text" class="form-control" placeholder="Max" [(ngModel)]="vehicleOne_Obj.cargo_max" name="cargomaxvehicle_input" required>
                       </div>
                     </div>
@@ -60,6 +64,7 @@
                     <div class="col-md-4 px-1">
                       <div class="form-group">
                         <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Unity Measurement</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                         <select class="form-control" name="unitymeasurement_select" [(ngModel)]="vehicleOne_Obj.unity_measurement_weight">
                           <option [value]="item.unitMeasurement" *ngFor="let item of unityMeasurements">{{item.unitMeasurement}}</option>
                         </select>
@@ -69,6 +74,7 @@
                     <div class="col-md-3 px-1">
                       <div class="form-group">
                         <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Axis</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                         <select class="form-control" name="axis_select" [(ngModel)]="vehicleOne_Obj.axis_total">
                           <option [value]="item" *ngFor="let item of axis">{{item}}</option>
                         </select>
@@ -81,6 +87,7 @@
                       <div class="col-md-9 px-1">
                         <div class="form-group">
                           <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Bodywork</label>
+                          <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                           <select class="form-control" name="bodywork_select" [(ngModel)]="vehicleOne_Obj.bodywork_vehicle" multiple>
                             <option [value]="item.bodyWork" *ngFor="let item of bodyworkes">{{item.bodyWork}}</option>
                           </select>
@@ -100,6 +107,7 @@
                     <div class="col-md-9 px-1">
                       <div class="form-group">
                         <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Bodywork Vehicle</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                         <select class="form-control" name="bodywork_select" [(ngModel)]="bodyworkEdit">
                           <option [value]="item.bodyWork" *ngFor="let item of bodyworkes">{{item.bodyWork}}</option>
                         </select>
@@ -145,10 +153,10 @@
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <button type="submit"  style="height:50px;width:150px;" ng-disabled="isDisabled" (click)="validateSave(f)" class="btn btn-primary btn-round">Save</button>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <button ng-disabled="isDisabled"  style="height:50px;width:150px;"  (click)="delete(f)"  [disabled]="statusDelete_btn" class="btn btn-primary btn-round">Delete</button>
+              <button style="height:50px;width:150px;"  (click)="delete(f)"  [disabled]="isDisabled" class="btn btn-primary btn-round">Delete</button>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <button (click)="newRecord(f)"  style="height:50px;width:150px;" [disabled]="statusNew_btn" class="btn btn-primary btn-round">New</button>
-             </div>
+              <button (click)="functionRedirectToVehicleView()"  style="height:50px;width:150px;"  class="btn btn-primary btn-round">Cancel</button>
+            </div>
         </form>
       </div>
     </div>

@@ -38,6 +38,7 @@ export class VehicleCrudComponent implements OnInit {
   statusNew_btn = true;
   isShow = false;
   isEdit = false;
+  isDisabled = false;
 
   reactiveForm: FormGroup = new FormGroup({
     reactiveRadio: new FormControl(true)
@@ -57,10 +58,12 @@ export class VehicleCrudComponent implements OnInit {
         this.vehicleOne_Obj = vehicleTO.vehicleData;
         this.isEdit = true;
         this.titlePage = 'Vehicle Category - Edit';
+        this.isDisabled = false;
       } else {
         this.vehicleOne_Obj = {} as VehicleModel;
         this.isEdit = false;
         this.titlePage = 'Vehicle Category - Save';
+        this.isDisabled = true;
       }
       console.log(' LOGS - people_transport ', this.vehicleOne_Obj.people_transport);
       this.isShow = this.vehicleOne_Obj.people_transport;
@@ -127,7 +130,18 @@ findUnityMeasurement() {
 
   validateSave(event: any) {
     let msg: string;
-    if (this.vehicleOne_Obj) {
+    let statusSave = false;
+    if ((this.vehicleOne_Obj.vehicle_type) && (this.vehicleOne_Obj.bodywork_vehicle) && (this.vehicleOne_Obj.cargo_max) &&
+    ( this.vehicleOne_Obj.people_transport !== undefined ) && ( this.vehicleOne_Obj.unity_measurement_weight ) &&
+    (this.vehicleOne_Obj.axis_total)) {
+      if (this.vehicleOne_Obj.people_transport === false) {
+        statusSave = true;
+      } else if ( (this.vehicleOne_Obj.people_transport === true) && (this.vehicleOne_Obj.people)) {
+        statusSave = true;
+      }
+    }
+
+    if (statusSave === true) {
       msg = 'Confirms the transaction to save the item in the database?';
       this.save(event, msg);
     } else {
@@ -194,6 +208,12 @@ transactionOrchestrator(event: any, type: String) {
     }
     case 'Save': {
       msgTransaction = 'Register Success';
+      type = 'success';
+      this.functionRedirectToVehicleView();
+      break;
+    }
+    case 'Delete': {
+      msgTransaction = 'Delete Success';
       type = 'success';
       this.functionRedirectToVehicleView();
       break;
