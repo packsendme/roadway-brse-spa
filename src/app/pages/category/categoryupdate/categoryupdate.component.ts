@@ -89,7 +89,7 @@ findVehicles() {
 
 findTransporties() {
   let transportiesVet: TransportTypeModel [] = [];
-  this.transportService.getTransportType().subscribe((transportTypeData: Response) => {
+  this.transportService.get().subscribe((transportTypeData: Response) => {
     const transportTypeDataStr = JSON.stringify(transportTypeData.body);
     JSON.parse(transportTypeDataStr, function (key, value) {
       if (key === 'transporties') {

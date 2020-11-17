@@ -24,26 +24,26 @@ export class TransportTypeService {
     this.headers = this.headers.append('originApp', 'APP-MICROSERVICE');
   }
 
-  getTransportType(): Observable<Response> {
+  get(): Observable<Response> {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
     return this.httpClient.get<Response>(this.url, httpOptions)
     }
 
-  postTransportType(transportType: TransportTypeModel): Observable<Response> {
+  post(transportType: TransportTypeModel): Observable<Response> {
     console.log('TRANSPORT', transportType);
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
     return this.httpClient.post<Response>(this.url, transportType, httpOptions)
   }
 
-  putTransportType(transportType: TransportTypeModel){
+  put(transportType: TransportTypeModel){
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
     return this.httpClient.put<Response>(this.url + '?id=' + transportType.id, transportType, httpOptions)
   };
 
-  deleteTransportType(transportType: TransportTypeModel) {
+  delete(transportType: TransportTypeModel) {
     console.log(' deleteTransport ', transportType.id);
     this.headersOnInit();
     const httpOptions = {headers: this.headers}

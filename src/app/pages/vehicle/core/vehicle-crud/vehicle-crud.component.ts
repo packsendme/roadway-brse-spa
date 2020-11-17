@@ -34,8 +34,6 @@ export class VehicleCrudComponent implements OnInit {
 
   // Screen Option
   vehicleOne_Obj = {} as VehicleModel;
-  statusDelete_btn = true;
-  statusNew_btn = true;
   isShow = false;
   isEdit = false;
   isDisabled = false;
@@ -53,8 +51,6 @@ export class VehicleCrudComponent implements OnInit {
     private confirmationDialogService: ConfirmationDialogService,
     private router: Router) {
       if ( this.vehicleTO.vehicleData != null ) {
-        this.statusDelete_btn = false;
-        this.statusNew_btn = false;
         this.vehicleOne_Obj = vehicleTO.vehicleData;
         this.isEdit = true;
         this.titlePage = 'Vehicle Category - Edit';
@@ -150,13 +146,6 @@ findUnityMeasurement() {
     }
   }
 
-  newRecord(event: any){
-    event.resetForm(event);
-    this.vehicleOne_Obj = {} as VehicleModel;
-    this.statusNew_btn = true;
-    this.statusDelete_btn = true;
-  }
-
   save(event: any, msg: any) {
     // Transaction Save
     this.confirmationDialogService.confirm('Save', msg).then((result) => {
@@ -174,7 +163,6 @@ findUnityMeasurement() {
         }
       }
     });
-    this.statusDelete_btn = true;
   }
 
   delete(event: any) {
@@ -194,7 +182,7 @@ findUnityMeasurement() {
     }
   }
 
-// --------------------------------------------------------------------------------//
+// ---------  NOTIFICATION MESSAGE -------------------------------------------------------------//
 
 transactionOrchestrator(event: any, type: String) {
   let msgTransaction = '' as  String;
@@ -236,10 +224,6 @@ transactionOrchestrator(event: any, type: String) {
   }
   this.showNotification('bottom', 'center', msgTransaction, type)
 }
-
-  handleClear(f: NgForm) {
-    f.resetForm();
-  }
 
   showNotification(from, align, msg, type) {
     const color = Math.floor(Math.random() * 5 + 1);
@@ -310,14 +294,8 @@ transactionOrchestrator(event: any, type: String) {
     }
   }
 
-  selectLocation(event: any, vehicleSelect: any) {
-    this.statusDelete_btn = false;
-    this.statusNew_btn = false;
-    this.vehicleOne_Obj = vehicleSelect;
-    this.isShow = this.vehicleOne_Obj.people_transport;
-  }
 
-  // OPERATION REDIRECT  ---------------------//
+// OPERATION REDIRECT  ---------------------//
 
 
   functionRedirectToVehicleType() {

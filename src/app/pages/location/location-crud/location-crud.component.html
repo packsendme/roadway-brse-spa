@@ -1,0 +1,110 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">
+          {{titlePage}}
+        </h3>
+         <!-- <form id="add-form" (ngSubmit)="f.form.valid && saveEditLocation(f)" #f="ngForm" novalidate> -->
+         <form id="add-form" #f="ngForm" novalidate>
+          <div class="row">
+            <div div class="col-md-6">
+              <div class="card card-plain">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-3 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Country Code</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <input type="text" class="form-control" [(ngModel)]="locatioOne_Obj.codCountry" disabled name="codCountry_input" required>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Country Name</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <select class="form-control" name="nameCountry_select"  [(ngModel)]="locatioOne_Obj.countryName" (change)="onChange() ">
+                          <option [ngValue]="item.namecountry" *ngFor="let item of countries">{{item.namecountry}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Define City -->
+                  <div class="row">
+                    <div class="col-md-5 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Specify a city:</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <br>
+                        <input type="radio" name="city_radio" [(ngModel)]="locatioOne_Obj.citySpecify" [value]="true" (click)=toggleDisplay(true)><label>&nbsp;Yes</label>
+                        &nbsp;
+                        <input type="radio" name="city_radio" [(ngModel)]="locatioOne_Obj.citySpecify" [value]="false" (click)=toggleDisplay(false)><label>&nbsp;No</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" [hidden]="!isShow">
+                    <div class="col-md-8 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">City Name</label>
+                        <input type="text" class="form-control" [(ngModel)]="cityName" name="nameCity_input" required>
+                      </div>
+                    </div>
+                    <div class="col-md-4 px-1 text-left">
+                      <div class="form-group">
+                        <br>
+                        <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="addCity()">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" [hidden]="!isShow">
+                    <div class="col-md-12 px-1">
+                      <div class="form-group">
+                        <label>Selected to Cities</label>
+                        <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
+                          <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '13px', 'font-weight': 'bold'}">
+                            <th class="text-center">City</th>
+                            <th class="text-center">Action</th>
+                          </tr>
+                          <tr *ngFor="let city of locatioOne_Obj.cities; let id = index">
+                            <td>
+                              {{city}}
+                            </td>
+                            <td>
+                              <span class="table-remove">
+                                <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="removeCity(city)">
+                                  <i class="fa fa-minus" aria-hidden="true"></i>
+                                </button>
+                              </span>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit"  style="height:50px;width:150px;" (click)="validateSave(f)" class="btn btn-primary btn-round">Save</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button style="height:50px;width:150px;"  (click)="delete(f)"  [disabled]="isDisabled" class="btn btn-primary btn-round">Delete</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button (click)="functionRedirectToLocation()"  style="height:50px;width:150px;"  class="btn btn-primary btn-round">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

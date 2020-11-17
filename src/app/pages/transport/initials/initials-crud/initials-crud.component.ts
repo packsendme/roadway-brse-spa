@@ -1,107 +1,98 @@
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { BodyworkModel } from 'app/model/bodywork-model';
-import { BodyworkService } from 'app/service/bodywork.service';
-import { DataTO } from 'app/model/dataTO';
+import { InitialsService } from './../../../../service/initials.service';
+import { InitialsModel } from './../../../../model/initials-model';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationDialogService } from 'app/service/confirmation-dialog.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-bodywork',
-  templateUrl: './bodywork-crud.component.html',
-  styleUrls: ['./bodywork-crud.component.css']
+  selector: 'app-initials-crud',
+  templateUrl: './initials-crud.component.html',
+  styleUrls: ['./initials-crud.component.css']
 })
-export class BodyworkCrudComponent implements OnInit {
+export class InitialsCrudComponent implements OnInit {
 
-  // List Another Requests
-  bodyworkes: BodyworkModel[];
+
+   // List Another Requests
+   initialies: InitialsModel[];
+   initialName: String = '';
 
   // Screen Option
-  bodyworkOne_Obj = {} as BodyworkModel;
-  statusDelete_btn = true;
-  statusNew_btn = true;
+  initialsOne_Obj = {} as InitialsModel;
   isDisabled = true;
-  nameBodywork: String = '';
 
   constructor(
-    private fb: FormBuilder,
-    private bodyworkService: BodyworkService,
-    private bodyworkTO: DataTO,
+    private initialsService: InitialsService,
     private router: Router,
     private confirmationDialogService: ConfirmationDialogService,
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.findBodywork();
+    this.findInitialies();
   }
 
-// --------- REQUESTs - EXTERNAL ---------------------------------------//
+  // --------- REQUESTs - EXTERNAL ---------------------------------------//
 
-  findBodywork() {
-    let bodyworkVet: BodyworkModel[] = [];
-    this.bodyworkService.getBodyWork().subscribe((bodyWorkData: Response) => {
-    const bodyWorkStr = JSON.stringify(bodyWorkData.body);
-    JSON.parse(bodyWorkStr, function (key, value) {
-      if (key === 'bodies') {
-        bodyworkVet = value;
-        return value;
-      } else {
+  findInitialies() {
+    let initialiesVet: InitialsModel [] = [];
+    this.initialsService.get().subscribe((initialiesData: Response) => {
+      const initialsDataStr = JSON.stringify(initialiesData.body);
+      JSON.parse(initialsDataStr, function (key, value) {
+        if (key === 'initials') {
+          initialiesVet = value;
           return value;
+        } else {
+           return value;
         }
       });
-      this.bodyworkes = bodyworkVet;
+      this.initialies = initialiesVet;
     });
   }
 
   // --------- OPERATION TRANSACTION - CRUD ---------------------------------------//
+
   validateSave(event: any) {
     let msg: string;
-    if (this.nameBodywork) {
-      if (this.nameBodywork.length < 5) {
-        msg = 'Name Bodywork must be 5 min - 30 max characters long';
-        this.showNotification('bottom', 'center', msg, 'error');
-      } else {
+    if (this.initialName) {
         msg = 'Confirms the transaction to save the item in the database?';
         this.save(event, msg);
-      }
     } else {
       msg = 'Check the required fields';
       this.showNotification('bottom', 'center', msg, 'error');
     }
   }
 
-
   save(event: any, msg: any) {
+    // Transaction Save
     this.confirmationDialogService.confirm('Save', msg).then((result) => {
       if ( result === true ) {
-        this.bodyworkOne_Obj.bodyWork = this.nameBodywork;
-        // Transaction Save
-        if (this.bodyworkOne_Obj.id == null) {
-          this.bodyworkService.postBodyWork(this.bodyworkOne_Obj).subscribe({
+        this.initialsOne_Obj.name = this.initialName;
+        if (this.initialsOne_Obj.id == null) {
+          this.initialsService.post(this.initialsOne_Obj).subscribe({
             next: data => this.transactionOrchestrator(event, 'Save'),
             error: error => this.showNotification('bottom', 'center', error, 'error')
           });
-        } else if (this.bodyworkOne_Obj.id != null) {
-          this.bodyworkService.putBodyWork(this.bodyworkOne_Obj).subscribe({
+        } else if (this.initialsOne_Obj.id != null) {
+          this.initialsOne_Obj.name = this.initialName;
+          console.log(' LOGS ', this.initialsOne_Obj.name);
+          this.initialsService.put(this.initialsOne_Obj).subscribe({
             next: data => this.transactionOrchestrator(event, 'Update'),
             error: error => this.showNotification('bottom', 'center', error, 'error')
           });
         }
       }
     })
-    .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
   }
 
   delete(event: any) {
-    const msg = 'Confirms the transaction to delete the item from the database?';
-    if ( this.bodyworkOne_Obj != null ) {
+    let msg: string;
+    if ( this.initialsOne_Obj != null ) {
+      msg = 'Confirms the transaction to delete the item from the database?';
       this.confirmationDialogService.confirm('Delete', msg).then((result) => {
         if ( result === true ) {
           // Transaction Delete
-          if (this.bodyworkOne_Obj.id != null) {
-            this.bodyworkService.deleteBodyWork(this.bodyworkOne_Obj).subscribe({
+          if (this.initialsOne_Obj.id != null) {
+            this.initialsService.delete(this.initialsOne_Obj).subscribe({
               next: data => this.transactionOrchestrator(event, 'Delete'),
               error: error => this.showNotification('bottom', 'center', error, 'error')
             });
@@ -114,39 +105,34 @@ export class BodyworkCrudComponent implements OnInit {
 
 // --------------------------------------------------------------------------------//
 
-selectBodyWork(event: any, bodyworkSelect: BodyworkModel) {
+selectInitial(event: any, initialSelect: InitialsModel) {
   this.isDisabled = false;
-  this.bodyworkOne_Obj = bodyworkSelect;
-  this.nameBodywork = bodyworkSelect.bodyWork;
+  this.initialsOne_Obj = initialSelect;
+  this.initialName = initialSelect.name;
 }
 
-  transactionOrchestrator(event: any, type: String) {
+transactionOrchestrator(event: any, type: String) {
     let msgTransaction = '' as  String;
+    console.log('Save Teste', type );
     switch (type) {
       case 'Save': {
         msgTransaction = 'Register Success';
-        this.functionRedirectToView();
+        this.functionRedirectToTransport();
         break;
       }
+      // tslint:disable-next-line:no-switch-case-fall-through
       case 'Update': {
         msgTransaction = 'Update Success';
-        this.functionRedirectToView();
+        this.functionRedirectToTransport();
         break;
       }
       case 'Delete': {
         msgTransaction = 'Delete Success';
-        this.functionRedirectToView();
+        this.functionRedirectToTransport();
         break;
       }
     }
-
     this.showNotification('bottom', 'center', msgTransaction, 'success')
-    event.resetForm(event);
-    this.bodyworkOne_Obj = {} as BodyworkModel;
-  }
-
-  handleClear(f: NgForm){
-    f.resetForm();
   }
 
   showNotification(from, align, msg, type) {
@@ -183,12 +169,7 @@ selectBodyWork(event: any, bodyworkSelect: BodyworkModel) {
     }
   }
 
-
-  // ------------------------------------------------------------------------//
-// OPERATION REDIRECT
-// ------------------------------------------------------------------------//
-
-  functionRedirectToView() {
-    this.router.navigate(['/vehicle-crud']);
+  functionRedirectToTransport() {
+    this.router.navigate(['/transport-crud']);
   }
 }

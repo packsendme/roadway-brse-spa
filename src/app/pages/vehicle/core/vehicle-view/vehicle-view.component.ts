@@ -15,7 +15,8 @@ export class VehicleViewComponent implements OnInit {
 
   vehicles: VehicleModel[];
   vehicleOne_Obj = {} as VehicleModel;
-  isShow = false;
+  isDisabled = true;
+
 
   constructor(
     private vehicleService: VehicleService,
@@ -51,12 +52,13 @@ findVehicles() {
 // --------------------------------------------------------------------------------//
 
 selectLocation(event: any, vehicleSelect: any) {
+  this.isDisabled = false;
   this.vehicleOne_Obj = vehicleSelect;
 }
 
  // --------- OPERATION TRANSACTION - CRUD ---------------------------------------//
 
- new() {
+new() {
   this.vehicleTO.vehicleData = null;
   this.router.navigate(['/vehicle-crud']);
 }

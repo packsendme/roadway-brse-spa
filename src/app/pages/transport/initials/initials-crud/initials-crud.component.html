@@ -3,9 +3,8 @@
     <div class="card">
       <div class="card-body">
         <h3 class="card-title">
-          Vehicle Category - Save&Update
+          Initials - Save&Update
         </h3>
-         <!-- <form id="add-form" (ngSubmit)="f.form.valid && saveEditLocation(f)" #f="ngForm" novalidate> -->
          <form id="add-form" #f="ngForm" novalidate>
           <div class="row">
             <div div class="col-md-6">
@@ -14,9 +13,9 @@
                   <div class="row">
                     <div class="col-md-8 pr-1">
                       <div class="form-group">
-                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Name Category</label>
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Name</label>
                         <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
-                        <input type="text" class="form-control" [(ngModel)]="nameVehicleType" name="vehiclecategory_input"
+                        <input type="text" class="form-control" [(ngModel)]="initialName" name="initial_input"
                         maxlength="30"  required>
                       </div>
                     </div>
@@ -31,7 +30,7 @@
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <button type="submit" style="height:50px;width:150px;" [disabled]="isDisabled"  (click)="delete(f)" class="btn btn-primary btn-round">Delete</button>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <button type="submit" style="height:50px;width:150px;" (click)="functionRedirectToVehicle(f)" class="btn btn-primary btn-round">Cancelar</button>
+              <button type="submit" style="height:50px;width:150px;" (click)="functionRedirectToTransport(f)" class="btn btn-primary btn-round">Cancelar</button>
             </div>
           </div>
         </form>
@@ -43,20 +42,20 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title"> Vehicle Type - List</h4>
+        <h4 class="card-title"> Initials - List</h4>
       </div>
       <div class="card-body">
         <div class="table-responsive">
           <table class="table">
             <thead class=" text-primary">
               <th>
-                Name Category
+                Name
               </th>
-           </thead>
+            </thead>
             <tbody>
-              <tr *ngFor="let veh of vehiclesTypes; let i = index" (click)="selectVehicle($event, veh)">
-                <td>{{veh.type_vehicle}}</td>
-            </tr>
+              <tr *ngFor="let init of initialies; let i = index" (click)="selectInitial($event, init)">
+                <td>{{init.name}}</td>
+              </tr>
             </tbody>
           </table>
         </div>

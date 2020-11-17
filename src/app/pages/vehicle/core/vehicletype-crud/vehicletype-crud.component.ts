@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { VehicleTypeService } from 'app/service/vehicle-type.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
-import { VehicleTypeModel } from 'app/model/vehicle-type-model';
 import { Router } from '@angular/router';
 import { ConfirmationDialogService } from 'app/service/confirmation-dialog.service';
+import { VehicleTypeModel } from 'app/model/vehicle-type-model';
 
 @Component({
   selector: 'app-vehicletype',
@@ -19,7 +19,7 @@ export class VehicletypeCrudComponent implements OnInit {
   // Screen Option
   vehicleTypeOne_Obj = {} as VehicleTypeModel;
   isDisabled = true;
-
+  nameVehicleType: String = '';
 
   constructor(
     private vehicleTypeService: VehicleTypeService,
@@ -53,8 +53,8 @@ export class VehicletypeCrudComponent implements OnInit {
 
   validateSave(event: any) {
     let msg: string;
-    if (this.vehicleTypeOne_Obj.type_vehicle) {
-      if (this.vehicleTypeOne_Obj.type_vehicle.length < 5) {
+    if (this.nameVehicleType) {
+      if (this.nameVehicleType.length < 5) {
         msg = 'Name VehicleType must be 8 min - 30 max characters long';
         this.showNotification('bottom', 'center', msg, 'error');
       } else {
@@ -71,6 +71,7 @@ export class VehicletypeCrudComponent implements OnInit {
     // Transaction Save
     this.confirmationDialogService.confirm('Save', msg).then((result) => {
       if ( result === true ) {
+        this.vehicleTypeOne_Obj.type_vehicle = this.nameVehicleType;
         if (this.vehicleTypeOne_Obj.id == null) {
           this.vehicleTypeService.postVehicleType(this.vehicleTypeOne_Obj).subscribe({
             next: data => this.transactionOrchestrator(event, 'Save'),
@@ -107,9 +108,10 @@ export class VehicletypeCrudComponent implements OnInit {
 
 // --------------------------------------------------------------------------------//
 
-selectVehicle(event: any, vehicleSelect:any) {
+selectVehicle(event: any, vehicleSelect: VehicleTypeModel) {
   this.isDisabled = false;
   this.vehicleTypeOne_Obj = vehicleSelect;
+  this.nameVehicleType = vehicleSelect.type_vehicle;
 }
 
 transactionOrchestrator(event: any, type: String) {

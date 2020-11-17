@@ -1,4 +1,3 @@
-import { TransportViewComponent } from './../../pages/transport/transport-view/transport-view.component';
 import { VehicleViewComponent } from './../../pages/vehicle/core/vehicle-view/vehicle-view.component';
 import { VehicletypeCrudComponent } from '../../pages/vehicle/core/vehicletype-crud/vehicletype-crud.component';
 import { BodyworkCrudComponent } from './../../pages/vehicle/bodywork/bodywork-crud/bodywork-crud.component';
@@ -9,7 +8,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { LocationComponent } from 'app/pages/location/location.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import {MatIconModule} from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -32,6 +30,11 @@ import { BusinessruleViewComponent } from 'app/pages/bre/businessrule-view/busin
 import { BusinessruleUpdateComponent } from 'app/pages/bre/businessrule-update/businessrule-update.component';
 import { VehicleCrudComponent } from 'app/pages/vehicle/core/vehicle-crud/vehicle-crud.component';
 import { ConfirmationDialogComponent } from 'app/pages/confirmation-dialog/confirmation-dialog.component';
+import { InitialsCrudComponent } from 'app/pages/transport/initials/initials-crud/initials-crud.component';
+import { TransportViewComponent } from 'app/pages/transport/core/transport-view/transport-view.component';
+import { TransportCrudComponent } from 'app/pages/transport/core/transport-crud/transport-crud.component';
+import { LocationCrudComponent } from 'app/pages/location/location-crud/location-crud.component';
+import { LocationViewComponent } from 'app/pages/location/location-view/location-view.component';
 @NgModule({
   imports: [
     LayoutModule,
@@ -57,7 +60,7 @@ import { ConfirmationDialogComponent } from 'app/pages/confirmation-dialog/confi
   providers: [DataTO],
 
   declarations: [
-    LocationComponent,
+    LocationCrudComponent,
     VehicleCrudComponent,
     VehicleViewComponent,
     CategorynewComponent,
@@ -70,7 +73,9 @@ import { ConfirmationDialogComponent } from 'app/pages/confirmation-dialog/confi
     BodyworkCrudComponent,
     TransportViewComponent,
     ConfirmationDialogComponent,
-    TransportViewComponent
+    TransportCrudComponent,
+    InitialsCrudComponent,
+    LocationViewComponent
   ]
 })
 

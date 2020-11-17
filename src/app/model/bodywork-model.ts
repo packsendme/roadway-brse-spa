@@ -1,5 +1,5 @@
 export interface BodyworkModel {
   id: string;
-  bodyWork: string;
+  bodyWork: String;
 	type: string;
 }

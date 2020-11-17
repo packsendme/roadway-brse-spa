@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { InitialsModel } from 'app/model/initials-model';
 import { environment } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class InitialsService {
-  url = environment.ip + environment.transportPort + environment.appName + '/transport/initials';
+export class CountryService {
+  url = environment.ip + environment.locationPort + environment.appName + '/location/country';
   headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-  initials: InitialsModel[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
@@ -26,29 +24,10 @@ export class InitialsService {
 
   get(): Observable<Response> {
     this.headersOnInit();
+    console.log('GET URL ', this.url);
     const httpOptions = {headers: this.headers}
     return this.httpClient.get<Response>(this.url, httpOptions)
     }
 
-  post(initials: InitialsModel): Observable<Response> {
-    this.headersOnInit();
-    const httpOptions = {headers: this.headers}
-    return this.httpClient.post<Response>(this.url, initials, httpOptions)
-  }
-
-  put(initials: InitialsModel) {
-    this.headersOnInit();
-    console.log(' put service name ', initials.name);
-    console.log(' put service id ', initials.id);
-
-    const httpOptions = {headers: this.headers}
-    return this.httpClient.put<Response>(this.url + '?id=' + initials.id, initials, httpOptions)
-  };
-
-  delete(initials: InitialsModel) {
-    this.headersOnInit();
-    const httpOptions = {headers: this.headers}
-    return this.httpClient.delete<Response>(this.url + '?id=' + initials.id, httpOptions)
-  }
 
 }

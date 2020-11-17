@@ -37,7 +37,7 @@
            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
              <button type="submit" style="height:50px;width:150px;" (click)="new()" class="btn btn-primary btn-round">New Vehicle</button>
              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-             <button type="submit" style="height:50px;width:150px;" (click)="edit()" class="btn btn-primary btn-round">Edit Vehicle</button>
+             <button type="submit" [disabled]="isDisabled" style="height:50px;width:150px;" (click)="edit()" class="btn btn-primary btn-round">Edit Vehicle</button>
              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
          </div>
       </div>

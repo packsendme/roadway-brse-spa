@@ -2,24 +2,24 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title"> Transport Type List</h4>
+        <h4 class="card-title"> Location List</h4>
       </div>
       <div class="card-body">
         <div class="table-responsive">
           <table class="table">
             <thead class=" text-primary">
               <th>
-                Transport Type
+                CodCountry
               </th>
               <th>
-                Initials
+                Country Name
               </th>
             </thead>
             <tbody>
-              <tr *ngFor="let transp of transporties; let i = index" (click)="selectLocation($event, veh)">
-                <td>{{transp.name_transport}}</td>
-                <td>{{transp.initials}}</td>
-              </tr>
+              <tr *ngFor="let loc of locations; let i = index" (click)="selectLocation($event, loc)">
+                <td>{{loc.codCountry}}</td>
+                <td>{{loc.countryName}}</td>
+            </tr>
             </tbody>
           </table>
         </div>
@@ -27,9 +27,9 @@
         <br>
         <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-             <button type="submit" style="height:50px;width:150px;" (click)="new()" class="btn btn-primary btn-round">New Vehicle</button>
+             <button type="submit" style="height:50px;width:150px;" (click)="new()" class="btn btn-primary btn-round">New Location</button>
              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-             <button type="submit" style="height:50px;width:150px;" (click)="edit()" class="btn btn-primary btn-round">Edit Vehicle</button>
+             <button type="submit" [disabled]="isDisabled" style="height:50px;width:150px;" (click)="edit()" class="btn btn-primary btn-round">Edit Location</button>
              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
          </div>
       </div>
