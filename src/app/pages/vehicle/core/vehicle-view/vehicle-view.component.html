@@ -9,24 +9,16 @@
           <table class="table">
             <thead class=" text-primary">
               <th>
-                Category Type
+                Vehicle
               </th>
               <th>
-                Cargo Max
-              </th>
-              <th>
-                Unity
-              </th>
-              <th>
-                Axis
+                Transport
               </th>
             </thead>
             <tbody>
               <tr *ngFor="let veh of vehicles; let i = index" (click)="selectLocation($event, veh)">
                 <td>{{veh.vehicle_type}}</td>
-                <td>{{veh.cargo_max}}</td>
-                <td>{{veh.unity_measurement_weight}}</td>
-                <td>{{veh.axis_total}}</td>
+                <td>{{veh.transport_type}}</td>
               </tr>
             </tbody>
           </table>

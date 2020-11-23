@@ -22,7 +22,7 @@ export class TransportCrudComponent implements OnInit {
 
   // Screen Option
   transportiesOne_Obj = {} as TransportTypeModel;
-  isDisabled = false;
+    isDisabled = false;
   titlePage: string;
 
   constructor(
@@ -88,7 +88,8 @@ findInitialies() {
     let msg: string;
     let statusSave = false;
 
-    if ((this.transportiesOne_Obj.name_transport) && (this.transportiesOne_Obj.initials)) {
+    if ((this.transportiesOne_Obj.name_transport) && (this.transportiesOne_Obj.initials)
+     && (this.transportiesOne_Obj.transport_type) && (this.transportiesOne_Obj.transport_type)) {
       statusSave = true;
     } else {
       statusSave = false;
@@ -216,6 +217,20 @@ findInitialies() {
         break;
       default:
         break;
+    }
+  }
+
+  
+// TRANSACTION   ---------------------//
+
+  toggleDisplay() {
+    console.log('toggleDisplay', this.transportiesOne_Obj.transport_type);
+    if (this.transportiesOne_Obj.transport_type === 'Cargo') {
+      this.transportiesOne_Obj.identifier = "Only";
+    } else if (this.transportiesOne_Obj.transport_type === 'Passenger') {
+      this.transportiesOne_Obj.identifier = "Only";
+    } else if (this.transportiesOne_Obj.transport_type === 'Mixed') {
+      this.transportiesOne_Obj.identifier = "Mix";
     }
   }
 

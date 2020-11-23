@@ -3,9 +3,8 @@ export interface CategoryModel {
     id: string;
     name_category: string;
     transport: string;
-    weight_min: string;
-    weight_max: string;
-    unity_measurement_weight_min: string;
-    unity_measurement_weight_max: string;
+    weight_max: number;
+    unity: string;
+    people_max: number;
     vehicles: VehicleModel[];
 }

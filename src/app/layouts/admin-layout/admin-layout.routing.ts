@@ -1,9 +1,7 @@
+import { UnitymeasurementCrudComponent } from '../../pages/category/unitymeasurement/unitymeasurement-crud/unitymeasurement-crud.component';
 import { BodyworkCrudComponent } from './../../pages/vehicle/bodywork/bodywork-crud/bodywork-crud.component';
 import { BusinessruleUpdateComponent } from 'app/pages/bre/businessrule-update/businessrule-update.component';
 import { Routes } from '@angular/router';
-import { CategorynewComponent } from 'app/pages/category/categorynew/categorynew.component';
-import { CategoriesComponent } from 'app/pages/category/categories/categories.component';
-import { CategoryupdateComponent } from 'app/pages/category/categoryupdate/categoryupdate.component';
 import { BusinessruleViewComponent } from 'app/pages/bre/businessrule-view/businessrule-view.component';
 import { BusinessruleNewComponent } from 'app/pages/bre/businessrule-new/businessrule-new.component';
 import { VehicleCrudComponent } from 'app/pages/vehicle/core/vehicle-crud/vehicle-crud.component';
@@ -14,6 +12,9 @@ import { TransportViewComponent } from 'app/pages/transport/core/transport-view/
 import { TransportCrudComponent } from 'app/pages/transport/core/transport-crud/transport-crud.component';
 import { LocationViewComponent } from 'app/pages/location/location-view/location-view.component';
 import { LocationCrudComponent } from 'app/pages/location/location-crud/location-crud.component';
+import { CategoryNewComponent } from 'app/pages/category/core/category-new/category-new.component';
+import { CategoryViewComponent } from 'app/pages/category/core/category-view/category-view.component';
+import { CategoryUpdateComponent } from 'app/pages/category/core/category-update/category-update.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'location-view',       component: LocationViewComponent },
@@ -21,14 +22,15 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'vehicle-crud',        component: VehicleCrudComponent },
     { path: 'vehicle-view',        component: VehicleViewComponent },
     { path: 'vehicletype-crud',    component: VehicletypeCrudComponent },
-    { path: 'categorynew',         component: CategorynewComponent },
-    { path: 'categories',          component: CategoriesComponent },
-    { path: 'categoryupdate',      component: CategoryupdateComponent },
+    { path: 'category-new',        component: CategoryNewComponent },
+    { path: 'category-view',       component: CategoryViewComponent },
+    { path: 'category-update',     component: CategoryUpdateComponent },
     { path: 'transport-view',      component: TransportViewComponent },
     { path: 'transport-crud',      component: TransportCrudComponent },
     { path: 'bodywork-crud',       component: BodyworkCrudComponent },
     { path: 'businessrule-view',   component: BusinessruleViewComponent },
     { path: 'businessrule-new',    component: BusinessruleNewComponent },
     { path: 'businessrule-update', component: BusinessruleUpdateComponent },
+    { path: 'unitymeasurement-crud', component: UnitymeasurementCrudComponent },
     { path: 'initials-crud',       component: InitialsCrudComponent }
 ];

@@ -2,9 +2,7 @@
   <div class="col-md-12">
     <div class="card card-user">
       <div class="card-body">
-        <h3 class="card-title">
-          Update Category
-        </h3>
+        <h3 class="card-title">Category - Update</h3>
         <form id="add-form" #f="ngForm" novalidate>
           <div div class="col-md-15">
             <div class="card card-plain">
@@ -15,7 +13,7 @@
                   <div class="col-md-9 px-3">
                     <div class="form-group">
                       <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">ID Category</label>
-                      <label [ngStyle]="{'color': 'black', 'font-size': '14px'}">&nbsp; {{categoryOne_Obj.id}}</label>
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px'}">&nbsp;&nbsp;{{categoryOne_Obj.id}}</label>
                     </div>
                   </div>
                 </div>
@@ -25,7 +23,7 @@
                   <div class="col-md-9 px-3">
                     <div class="form-group">
                       <label [ngStyle]="{'color': 'black', 'font-size': '13px','font-weight': 'bold'}">Name Category:</label>
-                      <label [ngStyle]="{'color': 'red', 'font-size': '15px'}">&nbsp;{{categoryOne_Obj.name_category}}</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px','font-weight': 'bold'}">&nbsp;&nbsp;{{categoryOne_Obj.name_category}}</label>
                     </div>
                   </div>
                 </div>
@@ -63,7 +61,7 @@
                     <div class="form-group">
                       <label  [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Unity Measurement</label>
                       <select class="form-control" name="unitymin_select" [(ngModel)]="categoryOne_Obj.unity_measurement_weight_min">
-                        <option [ngValue]="item.unitMeasurement" *ngFor="let item of unityMeasurements">{{item.unitMeasurement}}</option>
+                        <option [value]="item" *ngFor="let item of unityWeightsL">{{item}}</option>
                       </select>
                     </div>
                   </div>
@@ -82,7 +80,7 @@
                     <div class="form-group">
                       <label  [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Unity Measurement</label>
                       <select class="form-control" name="unitymax_select" [(ngModel)]="categoryOne_Obj.unity_measurement_weight_max">
-                        <option [ngValue]="item.unitMeasurement" *ngFor="let item of unityMeasurements">{{item.unitMeasurement}}</option>
+                        <option [value]="item" *ngFor="let item of unityWeightsL">{{item}}</option>
                       </select>
                     </div>
                   </div>

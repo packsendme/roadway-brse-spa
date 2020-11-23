@@ -1,8 +1,9 @@
 export interface CountryModel {
   id: string;
-	codcountry: string;
+  codcountry: string;
+  identifier: string;
 	namecountry: string;
 	nameimagecountry: string;
-  formatnumbercountry: string;
-
+  unityWeightL: [];
+  unityDistanceL:[];
 }

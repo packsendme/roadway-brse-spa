@@ -9,7 +9,10 @@
           <table class="table">
             <thead class=" text-primary">
               <th>
-                Transport Type
+                Transport
+              </th>
+              <th>
+                Identifier
               </th>
               <th>
                 Initials
@@ -18,6 +21,7 @@
             <tbody>
               <tr *ngFor="let transp of transporties; let i = index" (click)="selectTransport($event, transp)">
                 <td>{{transp.name_transport}}</td>
+                <td>{{transp.identifier}}</td>
                 <td>{{transp.initials}}</td>
               </tr>
             </tbody>

@@ -1,5 +1,3 @@
-import { TransportTypeService } from './../../../service/transport-type.service';
-import { DataTO } from './../../../model/dataTO';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { VehicleModel } from 'app/model/vehicle-model';
@@ -12,13 +10,15 @@ import { CategoryModel } from 'app/model/category-model';
 import { TransportTypeModel } from 'app/model/transport-type-model';
 import { UnityMeasurementModel } from 'app/model/unity-measurement-model';
 import { UnityMeasurementService } from 'app/service/unity-measurement.service';
+import { DataTO } from 'app/model/dataTO';
+import { TransportTypeService } from 'app/service/transport-type.service';
 
 @Component({
   selector: 'app-categoryupdate',
-  templateUrl: './categoryupdate.component.html',
-  styleUrls: ['./categoryupdate.component.css']
+  templateUrl: './category-update.component.html',
+  styleUrls: ['./category-update.component.css']
 })
-export class CategoryupdateComponent implements OnInit {
+export class CategoryUpdateComponent implements OnInit {
 
   // List Another Requests
   categories: CategoryModel[];
@@ -26,6 +26,7 @@ export class CategoryupdateComponent implements OnInit {
   locations: LocationModel[];
   transporties: TransportTypeModel[];
   unityMeasurements: UnityMeasurementModel[];
+  unityWeightsL: String[] = [];
 
   // Screen Option
   categoryOne_Obj = {} as CategoryModel;
@@ -64,7 +65,7 @@ export class CategoryupdateComponent implements OnInit {
   ngOnInit(): void {
     this.findVehicles();
     this.findTransporties();
-    this.findUnityMeasurement();
+    //this.findUnityMeasurement();
   }
 
 // ------------------------------------------------------------------------//
@@ -76,7 +77,7 @@ findVehicles() {
   this.vehicleService.getVehicle().subscribe((vehicleData: Response) => {
     const vehicleStr = JSON.stringify(vehicleData.body);
     JSON.parse(vehicleStr, function (key, value) {
-      if (key === 'vehiclesL') {
+      if (key === 'vehicles') {
         vehicleVet = value;
         return value;
       } else {
@@ -92,7 +93,7 @@ findTransporties() {
   this.transportService.get().subscribe((transportTypeData: Response) => {
     const transportTypeDataStr = JSON.stringify(transportTypeData.body);
     JSON.parse(transportTypeDataStr, function (key, value) {
-      if (key === 'transporties') {
+      if (key === 'transports') {
         transportiesVet = value;
         return value;
       } else {
@@ -103,23 +104,37 @@ findTransporties() {
     this.transportEdit_Obj = transportiesVet.find(transp => transp.name_transport === this.categoryOne_Obj.transport);
   });
 }
-
+ /*
 findUnityMeasurement() {
-  let unityMeasurementVet: UnityMeasurementModel[] = [];
-  this.unityMeasurementService.getUnityMeasurement().subscribe((unityMeasurementData: Response) => {
-    const unityMeasurementDataStr = JSON.stringify(unityMeasurementData.body);
-    JSON.parse(unityMeasurementDataStr, function (key, value) {
-      if (key === 'unityMeasurements') {
-        unityMeasurementVet = value;
-        return value;
-      } else {
-        return value;
-      }
+    let unityMeasurementVet: UnityMeasurementModel[] = [];
+    this.unityMeasurementService.get().subscribe((unityMeasurementData: Response) => {
+      const unityMeasurementDataStr = JSON.stringify(unityMeasurementData.body);
+      JSON.parse(unityMeasurementDataStr, function (key, value) {
+        if (key === 'unityMeasurements') {
+          unityMeasurementVet = value;
+          return value;
+        } else {
+          return value;
+        }
+      });
+    this.unityMeasurements = unityMeasurementVet;
+    this.findUnityWeghty();
     });
-  this.unityMeasurements = unityMeasurementVet;
-  console.log('unityMeasurements', this.unityMeasurements);
-  });
-}
+
+  }
+
+ findUnityWeghty() {
+    const unityWeightLocal: String[] = []
+    console.log('EGHTY TTEE')
+    this.unityMeasurements.forEach(function (unity) {
+      unity.unityWeight.forEach(function (weight) {
+        console.log(weight);
+        unityWeightLocal.push(weight);
+      })
+    })
+    this.unityWeightsL = unityWeightLocal;
+  }*/
+
 
 // ------------------------------------------------------------------------//
 // OPERATION ::  TRANSACTION - CRUD
@@ -147,11 +162,10 @@ findUnityMeasurement() {
           id: this.categoryOne_Obj.id,
           name_category: this.categoryOne_Obj.name_category,
           transport: this.categoryOne_Obj.transport,
-          weight_min: this.categoryOne_Obj.weight_min,
           weight_max: this.categoryOne_Obj.weight_max,
-          unity_measurement_weight_min: this.categoryOne_Obj.unity_measurement_weight_min,
-          unity_measurement_weight_max: this.categoryOne_Obj.unity_measurement_weight_max,
-          vehicles: this.categoryOne_Obj.vehicles,
+          unity: this.categoryOne_Obj.unity,
+          people_max: this.categoryOne_Obj.people_max,
+          vehicles: this.categoryOne_Obj.vehicles
         }
         this.updateCategory(event, entity);
       }
@@ -314,11 +328,15 @@ addVehicle() {
 // ------------------------------------------------------------------------//
 
 functionRedirectToCategories() {
-  this.router.navigate(['/categories']);
+  this.router.navigate(['/category-view']);
 }
 
 functionRedirectToTransport() {
-  this.router.navigate(['/transport']);
+  this.router.navigate(['/transport-crud']);
+}
+
+functionRedirectToUnityMensurement() {
+  this.router.navigate(['/unitymeasurement-crud']);
 }
 
 public openConfirmationDialog(title: string, msg: string) {

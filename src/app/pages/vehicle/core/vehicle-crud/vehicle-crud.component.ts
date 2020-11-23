@@ -29,12 +29,16 @@ export class VehicleCrudComponent implements OnInit {
   bodyworkes: BodyworkModel[];
   vehiclesTypes: VehicleTypeModel[];
   unityMeasurements: UnityMeasurementModel[];
+  unityWeightsL: String[] = [];
+
   axis: string[] = ['2', '3', '6', '7', '9'];
   peoples: string[] = ['0', '1 - 5', '5 - 15', '15 - 30', '30 - 45', '45 - N'];
 
+
   // Screen Option
   vehicleOne_Obj = {} as VehicleModel;
-  isShow = false;
+  isShowPeople = false;
+  isShowCargo = false;
   isEdit = false;
   isDisabled = false;
 
@@ -55,14 +59,21 @@ export class VehicleCrudComponent implements OnInit {
         this.isEdit = true;
         this.titlePage = 'Vehicle Category - Edit';
         this.isDisabled = false;
+        if (this.vehicleOne_Obj.transport_type === "Cargo") {
+          this.isShowCargo = true;
+          this.isShowPeople = false;
+        } else if (this.vehicleOne_Obj.transport_type === "Passenger") {
+          this.isShowPeople = true;
+          this.isShowCargo = false;
+        }
       } else {
         this.vehicleOne_Obj = {} as VehicleModel;
         this.isEdit = false;
-        this.titlePage = 'Vehicle Category - Save';
+        this.titlePage = 'Vehicle Category - New';
         this.isDisabled = true;
+        this.isShowPeople = false;
+        this.isShowCargo = false;
       }
-      console.log(' LOGS - people_transport ', this.vehicleOne_Obj.people_transport);
-      this.isShow = this.vehicleOne_Obj.people_transport;
     }
 
   ngOnInit(): void {
@@ -107,7 +118,7 @@ findVehicleType() {
 
 findUnityMeasurement() {
   let unityMeasurementVet: UnityMeasurementModel[] = [];
-  this.unityMeasurementService.getUnityMeasurement().subscribe((unityMeasurementData: Response) => {
+  this.unityMeasurementService.get().subscribe((unityMeasurementData: Response) => {
     const unityMeasurementDataStr = JSON.stringify(unityMeasurementData.body);
     JSON.parse(unityMeasurementDataStr, function (key, value) {
       if (key === 'unityMeasurements') {
@@ -118,8 +129,21 @@ findUnityMeasurement() {
       }
     });
   this.unityMeasurements = unityMeasurementVet;
+  //this.findUnityWeghty();
   });
 }
+/*
+findUnityWeghty() {
+  const unityWeightLocal: String[] = []
+  console.log('EGHTY TTEE')
+  this.unityMeasurements.forEach(function (unity) {
+    unity.unityWeight.forEach(function (weight) {
+      console.log(weight);
+      unityWeightLocal.push(weight.unity);
+    })
+  })
+  this.unityWeightsL = unityWeightLocal;
+}*/
 
 
 // --------- OPERATION TRANSACTION - CRUD ---------------------------------------//
@@ -127,13 +151,29 @@ findUnityMeasurement() {
   validateSave(event: any) {
     let msg: string;
     let statusSave = false;
-    if ((this.vehicleOne_Obj.vehicle_type) && (this.vehicleOne_Obj.bodywork_vehicle) && (this.vehicleOne_Obj.cargo_max) &&
-    ( this.vehicleOne_Obj.people_transport !== undefined ) && ( this.vehicleOne_Obj.unity_measurement_weight ) &&
-    (this.vehicleOne_Obj.axis_total)) {
-      if (this.vehicleOne_Obj.people_transport === false) {
-        statusSave = true;
-      } else if ( (this.vehicleOne_Obj.people_transport === true) && (this.vehicleOne_Obj.people)) {
-        statusSave = true;
+    if (this.vehicleOne_Obj.vehicle_type) {
+      if (this.vehicleOne_Obj.transport_type === 'Cargo') {
+        if ((this.vehicleOne_Obj.cargo_max) && (this.vehicleOne_Obj.unity_measurement_weight) &&
+        (this.vehicleOne_Obj.axis_total)){
+          statusSave = true;
+        } else{
+          statusSave = false;
+        }
+      } else if (this.vehicleOne_Obj.transport_type === 'Passenger') {
+          if (this.vehicleOne_Obj.people){
+            statusSave = true;
+          } else{
+            statusSave = false;
+          }
+      }  else if (this.vehicleOne_Obj.transport_type === 'Mixed') {
+        if ((this.vehicleOne_Obj.cargo_max) && (this.vehicleOne_Obj.unity_measurement_weight) &&
+        (this.vehicleOne_Obj.axis_total) && (this.vehicleOne_Obj.people)){
+          statusSave = true;
+        } else{
+          statusSave = false;
+        }
+    }else{
+        statusSave = false;
       }
     }
 
@@ -259,8 +299,26 @@ transactionOrchestrator(event: any, type: String) {
     }
   }
 
-  toggleDisplay(value: boolean) {
-    this.isShow = value;
+  toggleDisplay() {
+    if (this.vehicleOne_Obj.transport_type === 'Cargo') {
+      this.isShowCargo = true;
+      this.isShowPeople = false;
+      this.vehicleOne_Obj.people = null;
+    } else if (this.vehicleOne_Obj.transport_type === 'Passenger') {
+      this.isShowPeople = true;
+      this.isShowCargo = false;
+      this.vehicleOne_Obj.cargo_max = null;
+      this.vehicleOne_Obj.unity_measurement_weight  = null;
+      this.vehicleOne_Obj.axis_total = null;
+      this.vehicleOne_Obj.cargo_max = null;
+    } else if (this.vehicleOne_Obj.transport_type === 'Mixed') {
+      this.isShowPeople = true;
+      this.isShowCargo = true;
+      this.vehicleOne_Obj.cargo_max = null;
+      this.vehicleOne_Obj.unity_measurement_weight  = null;
+      this.vehicleOne_Obj.axis_total = null;
+      this.vehicleOne_Obj.cargo_max = null;
+    }
   }
 
   // Operation Bodywork  ---------------------//

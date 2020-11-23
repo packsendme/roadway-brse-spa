@@ -6,6 +6,6 @@ export interface VehicleModel {
   cargo_max: number;
   axis_total: number;
   unity_measurement_weight: string;
-  people_transport: boolean;
+  transport_type: string;
   people: string
 }

@@ -24,30 +24,42 @@ export class UnityMeasurementService {
     this.headers = this.headers.append('originApp', 'APP-MICROSERVICE');
   }
 
-  getUnityMeasurement(): Observable<Response> {
+  get(): Observable<Response> {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
     return this.httpClient.get<Response>(this.url + '?country=BR', httpOptions)
     }
 
-  postUnityMeasurement(unityMeasurement: UnityMeasurementModel): Observable<Response> {
+    reviver(key, value) {
+      if(typeof value === 'object' && value !== null) {
+        if (value.dataType === 'Map') {
+          return new Map(value.value);
+        }
+      }
+      return value;
+    }
+
+  post(unityMeasurement: UnityMeasurementModel): Observable<Response> {
     this.headersOnInit();
+    console.log('OBJ', unityMeasurement );
+
+    console.log('JSON', JSON.stringify(unityMeasurement) );
     const httpOptions = {headers: this.headers}
     return this.httpClient.post<Response>(this.url, unityMeasurement, httpOptions)
   }
 
-  putUnityMeasurement(unityMeasurement: UnityMeasurementModel){
+  put(unityMeasurement: UnityMeasurementModel){
     console.log(' bodyWork ', unityMeasurement.id);
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
     return this.httpClient.put<Response>(this.url + '?id=' + unityMeasurement.id, unityMeasurement, httpOptions)
   };
 
-  deleteUnityMeasurement(unityMeasurement: UnityMeasurementModel) {
-    console.log(' deleteVehicle ', unityMeasurement.id);
+  delete(id: String) {
+    console.log(' deleteVehicle ', id);
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.delete<Response>(this.url + '?id=' + unityMeasurement.id, httpOptions)
+    return this.httpClient.delete<Response>(this.url + '?id=' + id, httpOptions)
   }
 
 }

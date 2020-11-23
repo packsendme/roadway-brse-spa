@@ -14,7 +14,7 @@
                   <div class="row">
                     <div class="col-md-9 px-1">
                       <div class="form-group">
-                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Type Category</label>
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Type Vehicle</label>
                         <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                         <select class="form-control" name="categoryvehicle_select" [(ngModel)]="vehicleOne_Obj.vehicle_type"  required>
                           <option [value]="item.type_vehicle" *ngFor="let item of vehiclesTypes">{{item.type_vehicle}}</option>
@@ -30,18 +30,22 @@
                   </div>
 
                   <div class="row">
-                    <div class="col-md-5 px-1">
+                    <div class="col-md-12 px-1">
                       <div class="form-group">
-                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Passenger:</label>
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Type Transport:</label>
                         <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                         <br>
-                        <input type="radio" name="people_radio" [(ngModel)]="vehicleOne_Obj.people_transport" [value]="true" (click)=toggleDisplay(true)><label>&nbsp;True</label>
+                        <input type="radio" name="people_radio" [(ngModel)]="vehicleOne_Obj.transport_type" value="Cargo" (change)=toggleDisplay()><label>&nbsp;Cargo</label>
                         &nbsp;
-                        <input type="radio" name="people_radio" [(ngModel)]="vehicleOne_Obj.people_transport" [value]="false" (click)=toggleDisplay(false)><label>&nbsp;False</label>
+                        <input type="radio" name="people_radio" [(ngModel)]="vehicleOne_Obj.transport_type" value="Passenger" (change)=toggleDisplay()><label>&nbsp;Passenger</label>
+                        &nbsp;
+                        <input type="radio" name="transport_radio" [(ngModel)]="vehicleOne_Obj.transport_type" value="Mixed" (change)=toggleDisplay()><label>&nbsp;Mixed (Cargo + Passenger)</label>
                       </div>
                     </div>
+                  </div>
 
-                    <div class="col-md-5 px-1" [hidden]="!isShow">
+                  <div class="row" [hidden]="!isShowPeople">
+                    <div class="col-md-9 px-1">
                       <div class="form-group">
                         <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">People Number</label>
                         <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
@@ -50,9 +54,9 @@
                         </select>
                       </div>
                     </div>
-
                   </div>
-                  <div class="row">
+                  
+                  <div class="row" [hidden]="!isShowCargo">
                     <div class="col-md-3 px-1">
                       <div class="form-group">
                         <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Cargo</label>
@@ -63,10 +67,10 @@
 
                     <div class="col-md-4 px-1">
                       <div class="form-group">
-                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Unity Measurement</label>
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Unity Weight</label>
                         <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                         <select class="form-control" name="unitymeasurement_select" [(ngModel)]="vehicleOne_Obj.unity_measurement_weight">
-                          <option [value]="item.unitMeasurement" *ngFor="let item of unityMeasurements">{{item.unitMeasurement}}</option>
+                          <option [value]="item" *ngFor="let item of unityWeightsL">{{item}}</option>
                         </select>
                       </div>
                     </div>
@@ -107,7 +111,6 @@
                     <div class="col-md-9 px-1">
                       <div class="form-group">
                         <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Bodywork Vehicle</label>
-                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                         <select class="form-control" name="bodywork_select" [(ngModel)]="bodyworkEdit">
                           <option [value]="item.bodyWork" *ngFor="let item of bodyworkes">{{item.bodyWork}}</option>
                         </select>

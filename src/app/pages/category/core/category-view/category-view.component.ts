@@ -1,17 +1,16 @@
-import { DataTO } from './../../../model/dataTO';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CategoryService } from 'app/service/category.service';
 import { ToastrService } from 'ngx-toastr';
-import { VehicleService } from 'app/service/vehicle.service';
 import { CategoryModel } from 'app/model/category-model';
+import { DataTO } from 'app/model/dataTO';
 
 @Component({
   selector: 'app-categories',
-  templateUrl: './categories.component.html',
-  styleUrls: ['./categories.component.css']
+  templateUrl: './category-view.component.html',
+  styleUrls: ['./category-view.component.css']
 })
-export class CategoriesComponent implements OnInit {
+export class CategoryViewComponent implements OnInit {
 
   // List Another Requests
   categories: CategoryModel[];
@@ -61,12 +60,12 @@ export class CategoriesComponent implements OnInit {
    // --------- OPERATION TRANSACTION - CRUD ---------------------------------------//
 
    newCategory() {
-    this.router.navigate(['/categorynew']);
+    this.router.navigate(['/category-new']);
   }
 
   editCategory() {
     this.categoryData.categoryruleData = this.categoryOne_Obj;
-    this.router.navigate(['/categoryupdate']);
+    this.router.navigate(['/category-update']);
   }
 
 }

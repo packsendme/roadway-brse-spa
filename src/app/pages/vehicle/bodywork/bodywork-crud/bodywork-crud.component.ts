@@ -20,15 +20,11 @@ export class BodyworkCrudComponent implements OnInit {
 
   // Screen Option
   bodyworkOne_Obj = {} as BodyworkModel;
-  statusDelete_btn = true;
-  statusNew_btn = true;
   isDisabled = true;
   nameBodywork: String = '';
 
   constructor(
-    private fb: FormBuilder,
     private bodyworkService: BodyworkService,
-    private bodyworkTO: DataTO,
     private router: Router,
     private confirmationDialogService: ConfirmationDialogService,
     private toastr: ToastrService) { }

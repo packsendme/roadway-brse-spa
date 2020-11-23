@@ -1,9 +1,7 @@
 import { CountryService } from './../../../service/country.service';
 import { Router } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { NgForm } from '@angular/forms';
 import { LocationModel } from 'app/model/location-model';
 import { LocationService } from 'app/service/location.service';
 import { DataTO } from 'app/model/dataTO';
@@ -245,6 +243,7 @@ onChange(object: any) {
   const countryCodObj = this.countries.find(countrydb => countrydb.namecountry === this.locatioOne_Obj.countryName);
   this.locatioOne_Obj.codCountry = countryCodObj.codcountry;
   this.locatioOne_Obj.citySpecify = false;
+  this.locatioOne_Obj.identifier = countryCodObj.identifier;
   this.resetCitiesToNull();
   this.isShow = false;
 }

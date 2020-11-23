@@ -1,5 +1,9 @@
 export interface UnityMeasurementModel {
-  id: string;
-  unitMeasurement: string;
-  origin_country: string;
+  id: String;
+  unityType: String;
+  unityArea: String[];
+  unityVolume: String[];
+  unityWeight: Map<string, string>;
+  unityTemperature: String[];
+  unityCurrency: String[];
 }

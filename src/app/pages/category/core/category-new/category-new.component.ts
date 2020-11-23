@@ -1,4 +1,3 @@
-import { TransportTypeService } from './../../../service/transport-type.service';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { VehicleModel } from 'app/model/vehicle-model';
@@ -12,20 +11,22 @@ import { TransportTypeModel } from 'app/model/transport-type-model';
 import { CategoryModel } from 'app/model/category-model';
 import { UnityMeasurementModel } from 'app/model/unity-measurement-model';
 import { UnityMeasurementService } from 'app/service/unity-measurement.service';
+import { TransportTypeService } from 'app/service/transport-type.service';
 
 
 
 @Component({
   selector: 'app-category',
-  templateUrl: './categorynew.component.html',
-  styleUrls: ['./categorynew.component.css']
+  templateUrl: './category-new.component.html',
+  styleUrls: ['./category-new.component.css']
 })
-export class CategorynewComponent implements OnInit {
+export class CategoryNewComponent implements OnInit {
 
   // List Another Requests
   transporties: TransportTypeModel[];
   vehicles: VehicleModel[];
   unityMeasurements: UnityMeasurementModel[];
+  unityWeightsL: String[] = [];
 
   // Screen Option
   statusDelete_btn = true;
@@ -38,10 +39,9 @@ export class CategorynewComponent implements OnInit {
   // New Object - Entity
   nameCategoryNew_Obj: string;
   nameCategoryLevelNew_Obj: string;
-  weightMinNew: string;
-  weightMaxNew: string;
-  unityWeightMinNew: string;
+  weightMaxNew: number;
   unityWeightMaxNew: string;
+  peopleMax: number;
 
   transportNew_Obj: TransportTypeModel;
   countryNew_Vet: LocationModel[] = [];
@@ -65,20 +65,19 @@ export class CategorynewComponent implements OnInit {
 
   ngOnInit(): void {
     this.nameCategoryNew_Obj = 'CAT_';
-    this.findVehicles();
     this.findTransporties();
-    this.findUnityMeasurement();
+   // this.findUnityMeasurement();
   }
 
 
   // --------- REQUESTs - EXTERNAL ---------------------------------------//
 
-  findVehicles() {
+  findVehiclesByTransport() {
     let vehicleVet: VehicleModel[] = [];
-    this.vehicleService.getVehicle().subscribe((vehicleData: Response) => {
+    this.vehicleService.getVehicleByTransport(this.transportNew_Obj.transport_type).subscribe((vehicleData: Response) => {
       const vehicleStr = JSON.stringify(vehicleData.body);
       JSON.parse(vehicleStr, function (key, value) {
-        if (key === 'vehiclesL') {
+        if (key === 'vehicles') {
           vehicleVet = value;
           return value;
         } else {
@@ -94,7 +93,7 @@ export class CategorynewComponent implements OnInit {
     this.transportService.get().subscribe((transportTypeData: Response) => {
       const transportTypeDataStr = JSON.stringify(transportTypeData.body);
       JSON.parse(transportTypeDataStr, function (key, value) {
-        if (key === 'transporties') {
+        if (key === 'transports') {
           transportiesVet = value;
           return value;
         } else {
@@ -102,13 +101,14 @@ export class CategorynewComponent implements OnInit {
         }
       });
       this.transporties = transportiesVet;
+      console.log(this.transporties);
     });
   }
 
-
+/*
   findUnityMeasurement() {
     let unityMeasurementVet: UnityMeasurementModel[] = [];
-    this.unityMeasurementService.getUnityMeasurement().subscribe((unityMeasurementData: Response) => {
+    this.unityMeasurementService.get().subscribe((unityMeasurementData: Response) => {
       const unityMeasurementDataStr = JSON.stringify(unityMeasurementData.body);
       JSON.parse(unityMeasurementDataStr, function (key, value) {
         if (key === 'unityMeasurements') {
@@ -119,25 +119,28 @@ export class CategorynewComponent implements OnInit {
         }
       });
     this.unityMeasurements = unityMeasurementVet;
-    console.log('unityMeasurements', this.unityMeasurements);
+    this.findUnityWeghty();
     });
-  }
 
-//---------------------------------------------------------------------//
-// OPERATION :: TRANSACTION - CRUD-------------------------------------//
-//---------------------------------------------------------------------//
+  }*/
+/*
+  findUnityWeghty() {
+    const unityWeightLocal: String[] = []
+    console.log('EGHTY TTEE')
+    this.unityMeasurements.forEach(function (unity) {
+      unity.unityWeight.forEach(function (weight) {
+        console.log(weight);
+        unityWeightLocal.push(weight);
+      })
+    })
+    this.unityWeightsL = unityWeightLocal;
+  }*/
 
-  newRecord(event: any) {
-    event.resetForm(event);
-    this.vehicleNew_Vet = [];
-    this.vehicleNew_Obj = {} as VehicleModel;
-    this.statusEditNew_btn = true;
-    this.statusDelete_btn = true;
-    this.isShow = false;
-  }
+// ---------------------------------------------------------------------//
+// OPERATION :: TRANSACTION - CRUD
+// ---------------------------------------------------------------------//
 
   prepareSave(event: any) {
-    console.log(' OI',this.nameCategoryNew_Obj + this.nameCategoryLevelNew_Obj);
     let msg: string;
     if (this.vehicleNew_Vet.length === 0) {
       msg = 'Do you include a new category?';
@@ -150,11 +153,11 @@ export class CategorynewComponent implements OnInit {
             id: null,
             name_category: this.nameCategoryNew_Obj + this.nameCategoryLevelNew_Obj,
             transport: this.transportNew_Obj.name_transport,
-            weight_min: this.weightMinNew,
             weight_max: this.weightMaxNew,
-            unity_measurement_weight_min: this.unityWeightMinNew,
-            unity_measurement_weight_max: this.unityWeightMaxNew,
-            vehicles: this.vehicleNew_Vet
+            unity: this.unityWeightMaxNew,
+            vehicles: this.vehicleNew_Vet,
+            people_max: this.peopleMax
+
           }
           this.saveCategory(event, categoryEntity);
         }
@@ -180,6 +183,7 @@ export class CategorynewComponent implements OnInit {
 onChangeTransportLevel() {
   console.log(' onChangeTransportLevel() ', this.transportNew_Obj.initials);
   this.nameCategoryLevelNew_Obj = this.transportNew_Obj.initials;
+  this.findVehiclesByTransport();
 }
 
 // FIELD VEHICLE ---------------------//
@@ -207,14 +211,33 @@ addVehicle() {
 
   if ( statusVehicle === false ) {
     this.vehicleNew_Vet.push(this.vehicleNew_Obj);
+   // this.calcRuleInstanceWeight();
   } else {
     this.transactionOrchestrator(null, 'ValidationII');
   }
 }
 
-//------------------------------------------------------------------------//
+// ------------------------------------------------------------------------//
+// CALC WEIGHT MIN/MAX
+// ------------------------------------------------------------------------//
+// vehicleNew_Obj = {} as VehicleModel;
+
+calcRuleInstanceWeight(vehicleObj: VehicleModel) {
+    if (vehicleObj.cargo_max > this.weightMaxNew) {
+      if ((vehicleObj.unity_measurement_weight === this.unityWeightMaxNew) || (this.unityWeightMaxNew)) {
+        this.weightMaxNew = vehicleObj.cargo_max;
+      }
+    } else{
+
+    }
+
+}
+
+
+
+// ------------------------------------------------------------------------//
 // NOTIFICATION :: MENSAGEM
-//------------------------------------------------------------------------//
+// ------------------------------------------------------------------------//
 
 transactionOrchestrator(event: any, type: String) {
   let msgTransaction = '' as  String;
@@ -278,21 +301,25 @@ showNotification(from, align, msg, type) {
   }
 }
 
-//------------------------------------------------------------------------//
+// ------------------------------------------------------------------------//
 // REDIRECT :: HTP
-//------------------------------------------------------------------------//
+// ------------------------------------------------------------------------//
 
+  functionRedirectToVehicle() {
+    this.router.navigate(['/vehicle-crud']);
+  }
 
-functionRedirectToVehicle() {
-  this.router.navigate(['/vehicle']);
-}
+  functionRedirectToTransport() {
+    this.router.navigate(['/transport-crud']);
+  }
 
-functionRedirectToTransport() {
-  this.router.navigate(['/transport']);
-}
+  functionRedirectToCategories() {
+    this.router.navigate(['/category-view']);
+  }
 
-functionRedirectToCategories() {
-  this.router.navigate(['/categories']);
-}
+  functionRedirectToUnityMensurement() {
+    this.router.navigate(['/unitymeasurement-crud']);
+  }
+
 
 }

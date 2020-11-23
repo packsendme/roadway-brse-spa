@@ -22,9 +22,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import {TableModule} from 'primeng/table';
 import {ButtonModule} from 'primeng/button';
-import { CategoriesComponent } from 'app/pages/category/categories/categories.component';
-import { CategoryupdateComponent } from 'app/pages/category/categoryupdate/categoryupdate.component';
-import { CategorynewComponent } from 'app/pages/category/categorynew/categorynew.component';
 import { BusinessruleNewComponent } from 'app/pages/bre/businessrule-new/businessrule-new.component';
 import { BusinessruleViewComponent } from 'app/pages/bre/businessrule-view/businessrule-view.component';
 import { BusinessruleUpdateComponent } from 'app/pages/bre/businessrule-update/businessrule-update.component';
@@ -35,6 +32,10 @@ import { TransportViewComponent } from 'app/pages/transport/core/transport-view/
 import { TransportCrudComponent } from 'app/pages/transport/core/transport-crud/transport-crud.component';
 import { LocationCrudComponent } from 'app/pages/location/location-crud/location-crud.component';
 import { LocationViewComponent } from 'app/pages/location/location-view/location-view.component';
+import { CategoryNewComponent } from 'app/pages/category/core/category-new/category-new.component';
+import { CategoryViewComponent } from 'app/pages/category/core/category-view/category-view.component';
+import { CategoryUpdateComponent } from 'app/pages/category/core/category-update/category-update.component';
+import { UnitymeasurementCrudComponent } from 'app/pages/category/unitymeasurement/unitymeasurement-crud/unitymeasurement-crud.component';
 @NgModule({
   imports: [
     LayoutModule,
@@ -63,9 +64,9 @@ import { LocationViewComponent } from 'app/pages/location/location-view/location
     LocationCrudComponent,
     VehicleCrudComponent,
     VehicleViewComponent,
-    CategorynewComponent,
-    CategoriesComponent,
-    CategoryupdateComponent,
+    CategoryNewComponent,
+    CategoryViewComponent,
+    CategoryUpdateComponent,
     BusinessruleNewComponent,
     BusinessruleViewComponent,
     BusinessruleUpdateComponent,
@@ -75,7 +76,8 @@ import { LocationViewComponent } from 'app/pages/location/location-view/location
     ConfirmationDialogComponent,
     TransportCrudComponent,
     InitialsCrudComponent,
-    LocationViewComponent
+    LocationViewComponent,
+    UnitymeasurementCrudComponent
   ]
 })
 

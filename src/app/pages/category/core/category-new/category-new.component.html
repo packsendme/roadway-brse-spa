@@ -1,10 +1,8 @@
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-8">
     <div class="card card-user">
       <div class="card-body">
-        <h3 class="card-title">
-          New Category
-        </h3>
+        <h3 class="card-title">Category - New</h3>
         <form id="add-form" #f="ngForm" novalidate>
           <div div class="col-md-15">
             <div class="card card-plain">
@@ -14,9 +12,9 @@
                 <div class="row">
                   <div class="col-md-9 px-3">
                     <div class="form-group">
-                      <label [ngStyle]="{'color': 'black', 'font-size': '11px','font-weight': 'bold'}">Name Category:</label>
-                        <label [ngStyle]="{'color': 'red', 'font-size': '15px'}">&nbsp;{{nameCategoryNew_Obj}}</label>
-                        <label [ngStyle]="{'color': 'red', 'font-size': '15px'}">{{nameCategoryLevelNew_Obj}}</label>
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px','font-weight': 'bold'}">Name Category:</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px','font-weight': 'bold'}">&nbsp;&nbsp;{{nameCategoryNew_Obj}}</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px','font-weight': 'bold'}">{{nameCategoryLevelNew_Obj}}</label>
                     </div>
                   </div>
                 </div>
@@ -25,13 +23,14 @@
                 <div class="row">
                   <div class="col-md-8 px-3">
                     <div class="form-group">
-                      <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Transport Category</label>
-                      <label [ngStyle]="{'color': 'red', 'font-size': '12px'}">&nbsp;*</label>
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Transport Category</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                       <select class="form-control" name="transport_select"  [(ngModel)]="transportNew_Obj" (change)="onChangeTransportLevel()">
                         <option [ngValue]="item" *ngFor="let item of transporties">{{item.name_transport}}</option>
                       </select>
                     </div>
                   </div>
+                  <!-- buttom - REDIRECT TRANSPORT-INC -->
                   <div class="col-md-3 px-0 text-left">
                     <label>&nbsp;</label>
                     <br>
@@ -41,56 +40,12 @@
                   </div>
                 </div>
 
-                <!-- FIELD WEIGHTY_MIN AND UNITU_MEASUREMENT -->
-                <div class="row">
-                  <div class="col-md-3 px-3">
-                    <div class="form-group">
-                      <label [ngStyle]="{'color': 'black', 'font-size': '12px','font-weight': 'bold'}">Weight Cargo - Minimum</label>
-                      <label [ngStyle]="{'color': 'red', 'font-size': '11px'}">&nbsp;*</label>
-                      <input type="number" class="form-control" appNumbersOnly  placeholder="Min" [(ngModel)]="weightMinNew" name="cargomincategory_input" required>
-                    </div>
-                  </div>
-
-                  <div class="col-md-5 px-1">
-                    <div class="form-group">
-                      <label [ngStyle]="{'color': 'black', 'font-size': '12px','font-weight': 'bold'}">Unity Measurement</label>
-                      <label [ngStyle]="{'color': 'red', 'font-size': '12px'}">&nbsp;*</label>
-                      <select class="form-control" name="unitymeasurement_select" [(ngModel)]="unityWeightMinNew">
-                        <option [ngValue]="item.unitMeasurement" *ngFor="let item of unityMeasurements">{{item.unitMeasurement}}</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- FIELD WEIGHTY_MAX AND UNITU_MEASUREMENT -->
-                <div class="row">
-                  <div class="col-md-3 px-3">
-                    <div class="form-group">
-                      <label [ngStyle]="{'color': 'black', 'font-size': '12px','font-weight': 'bold'}">Weight Cargo - Maximum</label>
-                      <label [ngStyle]="{'color': 'red', 'font-size': '12px'}">&nbsp;*</label>
-                      <input type="number" class="form-control" placeholder="Max" [(ngModel)]="weightMaxNew" name="cargomaxcategory_input" required>
-                    </div>
-                  </div>
-
-                  <div class="col-md-5 px-1">
-                    <div class="form-group">
-                      <label [ngStyle]="{'color': 'black', 'font-size': '12px','font-weight': 'bold'}">Unity Measurement</label>
-                      <label [ngStyle]="{'color': 'red', 'font-size': '12px'}">&nbsp;*</label>
-                      <select class="form-control" name="unitymeasurement_select" [(ngModel)]="unityWeightMaxNew">
-                        <option [ngValue]="item.unitMeasurement" *ngFor="let item of unityMeasurements">{{item.unitMeasurement}}</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-
-
                 <!-- FIELD - VEHICLE -->
                 <div class="row">
                   <div class="col-md-8 px-3">
                     <div class="form-group">
-                      <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Vehicle</label>
-                      <label [ngStyle]="{'color': 'red', 'font-size': '12px'}">&nbsp;*</label>
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Vehicle</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                       <select class="form-control" name="vehicle_select" [(ngModel)]="vehicleNew_Obj">
                         <option [ngValue]="item" *ngFor="let item of vehicles">{{item.vehicle_type}}</option>
                       </select>
@@ -149,9 +104,59 @@
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <button type="submit" style="height:50px;width:150px;" [disabled]="statusEditNew_btn" (click)="prepareSave(f)" class="btn btn-primary btn-round">Save</button>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <button (click)="newRecord(f)" style="height:50px;width:150px;" [disabled]="statusEditNew_btn" class="btn btn-primary btn-round">New</button>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <button type="submit" style="height:50px;width:150px;" (click)="functionRedirectToCategories(f)" class="btn btn-primary btn-round">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Instance Rule table - Weight / People -->
+  <div class="col-md-4">
+    <div class="card card-user">
+      <div class="card-header">
+        <h5 class="card-title">Instance Rule</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-10 px-2">
+            <div class="form-group">
+              <label [ngStyle]="{'color': 'black', 'font-size': '11px','font-weight': 'bold'}">Weight Cargo Maximum</label>
+            </div>
+          </div>
+          <br>
+          <br>
+          <div class="row">
+          <!-- FIELD WEIGHTY_MAX   -->
+            <div class="col-md-4 px-4">
+              <div class="form-group">
+                <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">Weight Max</label>
+                <input type="number" class="form-control" disabled="" [(ngModel)]="weightMaxNew"  placeholder="Max" name="cargomaxcategory_input" required>
+              </div>
+            </div>
+            <div class="col-md-5 px-6">
+              <div class="form-group">
+                <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">Unity</label>
+                <input class="form-control" disabled=""  [(ngModel)]="unityWeightMaxNew" placeholder="Weight" name="unitymaxcategory_input" required>
+              </div>
+            </div>
+        </div>
+        <br>
+        <!-- RULE PEOPLE -->
+        <div class="row">
+          <div class="col-md-10 px-4">
+            <div class="form-group">
+              <label [ngStyle]="{'color': 'black', 'font-size': '11px','font-weight': 'bold'}">Amount of People</label>
+            </div>
+          </div>
+          <br>
+         <!-- <div class="row"> -->
+            <div class="col-md-4 px-4">
+              <div class="form-group">
+                <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">People Max</label>
+                <input class="form-control" disabled=""  [(ngModel)]="peopleMax" placeholder="Max" name="peoplemaxcategory_input" required>
+              </div>
+            </div>
+         <!-- </div> -->
         </div>
       </div>
     </div>
