@@ -1,3 +1,4 @@
+import { TollsFuelModel } from './tolls-fuel-model';
 import { LocationModel } from 'app/model/location-model';
 import { TransportTypeModel } from 'app/model/transport-type-model';
 import { VehicleModel } from './vehicle-model';
@@ -12,6 +13,7 @@ export class DataTO {
   public vehicleData: VehicleModel;
   public transportData: TransportTypeModel;
   public locationData: LocationModel;
+  public tollsfuelData: TollsFuelModel;
 
   public constructor() { }
 

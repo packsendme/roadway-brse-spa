@@ -1,21 +1,22 @@
-import { RoadwaybreService } from './../../../service/roadwaybre.service';
-import { DataTO } from './../../../model/dataTO';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { RoadwaybreModel } from 'app/model/roadwaybre-model';
+import { DataTO } from 'app/model/dataTO';
+import { RoadwaybreService } from 'app/service/roadwaybre.service';
 
 @Component({
-  selector: 'app-businessrule-view',
-  templateUrl: './businessrule-view.component.html',
-  styleUrls: ['./businessrule-view.component.css']
+  selector: 'roadway-view',
+  templateUrl: './roadway-view.component.html',
+  styleUrls: ['./roadway-view.component.css']
 })
-export class BusinessruleViewComponent implements OnInit {
+export class RoadwayViewComponent implements OnInit {
 
   // List Another Requests
   roadwaysBRE: RoadwaybreModel[];
 
   roadwayBRE_Obj = {} as RoadwaybreModel;
+  isEdit = true;
 
   constructor(
     private roadwayDto: DataTO,
@@ -31,10 +32,10 @@ export class BusinessruleViewComponent implements OnInit {
 
   findRoadway() {
     let roadwaysBRE_Vet: RoadwaybreModel [] = [];
-    this.roadwayBREService.getRoadwayBRE().subscribe((roadwayData: Response) => {
+    this.roadwayBREService.get().subscribe((roadwayData: Response) => {
       const roadwayDataStr = JSON.stringify(roadwayData.body);
       JSON.parse(roadwayDataStr, function (key, value) {
-        if (key === 'roadways_bre') {
+        if (key === 'roadways') {
           roadwaysBRE_Vet = value;
           return value;
         } else {
@@ -42,22 +43,24 @@ export class BusinessruleViewComponent implements OnInit {
         }
       });
       this.roadwaysBRE = roadwaysBRE_Vet;
+      console.log('123456', this.roadwaysBRE);
     });
   }
 
   selectRoadwayBRE(event: any, roadwaybreSelect: any) {
     this.roadwayBRE_Obj = roadwaybreSelect;
+    this.isEdit = false;
   }
 
     // --------- OPERATION TRANSACTION - CRUD ---------------------------------------//
 
     newRoadwayBRE() {
-      this.router.navigate(['/businessrule-new']);
+      this.router.navigate(['/roadway-new']);
     }
 
     editRoadwayBRE() {
       this.roadwayDto.roadwayBREData = this.roadwayBRE_Obj;
-      this.router.navigate(['/businessrule-update']);
+      this.router.navigate(['/roadway-update']);
     }
 
 

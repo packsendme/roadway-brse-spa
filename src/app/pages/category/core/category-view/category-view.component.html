@@ -7,26 +7,25 @@
       <div class="card-body">
         <div class="table-responsive">
           <table class="table">
-            <thead class=" text-primary">
-              <th>
-                Category
-              </th>
-              <th>
-                Transport
-              </th>
-              <th>
-                Cargo Max
-              </th>
-              <th>
-                Unity
-              </th>
+            <thead class="text-primary">
+              <th class="text-left">Category</th>
+              <th class="text-left">Transport</th>
+              <th class="text-center">People Max</th>
+              <th class="text-center">Cargo Max</th>
+              <th class="text-left">Unity</th>
             </thead>
             <tbody>
               <tr *ngFor="let cat of categories; let i = index" (click)="selectCategory($event, cat)">
-                <td>{{cat.name_category}}</td>
-                <td>{{cat.transport}}</td>
-                <td>{{cat.weight_max}}</td>
-                <td>{{cat.unity_measurement_weight_max}}</td>
+                <td class="text-left">{{cat.name_category}}</td>
+                <td class="text-left">{{cat.transport}}</td>
+                <td class="text-center">{{cat.people_max}}</td>
+                <td class="text-center">{{cat.weight_max | number : '1.1-2'}}</td>
+                <div *ngIf="(cat.unity_weight | json) != '{}'">
+                  <td class="text-center" *ngFor="let item of cat.unity_weight | keyvalue">{{item.value}}</td>
+                </div>
+                <div *ngIf="(cat.unity_weight | json) == '{}'">
+                  <td class="text-center">{{valueDefaultView}}</td>
+                </div>
             </tr>
             </tbody>
           </table>
@@ -37,7 +36,7 @@
            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
              <button type="submit" style="height:50px;width:150px;" (click)="newCategory()" class="btn btn-primary btn-round">New Category</button>
              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-             <button type="submit" style="height:50px;width:150px;" (click)="editCategory()" class="btn btn-primary btn-round">Edit Category</button>
+             <button type="submit" [disabled]="isDisabled" style="height:50px;width:150px;" (click)="editCategory()" class="btn btn-primary btn-round">Edit Category</button>
              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
          </div>
       </div>

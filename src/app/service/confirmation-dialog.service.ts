@@ -24,4 +24,5 @@ export class ConfirmationDialogService {
     console.log(' confirm ', modalRef.result);
     return modalRef.result;
   }
+
 }

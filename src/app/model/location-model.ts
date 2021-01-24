@@ -1,8 +1,9 @@
 export interface LocationModel {
   id: string;
   codCountry: string;
-  identifier: String;
+  identifier: string;
   countryName: string;
+  countryShortName: string;
   citySpecify: Boolean;
   cities: String[];
 }

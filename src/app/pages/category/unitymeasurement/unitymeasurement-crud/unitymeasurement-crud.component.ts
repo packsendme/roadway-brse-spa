@@ -77,12 +77,17 @@ findUnityMeasurement() {
     if ((this.unityType) && (this.unityArea_L.length !== 0) && (this.unityVolume_L.length !== 0)
     && (this.unityWeight_M.size !== 0)) {
 
+      const weightMapToArray = {};
+      this.unityWeight_M.forEach((val: string, key: string) => {
+        weightMapToArray[key] = val;
+      });
+
       const unityMeasurOne: UnityMeasurementModel = {
-        id: null,
+        id: this.id,
         unityType: this.unityType,
         unityArea: this.unityArea_L,
         unityVolume: this.unityVolume_L,
-        unityWeight: this.unityWeight_M,
+        unityWeight: weightMapToArray,
         unityTemperature: null,
         unityCurrency: null
       };
@@ -98,9 +103,9 @@ findUnityMeasurement() {
   save(unityMeasurOne: UnityMeasurementModel, msg: any) {
     this.confirmationDialogService.confirm('Save', msg).then((result) => {
       if ( result === true ) {
+        console.log('SAVE ', unityMeasurOne.id);
         // Transaction Save
         if (unityMeasurOne.id == null) {
-          console.log('SAVE ', unityMeasurOne);
           this.unityMeasurService.post(unityMeasurOne).subscribe({
             next: data => this.transactionOrchestrator(event, 'Save'),
             error: error => this.showNotification('bottom', 'center', error, 'error')
@@ -141,12 +146,17 @@ findUnityMeasurement() {
   select(event: any, unityMeasurementSelect: UnityMeasurementModel) {
     this.isDisabled = false;
     this.id = unityMeasurementSelect.id;
+    console.log(' ID ', unityMeasurementSelect.id);
     this.unityType = unityMeasurementSelect.unityType;
     this.unityArea_L = unityMeasurementSelect.unityArea;
     this.unityVolume_L = unityMeasurementSelect.unityVolume;
-    this.unityWeight_M = unityMeasurementSelect.unityWeight;
     this.unityTemperature_L = unityMeasurementSelect.unityTemperature;
     this.unitCurrency_L = unityMeasurementSelect.unityCurrency;
+    // tslint:disable-next-line:forin
+    for (const a in unityMeasurementSelect.unityWeight) {
+      this.unityWeight_M.set(a, unityMeasurementSelect.unityWeight[a]);
+      console.log(a, unityMeasurementSelect.unityWeight[a]);
+    }
   }
 
   // UNITY-AREA

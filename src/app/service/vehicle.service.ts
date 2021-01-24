@@ -43,11 +43,11 @@ export class VehicleService {
     return this.httpClient.put<Response>(this.url + '?id=' + vehicle.id, vehicle, httpOptions)
   };
 
-  getVehicleByTransport(transport: String){
-    console.log(' getVehicleByTransport ', transport);
+  getVehicleByCargo(cargo: String) {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.get<Response>(this.url + '/transport' + '?cargo=' + transport, httpOptions)
+    console.log(this.url + '/cargo' + '?type=' + cargo);
+    return this.httpClient.get<Response>(this.url + '/cargo' + '?type=' + cargo, httpOptions)
   };
 
   deleteVehicle(vehicle: VehicleModel){

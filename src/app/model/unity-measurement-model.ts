@@ -3,7 +3,7 @@ export interface UnityMeasurementModel {
   unityType: String;
   unityArea: String[];
   unityVolume: String[];
-  unityWeight: Map<string, string>;
+  unityWeight: {};
   unityTemperature: String[];
   unityCurrency: String[];
 }

@@ -41,7 +41,7 @@
            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
              <button type="submit" style="height:50px;width:150px;" (click)="newRoadwayBRE()" class="btn btn-primary btn-round">New BRE</button>
              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-             <button type="submit" style="height:50px;width:150px;" (click)="editRoadwayBRE()" class="btn btn-primary btn-round">Edit BRE</button>
+             <button type="submit" style="height:50px;width:150px;" [disabled]="isEdit" (click)="editRoadwayBRE()" class="btn btn-primary btn-round">Edit BRE</button>
              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
          </div>
       </div>

@@ -1,0 +1,414 @@
+<div class="row">
+  <div class="col-md-12">
+
+    <div class="card card-user">
+
+      <div class="card-body">
+        <h3 class="card-title">
+          Roadway - Update
+        </h3>
+
+        <div class="card card-plain">
+          <div class="card-label-header" [style]="{'background-color':'#F2F3F4'}">
+            <label [ngStyle]="{'color': 'red', 'font-size': '18px','font-weight': 'bold'}">&nbsp;&nbsp;{{roadwaybreEdit_Obj.status}}</label>
+            &nbsp;&nbsp;<label [ngStyle]="{'color': 'red', 'font-size': '18px','font-weight': 'bold'}"> - </label>
+            <label [ngStyle]="{'color': 'red', 'font-size': '18px','font-weight': 'bold'}">&nbsp;&nbsp;{{roadwaybreEdit_Obj.version}}</label>
+            <label [ngStyle]="{'color': 'red', 'font-size': '15px','font-weight': 'bold'}"> V </label>
+          </div>
+        </div>
+
+        <!-- STATUS = Registered -->
+        <div  class="card card-plain" [hidden]="!isRegistered">
+        <div class="card-button-header" [style]="{'background-color':'#F2F3F4'}">
+          &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" style="height:30px;width:130px;" (click)="functionPublished()" class="btn btn-primary btn-round">Publish</button>
+        </div>
+        </div>
+
+        <!-- STATUS = Publish -->
+        <div class="card card-plain" [hidden]="!isPublished">
+          <div class="card-button-header" [style]="{'background-color':'#F2F3F4'}">
+            &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" style="height:30px;width:130px;" (click)="functionBlocked()" class="btn btn-primary btn-round">Block</button>
+          </div>
+        </div>
+
+        <!-- STATUS = Blocked -->
+        <div class="card card-plain" [hidden]="!isBlocked">
+          <div class="card-button-header" [style]="{'background-color':'#F2F3F4'}">
+            &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" style="height:30px;width:130px;" (click)="functionUnlocked()" class="btn btn-primary btn-round">Unlock</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" style="height:30px;width:130px;" (click)="functionCanceled()" class="btn btn-primary btn-round">Cancel</button>
+          </div>
+        </div>
+
+        <!-- STATUS =  Unlocked -->
+        <div class="card card-plain" [hidden]="!isUnlocked">
+          <div class="card-button-header" [style]="{'background-color':'#F2F3F4'}">
+            &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" style="height:30px;width:130px;" (click)="functionPublished()" class="btn btn-primary btn-round">Publish</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" style="height:30px;width:130px;" (click)="functionCanceled()"  class="btn btn-primary btn-round">Cancel</button>
+          </div>
+        </div>
+
+        <!-- STATUS =  Canceled -->
+        <div class="card card-plain" [hidden]="!isCanceled">
+          <div class="card-button-header" [style]="{'background-color':'#F2F3F4'}">
+            &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" style="height:30px;width:130px;" [disabled]="!isDelete" (click)="prepareDelete(f)" class="btn btn-primary btn-round">Delete</button>
+          </div>
+        </div>
+
+        <form id="add-form" #f="ngForm" novalidate>
+          <div class="col-md-15">
+            <div class="card card-plain">
+              <div class="card-body">
+
+                <div class="card-label02-header" [style]="{'background-color':'#F2F3F4'}">
+                  <!-- FIELD - ID BRE -->
+                  <div class="row">
+                    <div class="col-md-9 px-3">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '14px','font-weight': 'bold'}">ID:</label>
+                        <label [ngStyle]="{'color': '#566573', 'font-size': '15px','font-weight': 'bold'}">&nbsp;&nbsp;{{roadwaybreEdit_Obj.id}}</label>
+                      </div>
+                    </div>
+                    <!-- FIELD - NAME_CATEGORY -->
+                    <div class="col-md-9 px-3">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '14px','font-weight': 'bold'}">Name:</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '15px','font-weight': 'bold'}">&nbsp;&nbsp;{{roadwaybreEdit_Obj.name_bre}}</label>
+                      </div>
+                  </div>
+                </div>
+              </div>
+                <br>
+                <br>
+
+                <!-- FIELD - TRANSPORT -->
+                <div class="row">
+                  <div class="col-md-9 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Transport</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                      <select class="form-control" name="transport_select" [disabled]="!isBlockedField"  [(ngModel)]="transportEdit_Obj" (change)="prepareCategoriesByTransport()">
+                        <option [ngValue]="item" *ngFor="let item of transporties">{{item.name_transport}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-3 px-0 text-left">
+                    <label>&nbsp;</label>
+                    <br>
+                    <button class="btn btn-sm btn-outline-success btn-round btn-icon" [disabled]="!isBlockedField" (click)="functionRedirectToTransport()">
+                      <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- FIELD - LOCATION -->
+                <div class="row">
+                  <div class="col-md-9 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Rule Distribution</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                      <select class="form-control" name="location_select"  [disabled]="!isBlockedField"  [(ngModel)]="countryEdit_Obj">
+                        <option [ngValue]="item" *ngFor="let item of locations">{{item.countryName}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-3 px-0 text-left">
+                    <br>
+                    <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="functionRedirectToLocation()">
+                      <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="addCountry()">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                  </div>
+
+                  <!-- Table Edit Change-->
+                  <div class="col-md-9 px-3">
+                    <div class="form-group">
+                      <label>Selected to Register</label>
+                      <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
+                        <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '13px', 'font-weight': 'bold'}">
+                          <th class="text-center">CodCountry</th>
+                          <th class="text-center">Country Acronym</th>
+                          <th class="text-center">Country Name</th>
+                          <th class="text-center">Action</th>
+                        </tr>
+                        <tr *ngFor="let loc of roadwaybreEdit_Obj.locations; let id = index">
+                          <td>
+                            {{loc.codCountry}}
+                          </td>
+                          <td>
+                            {{loc.countryName}}
+                          </td>
+                          <td>
+                            {{loc.countryName}}
+                          </td>
+                          <td>
+                            <span class="table-remove">
+                              <button class="btn btn-sm btn-outline-success btn-round btn-icon"  [disabled]="!isBlockedField"  (click)="removeCountry(loc)">
+                                <i class="fa fa-minus" aria-hidden="true"></i>
+                              </button>
+                            </span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FIELD - CATEGORY -->
+                <div class="row">
+                  <div class="col-md-9 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Category</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                      <select class="form-control" name="category_select"  [disabled]="!isBlockedField"  [(ngModel)]="categoryEdit_Obj">
+                        <option [ngValue]="item" *ngFor="let item of categories">{{item.name_category}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3 px-0 text-left">
+                    <label>&nbsp;</label>
+                    <br>
+                    <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="functionRedirectToCategories()">
+                      <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-success btn-round btn-icon"  [disabled]="!isBlockedField"  (click)="addCategory()">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                  </div>
+
+                  <!-- CARGO  Table  Edit Change-->
+                  <div class="col-md-8 px-3" [hidden]="!isCargoMix">
+                    <div class="form-group">
+                      <label>Selected to Register</label>
+                      <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
+                        <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '12px', 'font-weight': 'bold'}">
+                          <th class="text-center">Category</th>
+                          <th class="text-center">Transport</th>
+                          <th class="text-center">Weight Max</th>
+                          <th class="text-center">Unity</th>
+                          <th class="text-center">Action</th>
+                        </tr>
+                        <tr *ngFor="let cat of roadwaybreEdit_Obj.categories; let id = index">
+                          <td>
+                            {{cat.name_category}}
+                          </td>
+                          <td>
+                            {{cat.transport}}
+                          </td>
+                          <td>
+                            {{cat.weight_max}}
+                          </td>
+                          <td *ngFor="let item of cat.unity_weight | keyvalue">{{item.value}}</td>
+                          <td>
+                            <span class="table-remove">
+                              <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="removeCountry(cat)">
+                                <i class="fa fa-minus" aria-hidden="true"></i>
+                              </button>
+                            </span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+
+                  <!-- CARGO  Table  Edit Change-->
+                  <div class="col-md-8 px-3" [hidden]="!isPeople">
+                    <div class="form-group">
+                      <label>Selected to Register</label>
+                      <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
+                        <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '12px', 'font-weight': 'bold'}">
+                          <th class="text-center">Category</th>
+                          <th class="text-center">Transport</th>
+                          <th class="text-center">People Max</th>
+                          <th class="text-center">Action</th>
+                        </tr>
+                        <tr *ngFor="let cat of roadwaybreEdit_Obj.categories; let id = index">
+                          <td>
+                            {{cat.name_category}}
+                          </td>
+                          <td>
+                            {{cat.transport}}
+                          </td>
+                          <td>
+                            {{cat.people_max}}
+                          </td>
+                          <td>
+                            <span class="table-remove">
+                              <button class="btn btn-sm btn-outline-success btn-round btn-icon"  [disabled]="!isBlockedField"  (click)="removeCountry(cat)">
+                                <i class="fa fa-minus" aria-hidden="true"></i>
+                              </button>
+                            </span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+
+                  <!-- MIX  Table  Edit Change-->
+                  <div class="col-md-8 px-3" [hidden]="!isMixed">
+                    <div class="form-group">
+                      <label>Selected to Register</label>
+                      <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
+                        <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '12px', 'font-weight': 'bold'}">
+                          <th class="text-center">Category</th>
+                          <th class="text-center">Transport</th>
+                          <th class="text-center">People Max</th>
+                          <th class="text-center">Weight Max</th>
+                          <th class="text-center">Unity</th>
+                          <th class="text-center">Action</th>
+                        </tr>
+                        <tr *ngFor="let cat of roadwaybreEdit_Obj.categories; let id = index">
+                          <td>
+                            {{cat.name_category}}
+                          </td>
+                          <td>
+                            {{cat.transport}}
+                          </td>
+                          <td>
+                            {{cat.people_max}}
+                          </td>
+                          <td>
+                            {{cat.weight_max}}
+                          </td>
+                          <td *ngFor="let item of cat.unity_weight | keyvalue">
+                            {{item.value}}
+                          </td>
+                          <td>
+                            <span class="table-remove">
+                              <button class="btn btn-sm btn-outline-success btn-round btn-icon"  [disabled]="!isBlockedField"  (click)="removeCountry(cat)">
+                                <i class="fa fa-minus" aria-hidden="true"></i>
+                              </button>
+                            </span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FIELD - CURRENCY -->
+                <div class="row">
+                  <div class="col-md-9 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Currency</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <select class="form-control" name="currency_select"  [disabled]="!isBlockedField" [(ngModel)]="currency_Obj">
+                        <option [ngValue]="item" *ngFor="let item of currencies">{{item.name}}-{{item.symbol}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-3 px-0 text-left">
+                    <label>&nbsp;</label>
+                    <br>
+                    <button class="btn btn-sm btn-outline-success btn-round btn-icon"  [disabled]="!isBlockedField"  (click)="functionRedirectToCurrencyView()">
+                      <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+                <br>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="col-md-10 px-3">
+        <label [ngStyle]="{'color': 'black', 'font-size': '15px', 'font-weight': 'bold'}">Costs Category by Country</label>
+          <p-table [value]="costsBRE_DS" dataKey="vehicle" editMode="row" [autoLayout]="true">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Vehicle</th>
+                    <th>Weight</th>
+                    <th>Distance/KM</th>
+                    <th>Worktime</th>
+                    <th>Consumption/L</th>
+                    <th>Action</th>
+                  </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+
+              <ng-container *ngIf="rowData.countryNew == true">
+                <tr style="background-color:rgba(247, 248, 155, 0.51);">
+                  <td [style]="{'text-align':'center','font-size':'14px','font-weight':'bold'}">
+                    &nbsp;&nbsp;&nbsp;{{rowData.countryName}}
+                  </td>
+                </tr>
+              </ng-container>
+
+              <tr [pEditableRow]="rowData">
+                <td>
+                  {{rowData.vehicle}}
+                </td>
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input pInputText size="10"  type="text" [(ngModel)]="rowData.weight_cost" (keypress)="validateNumber($event)">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{rowData.currency_symbol}} {{ rowData.weight_cost | number:'1.2-3' }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input pInputText size="10" type="text" [(ngModel)]="rowData.distance_cost" (keypress)="validateNumber($event)">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{rowData.currency_symbol}} {{ rowData.distance_cost | number:'1.2-3' }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input pInputText  size="10" type="text" [(ngModel)]="rowData.worktime_cost" (keypress)="validateNumber($event)">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{rowData.currency_symbol}} {{ rowData.worktime_cost | number:'1.2-3' }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input pInputText  size="10" type="text" [(ngModel)]="rowData.average_consumption_cost" (keypress)="validateNumber($event)">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{rowData.currency_symbol}} {{ rowData.average_consumption_cost | number:'1.2-3' }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+                <td style="text-align:center">
+                  <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" [disabled]="!isBlockedField"
+                  class="p-button-info" (click)="onRowEditInit(rowData)" style="height:30px;width:30px;"></button>
+                  <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check" [disabled]="!isBlockedField"
+                  class="p-button-success" style="height:30px;width:30px;" (click)="onRowEditSave(rowData)"></button>
+                  &nbsp;
+                  <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times" [disabled]="!isBlockedField"
+                  class="p-button-danger" style="height:30px;width:30px;" (click)="onRowEditCancel(rowData, ri)"></button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <br>
+          <br>
+          <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit" style="height:50px;width:150px;"  [disabled]="!isBlockedField"  (click)="prepareUpdate(f)" class="btn btn-primary btn-round">Save</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit" style="height:50px;width:150px;" [disabled]="!isDelete" (click)="prepareDelete(f)" class="btn btn-primary btn-round">Delete</button>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit" style="height:50px;width:150px;" (click)="functionRedirectToRoadwayBREView(f)" class="btn btn-primary btn-round">Cancelar</button>
+          </div>
+          <br>
+          <br>
+      </div>
+    </div>
+  </div>
+</div>

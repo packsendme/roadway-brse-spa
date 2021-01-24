@@ -1,3 +1,4 @@
+import { CurrencyModel } from './../../../../model/currency-model';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocationModel } from 'app/model/location-model';
@@ -11,50 +12,58 @@ import { CategoryModel } from 'app/model/category-model';
 import { CostsModel } from 'app/model/costs-model';
 import { RoadwaybreService } from 'app/service/roadwaybre.service';
 import { RoadwaybreModel } from 'app/model/roadwaybre-model';
-import * as moment from 'moment';
 import { StatusModel } from 'app/model/status-model.enum';
+import { CurrencyService } from 'app/service/currency.service';
 
 @Component({
-  selector: 'app-businessrule-new',
-  templateUrl: './businessrule-new.component.html',
-  styleUrls: ['./businessrule-new.component.css']
+  selector: 'roadway-new',
+  templateUrl: './roadway-new.component.html',
+  styleUrls: ['./roadway-new.component.css']
 })
-export class BusinessruleNewComponent implements OnInit {
+export class RoadwayNewComponent implements OnInit {
 
- // List Another Requests
- categories: CategoryModel[];
- locations: LocationModel[];
- transporties: TransportTypeModel[];
+  // List Another Requests
+  categories: CategoryModel[];
+  locations: LocationModel[];
+  transporties: TransportTypeModel[];
+  currencies: CurrencyModel[];
 
- // Screen Option
- statusDelete_btn = true;
- statusEditNew_btn = true;
- isShow = false;
- isEdit = false;
- editdisabled = true;
- viewButton = false;
+  // Screen Option
+  statusDelete_btn = true;
+  statusEditNew_btn = true;
+  isShow = false;
+  isEdit = false;
+  editdisabled = true;
+  viewButton = false;
 
- // New Object - Entity
- transportNew_Obj: TransportTypeModel;
- countryNew_Vet: LocationModel[] = [];
- countryNew_Obj: LocationModel;
- categoriesNew_Vet: CategoryModel[] = [];
- categoryNew_Obj: CategoryModel;
- dateCreationNew_Obj: String;
- dateChangeNew_Obj: String;
- nameBRENew_Obj: String;
- statusNew: String;
- versionNew: String;
- transportOld: String;
+  // Category Table View By transport Type
+  isCargoMix = false;
+  isPeople = false;
+  isMixed = false;
 
- // Costs Table
- costsBRE_DS: CostsModel[] = [];
- clonedCosts: { [s: string]: CostsModel; } = {};
+  // New Object - Entity
+  transportNew_Obj: TransportTypeModel;
+  currency_Obj: CurrencyModel;
+  countryNew_Vet: LocationModel[] = [];
+  countryNew_Obj: LocationModel;
+  categoriesNew_Vet: CategoryModel[] = [];
+  categoryNew_Obj: CategoryModel;
+  dateCreationNew_Obj: String;
+  dateChangeNew_Obj: String;
+  nameBRENew_Obj: String;
+  statusNew: String;
+  versionNew: String;
+  transportOld: String;
+
+  // Costs Table
+  costsBRE_DS: CostsModel[] = [];
+  clonedCosts: { [s: string]: CostsModel; } = {};
 
   constructor(
     private roadwayBREService: RoadwaybreService,
     private categoryService: CategoryService,
     private locationService: LocationService,
+    private currencyService: CurrencyService,
     private toastr: ToastrService,
     private router: Router,
     private transportService: TransportTypeService,
@@ -66,11 +75,30 @@ export class BusinessruleNewComponent implements OnInit {
     this.statusNew = StatusModel.Registered;
     this.findLocations();
     this.findTransporties();
+    this.findCurrencies();
   }
 
 // ------------------------------------------------------------------------//
 // REQUESTs - EXTERNAL
 // ------------------------------------------------------------------------//
+
+  prepareCategoriesByTransport() {
+    this.findCategoriesByTransport();
+
+    if (this.transportNew_Obj.transport_type === 'Cargo') {
+        this.isCargoMix = true;
+        this.isPeople = false;
+        this.isMixed = false;
+    } else if (this.transportNew_Obj.transport_type === 'Passenger') {
+        this.isPeople = true;
+        this.isCargoMix = false;
+        this.isMixed = false;
+    } else if (this.transportNew_Obj.transport_type === 'Mixed') {
+        this.isMixed = true;
+        this.isPeople = false;
+        this.isCargoMix = false;
+    }
+  }
 
   findCategoriesByTransport() {
     let categoriesVet: CategoryModel [] = [];
@@ -85,11 +113,14 @@ export class BusinessruleNewComponent implements OnInit {
         }
       });
       this.categories = categoriesVet;
+      if (this.categories.length === 0) {
+        this.transactionOrchestrator(null, 'Info', 'There is no registered category for this transport');
+        this.categories = [];
+      }
       if (this.transportOld !== this.transportNew_Obj.name_transport) {
         this.updateFieldByChangeCategory();
         this.transportOld = this.transportNew_Obj.name_transport;
       }
-
     });
   }
 
@@ -97,7 +128,7 @@ export class BusinessruleNewComponent implements OnInit {
     let locationsVet: LocationModel[] = [];
     this.locationService.getLocation().subscribe((locationsData: Response) =>{
       const locationsStr = JSON.stringify(locationsData.body);
-      JSON.parse(locationsStr, function (key, value){
+      JSON.parse(locationsStr, function (key, value) {
         if (key === 'locations') {
           locationsVet = value;
           return value;
@@ -114,7 +145,7 @@ export class BusinessruleNewComponent implements OnInit {
     this.transportService.get().subscribe((transportTypeData: Response) => {
       const transportTypeDataStr = JSON.stringify(transportTypeData.body);
       JSON.parse(transportTypeDataStr, function (key, value) {
-        if (key === 'transporties') {
+        if (key === 'transports') {
           transportiesVet = value;
           return value;
         } else {
@@ -125,6 +156,21 @@ export class BusinessruleNewComponent implements OnInit {
     });
   }
 
+  findCurrencies() {
+    let currenciesVet: CurrencyModel [] = [];
+    this.currencyService.get().subscribe((currencyData: Response) => {
+      const currenciesDataStr = JSON.stringify(currencyData.body);
+      JSON.parse(currenciesDataStr, function (key, value) {
+        if (key === 'currencies') {
+          currenciesVet = value;
+          return value;
+        } else {
+           return value;
+        }
+      });
+      this.currencies = currenciesVet;
+    });
+  }
 // ------------------------------------------------------------------------//
 // OPERATION TRANSACTION - CRUD
 // ------------------------------------------------------------------------//
@@ -178,8 +224,8 @@ export class BusinessruleNewComponent implements OnInit {
   }
 
   saveRoadwayBRE(event: any,  roadatBRE: RoadwaybreModel) {
-    this.roadwayBREService.postRoadwayBRE(roadatBRE).subscribe({
-      next: data => this.transactionOrchestrator(event, 'Save'),
+    this.roadwayBREService.post(roadatBRE).subscribe({
+      next: data => this.transactionOrchestrator(null, 'Save', 'Register Success'),
       error: error => this.showNotification('bottom', 'center', error, 'error')
     });
   }
@@ -203,25 +249,24 @@ export class BusinessruleNewComponent implements OnInit {
 
   // FIELD COUNTRY ---------------------//
   addCountry() {
-    let statusCountry = false;
-    if (this.countryNew_Vet.length >= 1) {
-      this.countryNew_Vet.forEach( (countryObj) => {
-      if (countryObj.countryName === this.countryNew_Obj.countryName) {
-        statusCountry = true;
-      }
-    })
-  }
-
-  if ( statusCountry === false ) {
-    console.log('countryNew_Obj', this.countryNew_Obj);
-    this.countryNew_Vet.push(this.countryNew_Obj);
-    if ( this.costsBRE_DS.length > 0 ) {
-      this.generateCostsTable_AddCountry(this.countryNew_Obj.countryName);
+      let statusCountry = false;
+      if (this.countryNew_Vet.length >= 1) {
+        this.countryNew_Vet.forEach( (countryObj) => {
+        if (countryObj.countryName === this.countryNew_Obj.countryName) {
+          statusCountry = true;
+        }
+      })
     }
-  } else {
-    this.transactionOrchestrator(null, 'ValidationII');
-  }
 
+    if ( statusCountry === false ) {
+      console.log('countryNew_Obj', this.countryNew_Obj);
+      this.countryNew_Vet.push(this.countryNew_Obj);
+      if ( this.costsBRE_DS.length > 0 ) {
+        this.generateCostsTable_AddCountry(this.countryNew_Obj.countryName);
+      }
+    } else {
+      this.transactionOrchestrator(null, 'Validation', 'The selected field is already added');
+    }
   }
 
   removeCountry(countryEditSelect: LocationModel) {
@@ -267,7 +312,7 @@ export class BusinessruleNewComponent implements OnInit {
         this.generateCostsTable_AddVehicle(this.categoryNew_Obj);
       }
     } else {
-      this.transactionOrchestrator(null, 'ValidationII');
+      this.transactionOrchestrator(null, 'Validation', 'The selected field is already added');
     }
   }
 
@@ -300,23 +345,23 @@ export class BusinessruleNewComponent implements OnInit {
     }
   }
 
-//------------------------------------------------------------------------//
+// ------------------------------------------------------------------------//
 // OPERATION UPDATE ::  COSTS TABLES
-//------------------------------------------------------------------------//
+// ------------------------------------------------------------------------//
 
 prepareCostsTable(event: any) {
   console.log('generateCostsTable size countryNew_Vet ', this.countryNew_Vet.length);
 
-  if (( this.countryNew_Vet.length === 0)  && (this.categoriesNew_Vet.length === 0 )) {
+  if (( this.countryNew_Vet.length === 0)  && (this.categoriesNew_Vet.length === 0 ) && (this.currency_Obj)) {
     console.log('generateCostsTable - transactionOrchestrator ');
-    this.transactionOrchestrator(event, 'Validation');
+    this.transactionOrchestrator(null, 'Validation', 'The selected field is already added');
   } else {
       this.generateFirstCostsTable(event);
   }
 }
 
 generateFirstCostsTable(event: any) {
-  const valueCosts = '0.00';
+  const valueCosts = 0.00;
   let categoryCostsObj: CostsModel;
   this.isShow = true;
   this.statusEditNew_btn = false;
@@ -327,6 +372,8 @@ generateFirstCostsTable(event: any) {
   let countryS: string = null;
   let countryOld: string = null;
   let countrySame = true;
+  let currencyName = this.currency_Obj.name;
+  let currencySymbol = this.currency_Obj.symbol;
 
   locations.forEach(function (location) {
     countryS = location.countryName;
@@ -341,7 +388,7 @@ generateFirstCostsTable(event: any) {
           vehicle: vehicle.vehicle_type, countryName: countryS,
           weight_cost: valueCosts, distance_cost: valueCosts,
           worktime_cost: valueCosts, average_consumption_cost: valueCosts,
-          rate_exchange: valueCosts, current_exchange: valueCosts,
+          currency_symbol: currencySymbol, currency: currencyName,
           countryNew: countrySame, statusChange: false
         };
         // Add Object geneate to Array
@@ -355,13 +402,15 @@ generateFirstCostsTable(event: any) {
 }
 
 generateCostsTable_AddCountry(countryNameS: string) {
-  const valueCosts = '0.00';
+  const valueCosts = 0.00;
   let costsBRE_L: CostsModel[] = [];
   let costsObj: CostsModel;
   let statusNewCountry = false;
   const categories = this.categoriesNew_Vet;
   let index = 0;
   costsBRE_L = this.costsBRE_DS;
+  let currencyName = this.currency_Obj.name;
+  let currencySymbol = this.currency_Obj.symbol;
 
   categories.forEach(function (category) {
     category.vehicles.forEach(function (vehicle) {
@@ -375,7 +424,7 @@ generateCostsTable_AddCountry(countryNameS: string) {
         vehicle: vehicle.vehicle_type, countryName: countryNameS,
         weight_cost: valueCosts, distance_cost: valueCosts,
         worktime_cost: valueCosts, average_consumption_cost: valueCosts,
-        rate_exchange: valueCosts, current_exchange: valueCosts,
+        currency_symbol: currencySymbol, currency: currencyName,
         countryNew: statusNewCountry, statusChange: false
       };
       costsBRE_L.push(costsObj);
@@ -386,12 +435,15 @@ generateCostsTable_AddCountry(countryNameS: string) {
 }
 
 generateCostsTable_AddVehicle(categoryObj: CategoryModel) {
-  const valueCosts = '0.00';
+  const valueCosts = 0.00;
   let costsBRE_L: CostsModel[] = [];
   let categoryCostsObj: CostsModel;
   const countries = this.countryNew_Vet;
   const categories = this.countryNew_Vet;
   costsBRE_L = this.costsBRE_DS;
+  let currencyName = this.currency_Obj.name;
+  let currencySymbol = this.currency_Obj.symbol;
+
 
   countries.forEach(function (country) {
     categoryObj.vehicles.forEach(function (vehicle) {
@@ -399,7 +451,7 @@ generateCostsTable_AddVehicle(categoryObj: CategoryModel) {
         vehicle: vehicle.vehicle_type, countryName: country.countryName,
         weight_cost: valueCosts, distance_cost: valueCosts,
         worktime_cost: valueCosts, average_consumption_cost: valueCosts,
-        rate_exchange: valueCosts, current_exchange: valueCosts,
+        currency_symbol: currencySymbol, currency: currencyName,
         countryNew: false, statusChange: false
       };
       costsBRE_L.push(categoryCostsObj);
@@ -408,109 +460,117 @@ generateCostsTable_AddVehicle(categoryObj: CategoryModel) {
   this.costsBRE_DS = costsBRE_L;
 }
 
-//------------------------------------------------------------------------//
+// ------------------------------------------------------------------------//
 // OPERATION NOTIFICATION ::
-//------------------------------------------------------------------------//
+// ------------------------------------------------------------------------//
 
-transactionOrchestrator(event: any, type: String) {
-  let msgTransaction = '' as  String;
-  switch (type) {
-    case 'Save': {
-      msgTransaction = 'Register Success';
-      type = 'success';
-      event.resetForm(event);
-      this.functionRedirectToRoadwayBREView();
-      break;
+  transactionOrchestrator(event: any, type: String, msgTransaction: String ) {
+    switch (type) {
+      case 'Save': {
+        type = 'success';
+        this.functionRedirectToRoadwayBREView();
+        break;
+      }
+      case 'Validation': {
+        type = 'error';
+        break;
+      }
+      case 'Info': {
+        type = 'info';
+        break;
+      }
+      default: {
+        break;
     }
-    case 'Validation': {
-      msgTransaction = 'Check the required fields';
-      type = 'error';
-      console.log('Validation');
-      break;
     }
-    case 'ValidationII': {
-      msgTransaction = 'The selected field is already added';
-      type = 'error';
-      console.log('Validation');
-      break;
-    }
-    default: {
-      break;
-   }
+    this.showNotification('bottom', 'center', msgTransaction, type)
   }
-  this.showNotification('bottom', 'center', msgTransaction, type)
-}
 
-showNotification(from, align, msg, type) {
-  const color = Math.floor(Math.random() * 5 + 1);
-  switch (type) {
-    case 'success':
-      this.toastr.success(
-        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+ msg +'</span>','', {
-          timeOut: 4000,
-          closeButton: true,
-          enableHtml: true,
-          toastClass: 'alert alert-success alert-with-icon',
-          positionClass: 'toast-' + from + '-' + align
-        }
-      );
-    break;
-    case 'error':
-      this.toastr.error(
-        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+ msg +'</span>','', {
-          timeOut: 4000,
-          enableHtml: true,
-          closeButton: true,
-          toastClass: 'alert alert-danger alert-with-icon',
-          positionClass: 'toast-' + from + '-' + align
-        }
-      );
-    break;
-    default:
-    break;
+  showNotification(from, align, msg, type) {
+    const color = Math.floor(Math.random() * 5 + 1);
+    switch (type) {
+      case 'success':
+        this.toastr.success(
+          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+ msg +'</span>','', {
+            timeOut: 4000,
+            closeButton: true,
+            enableHtml: true,
+            toastClass: 'alert alert-success alert-with-icon',
+            positionClass: 'toast-' + from + '-' + align
+          }
+        );
+      break;
+      case 'error':
+        this.toastr.error(
+          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+ msg +'</span>','', {
+            timeOut: 4000,
+            enableHtml: true,
+            closeButton: true,
+            toastClass: 'alert alert-danger alert-with-icon',
+            positionClass: 'toast-' + from + '-' + align
+          }
+        );
+      break;
+      case 'info':
+        this.toastr.info(
+          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+ msg +'</span>','', {
+            timeOut: 4000,
+            enableHtml: true,
+            closeButton: true,
+            toastClass: 'alert alert-warning alert-with-icon',
+            positionClass: 'toast-' + from + '-' + align
+          }
+        );
+      // tslint:disable-next-line:no-switch-case-fall-through
+      default:
+      break;
+    }
   }
-}
 
-//------------------------------------------------------------------------//
+// ------------------------------------------------------------------------//
 // OPERATION REDIRECT ::
-//------------------------------------------------------------------------//
+// ------------------------------------------------------------------------//
 
-functionRedirectToRoadwayBREView() {
-  this.router.navigate(['/businessrule-view']);
-}
+  functionRedirectToCurrencyView() {
+    this.router.navigate(['/currency-crud']);
+  }
 
-functionRedirectToLocation() {
-  this.router.navigate(['/location']);
-}
+  functionRedirectToRoadwayBREView() {
+    this.router.navigate(['/roadway-view']);
+  }
 
-functionRedirectToCategories() {
-  this.router.navigate(['/categories']);
-}
+  functionRedirectToLocation() {
+    this.router.navigate(['/location-view']);
+  }
 
-functionRedirectToTransport() {
-  this.router.navigate(['/transport']);
-}
+  functionRedirectToCategories() {
+    this.router.navigate(['/category-view']);
+  }
+
+  functionRedirectToTransport() {
+    this.router.navigate(['/transport-view']);
+  }
 
 
 //------------------------------------------------------------------------//
 // OPERATION CRUD :: COSTS TABLE
 //------------------------------------------------------------------------//
 
-onRowEditInit(costsObj: CostsModel) {
-  this.clonedCosts[costsObj.vehicle] = {...costsObj};
-}
-onRowEditSave(costs: CostsModel) {
-  costs.statusChange = true;
-}
-onRowEditCancel(costs: CostsModel, index: number) {
-  this.costsBRE_DS[index] = this.clonedCosts[costs.vehicle];
-}
-validateNumber(e: any) {
-  const input = String.fromCharCode(e.charCode);
-  const reg = /^\d*\.?\d{0,2}$/g;
-  if (!reg.test(input)) {
-    e.preventDefault();
+  onRowEditInit(costsObj: CostsModel) {
+    this.clonedCosts[costsObj.vehicle] = {...costsObj};
   }
-}
+  onRowEditSave(costs: CostsModel) {
+    costs.statusChange = true;
+  }
+  onRowEditCancel(costs: CostsModel, index: number) {
+    this.costsBRE_DS[index] = this.clonedCosts[costs.vehicle];
+  }
+  validateNumber(e: any) {
+    const input = String.fromCharCode(e.charCode);
+    const reg = /^\d*\.?\d{0,2}$/g;
+    if (!reg.test(input)) {
+      e.preventDefault();
+    }
+  }
 
 }

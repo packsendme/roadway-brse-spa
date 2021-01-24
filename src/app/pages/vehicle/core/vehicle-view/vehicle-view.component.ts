@@ -16,6 +16,7 @@ export class VehicleViewComponent implements OnInit {
   vehicles: VehicleModel[];
   vehicleOne_Obj = {} as VehicleModel;
   isDisabled = true;
+  valueDefaultView = 'ND';
 
 
   constructor(
@@ -32,43 +33,39 @@ export class VehicleViewComponent implements OnInit {
 
   // --------- REQUESTs - EXTERNAL ---------------------------------------//
 
-findVehicles() {
-  let vehicleVet: VehicleModel[] = [];
-  this.vehicleService.getVehicle().subscribe((vehicleData: Response) => {
-    const vehicleStr = JSON.stringify(vehicleData.body);
-    JSON.parse(vehicleStr, function (key, value) {
-      if (key === 'vehicles') {
-        vehicleVet = value;
-        return value;
-      } else {
-        return value;
-      }
+  findVehicles() {
+    let vehicleVet: VehicleModel[] = [];
+    this.vehicleService.getVehicle().subscribe((vehicleData: Response) => {
+      const vehicleStr = JSON.stringify(vehicleData.body);
+      JSON.parse(vehicleStr, function (key, value) {
+        if (key === 'vehicles') {
+          vehicleVet = value;
+          return value;
+        } else {
+          return value;
+        }
+      });
+      this.vehicles = vehicleVet;
     });
-    this.vehicles = vehicleVet;
-  });
-}
+  }
 
 
 // --------------------------------------------------------------------------------//
 
-selectLocation(event: any, vehicleSelect: any) {
-  this.isDisabled = false;
-  this.vehicleOne_Obj = vehicleSelect;
-}
+  selectLocation(event: any, vehicleSelect: any) {
+    this.isDisabled = false;
+    this.vehicleOne_Obj = vehicleSelect;
+  }
 
  // --------- OPERATION TRANSACTION - CRUD ---------------------------------------//
 
-new() {
-  this.vehicleTO.vehicleData = null;
-  this.router.navigate(['/vehicle-crud']);
-}
+  new() {
+    this.vehicleTO.vehicleData = null;
+    this.router.navigate(['/vehicle-crud']);
+  }
 
-edit() {
-  this.vehicleTO.vehicleData = this.vehicleOne_Obj;
-  this.router.navigate(['/vehicle-crud']);
-}
-
-
-
-
+  edit() {
+    this.vehicleTO.vehicleData = this.vehicleOne_Obj;
+    this.router.navigate(['/vehicle-crud']);
+  }
 }

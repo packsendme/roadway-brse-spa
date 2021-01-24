@@ -4,7 +4,9 @@ export interface CategoryModel {
     name_category: string;
     transport: string;
     weight_max: number;
-    unity: string;
     people_max: number;
+    unity_weight: {};
     vehicles: VehicleModel[];
+    dt_inc: Date;
+    dt_update: Date;
 }

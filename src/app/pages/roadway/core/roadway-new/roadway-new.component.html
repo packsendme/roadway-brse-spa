@@ -3,7 +3,7 @@
     <div class="card card-user">
       <div class="card-body">
         <h3 class="card-title">
-          New Roadway - BRE
+          Roadway - New
         </h3>
         <form id="add-form" #f="ngForm" novalidate>
           <div div class="col-md-15">
@@ -26,7 +26,7 @@
                     <div class="form-group">
                       <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Transport</label>
                       <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
-                      <select class="form-control" name="transport_select"  [(ngModel)]="transportNew_Obj" (change)="findCategoriesByTransport()">
+                      <select class="form-control" name="transport_select"  [(ngModel)]="transportNew_Obj" (change)="prepareCategoriesByTransport()">
                         <option [ngValue]="item" *ngFor="let item of transporties">{{item.name_transport}}</option>
                       </select>
                     </div>
@@ -99,7 +99,7 @@
                 <div class="row">
                   <div class="col-md-9 px-3">
                     <div class="form-group">
-                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Type Category</label>
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Category</label>
                       <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                       <select class="form-control" name="category_select"  [(ngModel)]="categoryNew_Obj" (change)="onChangeNameBRE()">
                         <option [ngValue]="item" *ngFor="let item of categories">{{item.name_category}}</option>
@@ -117,16 +117,17 @@
                       <i class="fa fa-plus"></i>
                     </button>
                   </div>
-                  <!-- Table Edit Change-->
-                  <div class="col-md-9 px-3">
+
+                  <!-- CARGO  Table  Edit Change-->
+                  <div class="col-md-8 px-3" [hidden]="!isCargoMix">
                     <div class="form-group">
                       <label>Selected to Register</label>
                       <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
-                        <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '13px', 'font-weight': 'bold'}">
-                          <th class="text-center">Name Category</th>
+                        <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '12px', 'font-weight': 'bold'}">
+                          <th class="text-center">Category</th>
                           <th class="text-center">Transport</th>
-                          <th class="text-center">Weight Min</th>
                           <th class="text-center">Weight Max</th>
+                          <th class="text-center">Unity</th>
                           <th class="text-center">Action</th>
                         </tr>
                         <tr *ngFor="let cat of categoriesNew_Vet; let id = index">
@@ -137,10 +138,41 @@
                             {{cat.transport}}
                           </td>
                           <td>
-                            {{cat.weight_min}}
+                            {{cat.weight_max}}
+                          </td>
+                          <td *ngFor="let item of cat.unity_weight | keyvalue">{{item.value}}</td>
+                          <td>
+                            <span class="table-remove">
+                              <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="removeCountry(cat)">
+                                <i class="fa fa-minus" aria-hidden="true"></i>
+                              </button>
+                            </span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+
+                  <!-- CARGO  Table  Edit Change-->
+                  <div class="col-md-8 px-3" [hidden]="!isPeople">
+                    <div class="form-group">
+                      <label>Selected to Register</label>
+                      <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
+                        <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '12px', 'font-weight': 'bold'}">
+                          <th class="text-center">Category</th>
+                          <th class="text-center">Transport</th>
+                          <th class="text-center">People Max</th>
+                          <th class="text-center">Action</th>
+                        </tr>
+                        <tr *ngFor="let cat of categoriesNew_Vet; let id = index">
+                          <td>
+                            {{cat.name_category}}
                           </td>
                           <td>
-                            {{cat.weight_max}}
+                            {{cat.transport}}
+                          </td>
+                          <td>
+                            {{cat.people_max}}
                           </td>
                           <td>
                             <span class="table-remove">
@@ -153,7 +185,64 @@
                       </table>
                     </div>
                   </div>
+
+                  <!-- MIX  Table  Edit Change-->
+                  <div class="col-md-8 px-3" [hidden]="!isMixed">
+                    <div class="form-group">
+                      <label>Selected to Register</label>
+                      <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
+                        <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '12px', 'font-weight': 'bold'}">
+                          <th class="text-center">Category</th>
+                          <th class="text-center">Transport</th>
+                          <th class="text-center">People Max</th>
+                          <th class="text-center">Weight Max</th>
+                          <th class="text-center">Unity</th>
+                          <th class="text-center">Action</th>
+                        </tr>
+                        <tr *ngFor="let cat of categoriesNew_Vet; let id = index">
+                          <td>
+                            {{cat.name_category}}
+                          </td>
+                          <td>
+                            {{cat.transport}}
+                          </td>
+                          <td>
+                            {{cat.weight_max}}
+                          </td>
+                          <td *ngFor="let item of cat.unity_weight | keyvalue">{{item.value}}</td>
+                          <td>
+                            <span class="table-remove">
+                              <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="removeCountry(cat)">
+                                <i class="fa fa-minus" aria-hidden="true"></i>
+                              </button>
+                            </span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
                 </div>
+
+                <!-- FIELD - CURRENCY -->
+                <div class="row">
+                  <div class="col-md-9 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Currency</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <select class="form-control" name="currency_select"  [(ngModel)]="currency_Obj">
+                        <option [ngValue]="item" *ngFor="let item of currencies">{{item.name}}-{{item.symbol}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-3 px-0 text-left">
+                    <label>&nbsp;</label>
+                    <br>
+                    <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="functionRedirectToCurrencyView()">
+                      <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+
                 <br>
                 <div class="col-md-9" layout-align="center center" [style]="{'background-color':'aliceblue'}">
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -165,8 +254,10 @@
         </form>
       </div>
 
+      <!-- TABLE COSTS -->
       <div class="col-md-9 px-3" [hidden]="!isShow">
         <label [ngStyle]="{'color': 'black', 'font-size': '15px', 'font-weight': 'bold'}">Costs Category by Country</label>
+
           <p-table [value]="costsBRE_DS" dataKey="vehicle" editMode="row" [autoLayout]="true">
             <ng-template pTemplate="header">
                 <tr>
@@ -198,7 +289,7 @@
                       <input pInputText size="10"  type="text" [(ngModel)]="rowData.weight_cost" (keypress)="validateNumber($event)">
                     </ng-template>
                     <ng-template pTemplate="output">
-                      {{rowData.weight_cost}}
+                      {{rowData.currency_symbol}} {{rowData.weight_cost | number:'1.2-3' }}
                     </ng-template>
                   </p-cellEditor>
                 </td>
@@ -209,7 +300,7 @@
                       <input pInputText size="10" type="text" [(ngModel)]="rowData.distance_cost" (keypress)="validateNumber($event)">
                     </ng-template>
                     <ng-template pTemplate="output">
-                      {{rowData.distance_cost}}
+                      {{rowData.currency_symbol}} {{rowData.distance_cost | number:'1.2-3' }}
                     </ng-template>
                   </p-cellEditor>
                 </td>
@@ -220,7 +311,7 @@
                       <input pInputText  size="10" type="text" [(ngModel)]="rowData.worktime_cost" (keypress)="validateNumber($event)">
                     </ng-template>
                     <ng-template pTemplate="output">
-                      {{rowData.worktime_cost}}
+                      {{rowData.currency_symbol}} {{rowData.worktime_cost | number:'1.2-3' }}
                     </ng-template>
                   </p-cellEditor>
                 </td>
@@ -231,7 +322,7 @@
                       <input pInputText  size="10" type="text" [(ngModel)]="rowData.average_consumption_cost" (keypress)="validateNumber($event)">
                     </ng-template>
                     <ng-template pTemplate="output">
-                      {{rowData.average_consumption_cost}}
+                      {{rowData.currency_symbol}} {{rowData.average_consumption_cost | number:'1.2-3' }}
                     </ng-template>
                   </p-cellEditor>
                 </td>

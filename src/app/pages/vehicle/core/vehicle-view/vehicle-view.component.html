@@ -8,17 +8,25 @@
         <div class="table-responsive">
           <table class="table">
             <thead class=" text-primary">
-              <th>
-                Vehicle
-              </th>
-              <th>
-                Transport
-              </th>
+              <th class="text-left">Vehicle Name</th>
+              <th class="text-left">Type Cargo</th>
+              <th class="text-center">People Max</th>
+              <th class="text-center">Cargo Max</th>
+              <th class="text-left">Unity</th>
             </thead>
             <tbody>
-              <tr *ngFor="let veh of vehicles; let i = index" (click)="selectLocation($event, veh)">
-                <td>{{veh.vehicle_type}}</td>
-                <td>{{veh.transport_type}}</td>
+              <tr *ngFor="let veh of vehicles; let i = index" (click)="selectLocation($event, veh)" >
+                <td class="text-left">{{veh.vehicle_name}}</td>
+                <td class="text-left">{{veh.transport_type}}</td>
+                <td class="text-center">{{veh.people_max}}</td>
+                <td class="text-center">{{veh.weight_max | number : '1.1-2'}}</td>
+
+                <div *ngIf="(veh.unity_weight | json) != '{}'">
+                  <td class="text-left" *ngFor="let item of veh.unity_weight | keyvalue">{{item.value}}</td>
+                </div>
+                <div *ngIf="(veh.unity_weight | json) == '{}'">
+                  <td class="text-left">{{valueDefaultView}}</td>
+                </div>
               </tr>
             </tbody>
           </table>

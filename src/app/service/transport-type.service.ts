@@ -27,6 +27,7 @@ export class TransportTypeService {
   get(): Observable<Response> {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
+    console.log('GET', this.url);
     return this.httpClient.get<Response>(this.url, httpOptions)
     }
 

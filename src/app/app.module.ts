@@ -1,3 +1,4 @@
+import { NumberOnlyDirective } from './utility/NumberOnly.directive';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ToastrModule } from "ngx-toastr";
@@ -25,10 +26,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TwoDigitDecimaNumberDirective } from './utility/TwoDigitDecimaNumber.directive';
 @NgModule({
   declarations: [
     AppComponent,
-    AdminLayoutComponent
+    AdminLayoutComponent,
+    NumberOnlyDirective,
+    TwoDigitDecimaNumberDirective
   ],
   imports: [
     BrowserModule,

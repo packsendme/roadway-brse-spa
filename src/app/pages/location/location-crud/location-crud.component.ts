@@ -81,6 +81,8 @@ findCountries() {
         statusSave = false;
       } else {
         statusSave = true;
+        const countryShortName = this.locatioOne_Obj.countryName.split(' ', 1);
+        this.locatioOne_Obj.countryShortName = countryShortName[0];
       }
     } else {
         statusSave = false;

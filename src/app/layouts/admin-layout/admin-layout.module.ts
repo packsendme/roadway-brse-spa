@@ -22,9 +22,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import {TableModule} from 'primeng/table';
 import {ButtonModule} from 'primeng/button';
-import { BusinessruleNewComponent } from 'app/pages/bre/businessrule-new/businessrule-new.component';
-import { BusinessruleViewComponent } from 'app/pages/bre/businessrule-view/businessrule-view.component';
-import { BusinessruleUpdateComponent } from 'app/pages/bre/businessrule-update/businessrule-update.component';
 import { VehicleCrudComponent } from 'app/pages/vehicle/core/vehicle-crud/vehicle-crud.component';
 import { ConfirmationDialogComponent } from 'app/pages/confirmation-dialog/confirmation-dialog.component';
 import { InitialsCrudComponent } from 'app/pages/transport/initials/initials-crud/initials-crud.component';
@@ -32,10 +29,18 @@ import { TransportViewComponent } from 'app/pages/transport/core/transport-view/
 import { TransportCrudComponent } from 'app/pages/transport/core/transport-crud/transport-crud.component';
 import { LocationCrudComponent } from 'app/pages/location/location-crud/location-crud.component';
 import { LocationViewComponent } from 'app/pages/location/location-view/location-view.component';
-import { CategoryNewComponent } from 'app/pages/category/core/category-new/category-new.component';
 import { CategoryViewComponent } from 'app/pages/category/core/category-view/category-view.component';
-import { CategoryUpdateComponent } from 'app/pages/category/core/category-update/category-update.component';
 import { UnitymeasurementCrudComponent } from 'app/pages/category/unitymeasurement/unitymeasurement-crud/unitymeasurement-crud.component';
+import { CategoryCrudComponent } from 'app/pages/category/core/category-crud/category-crud.component';
+import { RoadwayNewComponent } from 'app/pages/roadway/core/roadway-new/roadway-new.component';
+import { RoadwayViewComponent } from 'app/pages/roadway/core/roadway-view/roadway-view.component';
+import { RoadwayUpdateComponent } from 'app/pages/roadway/core/roadway-update/roadway-update.component';
+import { CurrencyCrudComponent } from 'app/pages/roadway/currency/currency-crud/currency-crud.component';
+import { SimulationViewComponent } from 'app/pages/simulation/simulation-view/simulation-view.component';
+import { SimulationCrudComponent } from 'app/pages/simulation/simulation-crud/simulation-crud.component';
+import { FueltollsViewComponent } from 'app/pages/fueltolls/fueltolls-view/fueltolls-view.component';
+import { FueltollsCrudComponent } from 'app/pages/fueltolls/fueltolls-crud/fueltolls-crud.component';
+
 @NgModule({
   imports: [
     LayoutModule,
@@ -64,12 +69,11 @@ import { UnitymeasurementCrudComponent } from 'app/pages/category/unitymeasureme
     LocationCrudComponent,
     VehicleCrudComponent,
     VehicleViewComponent,
-    CategoryNewComponent,
+    CategoryCrudComponent,
     CategoryViewComponent,
-    CategoryUpdateComponent,
-    BusinessruleNewComponent,
-    BusinessruleViewComponent,
-    BusinessruleUpdateComponent,
+    RoadwayNewComponent,
+    RoadwayViewComponent,
+    RoadwayUpdateComponent,
     VehicletypeCrudComponent,
     BodyworkCrudComponent,
     TransportViewComponent,
@@ -77,7 +81,12 @@ import { UnitymeasurementCrudComponent } from 'app/pages/category/unitymeasureme
     TransportCrudComponent,
     InitialsCrudComponent,
     LocationViewComponent,
-    UnitymeasurementCrudComponent
+    UnitymeasurementCrudComponent,
+    CurrencyCrudComponent,
+    SimulationViewComponent,
+    SimulationCrudComponent,
+    FueltollsViewComponent,
+    FueltollsCrudComponent
   ]
 })
 

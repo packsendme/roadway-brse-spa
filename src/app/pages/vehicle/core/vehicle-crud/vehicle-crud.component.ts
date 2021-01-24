@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Directive, ElementRef, HostListener } from '@angular/core';
 import { VehicleService } from 'app/service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm, FormGroup, FormControl } from '@angular/forms';
@@ -29,11 +29,12 @@ export class VehicleCrudComponent implements OnInit {
   bodyworkes: BodyworkModel[];
   vehiclesTypes: VehicleTypeModel[];
   unityMeasurements: UnityMeasurementModel[];
-  unityWeightsL: String[] = [];
+  unityWeightL: String[] = [];
 
+  unityWeight = '';
+  unityWeight_View = new Map<string, string>();
+  unityWeight_M = new Map<string, string>();
   axis: string[] = ['2', '3', '6', '7', '9'];
-  peoples: string[] = ['0', '1 - 5', '5 - 15', '15 - 30', '30 - 45', '45 - N'];
-
 
   // Screen Option
   vehicleOne_Obj = {} as VehicleModel;
@@ -46,7 +47,8 @@ export class VehicleCrudComponent implements OnInit {
     reactiveRadio: new FormControl(true)
   })
 
-  constructor(private vehicleService: VehicleService,
+  constructor(
+    private vehicleService: VehicleService,
     private bodyworkService: BodyworkService,
     private vehicleTypeService: VehicleTypeService,
     private unityMeasurementService: UnityMeasurementService,
@@ -59,12 +61,21 @@ export class VehicleCrudComponent implements OnInit {
         this.isEdit = true;
         this.titlePage = 'Vehicle Category - Edit';
         this.isDisabled = false;
-        if (this.vehicleOne_Obj.transport_type === "Cargo") {
+
+        // tslint:disable-next-line:forin
+        for (const a in this.vehicleOne_Obj.unity_weight) {
+          this.unityWeight =  this.vehicleOne_Obj.unity_weight[a];
+        }
+
+        if (this.vehicleOne_Obj.transport_type === 'Cargo') {
           this.isShowCargo = true;
           this.isShowPeople = false;
-        } else if (this.vehicleOne_Obj.transport_type === "Passenger") {
+        } else if (this.vehicleOne_Obj.transport_type === 'Passenger') {
           this.isShowPeople = true;
           this.isShowCargo = false;
+        } else if (this.vehicleOne_Obj.transport_type === 'Mixed') {
+          this.isShowPeople = true;
+          this.isShowCargo = true;
         }
       } else {
         this.vehicleOne_Obj = {} as VehicleModel;
@@ -128,51 +139,77 @@ findUnityMeasurement() {
         return value;
       }
     });
-  this.unityMeasurements = unityMeasurementVet;
-  //this.findUnityWeghty();
+    this.unityMeasurements = unityMeasurementVet;
+    this.convertArrayToMapUnityWeghty();
   });
 }
-/*
-findUnityWeghty() {
-  const unityWeightLocal: String[] = []
-  console.log('EGHTY TTEE')
-  this.unityMeasurements.forEach(function (unity) {
-    unity.unityWeight.forEach(function (weight) {
-      console.log(weight);
-      unityWeightLocal.push(weight.unity);
-    })
-  })
-  this.unityWeightsL = unityWeightLocal;
-}*/
 
+convertArrayToMapUnityWeghty() {
+  const  unityWeight_Local = new Map<string, string>();
+  // tslint:disable-next-line:forin
+  this.unityMeasurements.forEach(function(unitObj) {
+    // tslint:disable-next-line:forin
+    for (const a in unitObj.unityWeight) {
+      console.log('Cargo', unitObj.unityWeight[a]);
+      console.log('Cargo A', a);
+      unityWeight_Local.set(unitObj.unityWeight[a],a);
+    }
+  })
+  this.unityWeight_View = unityWeight_Local;
+  console.log('Cargo unityWeight_View', this.unityWeight_View);
+}
 
 // --------- OPERATION TRANSACTION - CRUD ---------------------------------------//
+
+  getUnityWeightByMap(): any {
+    const unityWeightLocal_M = new Map<string, string>();
+    const key = this.unityWeight_View.get(this.unityWeight);
+    const value = this.unityWeight;
+    unityWeightLocal_M.set(key, value);
+    const weightMapToArray = {};
+    // tslint:disable-next-line:no-shadowed-variable
+    unityWeightLocal_M.forEach((val: string, key: string) => {
+      weightMapToArray[key] = val;
+    });
+    return weightMapToArray;
+  }
 
   validateSave(event: any) {
     let msg: string;
     let statusSave = false;
-    if (this.vehicleOne_Obj.vehicle_type) {
+
+    if ((this.vehicleOne_Obj.vehicle_type) && ( this.vehicleOne_Obj.bodywork_vehicle)) {
+      console.log('Cargo', this.vehicleOne_Obj.vehicle_type);
       if (this.vehicleOne_Obj.transport_type === 'Cargo') {
-        if ((this.vehicleOne_Obj.cargo_max) && (this.vehicleOne_Obj.unity_measurement_weight) &&
-        (this.vehicleOne_Obj.axis_total)){
+        if ((this.vehicleOne_Obj.weight_max) && (this.unityWeight) && (this.vehicleOne_Obj.axis_total)) {
           statusSave = true;
-        } else{
+          this.vehicleOne_Obj.people_max = 0;
+          this.vehicleOne_Obj.unity_weight = this.getUnityWeightByMap();
+        } else {
           statusSave = false;
         }
       } else if (this.vehicleOne_Obj.transport_type === 'Passenger') {
-          if (this.vehicleOne_Obj.people){
+          if (this.vehicleOne_Obj.people_max !== 0) {
             statusSave = true;
-          } else{
+            this.vehicleOne_Obj.weight_max = 0.0;
+            this.vehicleOne_Obj.unity_weight = null; //this.getUnityWeightByMap();
+          } else {
             statusSave = false;
           }
       }  else if (this.vehicleOne_Obj.transport_type === 'Mixed') {
-        if ((this.vehicleOne_Obj.cargo_max) && (this.vehicleOne_Obj.unity_measurement_weight) &&
-        (this.vehicleOne_Obj.axis_total) && (this.vehicleOne_Obj.people)){
-          statusSave = true;
-        } else{
-          statusSave = false;
-        }
-    }else{
+          if ((this.vehicleOne_Obj.weight_max) && (this.unityWeight_M) && (this.vehicleOne_Obj.axis_total)
+          && (this.vehicleOne_Obj.people_max !== 0)) {
+            statusSave = true;
+            this.vehicleOne_Obj.unity_weight = this.getUnityWeightByMap();
+            const weightMapToArray = {};
+            this.unityWeight_M.forEach((val: string, key: string) => {
+              weightMapToArray[key] = val;
+            });
+            this.vehicleOne_Obj.unity_weight = this.getUnityWeightByMap();
+          } else {
+            statusSave = false;
+          }
+      } else {
         statusSave = false;
       }
     }
@@ -303,26 +340,23 @@ transactionOrchestrator(event: any, type: String) {
     if (this.vehicleOne_Obj.transport_type === 'Cargo') {
       this.isShowCargo = true;
       this.isShowPeople = false;
-      this.vehicleOne_Obj.people = null;
+      this.vehicleOne_Obj.people_max = 0;
     } else if (this.vehicleOne_Obj.transport_type === 'Passenger') {
       this.isShowPeople = true;
       this.isShowCargo = false;
-      this.vehicleOne_Obj.cargo_max = null;
-      this.vehicleOne_Obj.unity_measurement_weight  = null;
+      this.vehicleOne_Obj.weight_max = null;
+      this.vehicleOne_Obj.unity_weight  = null;
       this.vehicleOne_Obj.axis_total = null;
-      this.vehicleOne_Obj.cargo_max = null;
     } else if (this.vehicleOne_Obj.transport_type === 'Mixed') {
       this.isShowPeople = true;
       this.isShowCargo = true;
-      this.vehicleOne_Obj.cargo_max = null;
-      this.vehicleOne_Obj.unity_measurement_weight  = null;
+      this.vehicleOne_Obj.weight_max = null;
+      this.vehicleOne_Obj.unity_weight  = null;
       this.vehicleOne_Obj.axis_total = null;
-      this.vehicleOne_Obj.cargo_max = null;
     }
   }
 
-  // Operation Bodywork  ---------------------//
-
+  /* Operation Bodywork  ---------------------//
   addBodywork() {
     let statusAdd = false;
     if ( this.vehicleOne_Obj.bodywork_vehicle.length >= 1) {
@@ -351,7 +385,12 @@ transactionOrchestrator(event: any, type: String) {
       this.showNotification('bottom','center', error, 'error')
     }
   }
+  */
 
+  changeNameVehicle() {
+    this.vehicleOne_Obj.vehicle_name = this.vehicleOne_Obj.vehicle_type + '-' + this.vehicleOne_Obj.bodywork_vehicle;
+    console.log(' A B C D ', this.vehicleOne_Obj.vehicle_name);
+  }
 
 // OPERATION REDIRECT  ---------------------//
 

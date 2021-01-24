@@ -14,9 +14,20 @@
                   <div class="row">
                     <div class="col-md-9 px-1">
                       <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Vehicle Name</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <br>
+                        <label [ngStyle]="{'color': 'black', 'font-size': '16px', 'font-weight': 'bold'}">{{vehicleOne_Obj.vehicle_name}}</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-9 px-1">
+                      <div class="form-group">
                         <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Type Vehicle</label>
                         <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
-                        <select class="form-control" name="categoryvehicle_select" [(ngModel)]="vehicleOne_Obj.vehicle_type"  required>
+                        <select class="form-control" name="categoryvehicle_select" [(ngModel)]="vehicleOne_Obj.vehicle_type" (change)='changeNameVehicle()'  required>
                           <option [value]="item.type_vehicle" *ngFor="let item of vehiclesTypes">{{item.type_vehicle}}</option>
                         </select>
                       </div>
@@ -45,23 +56,21 @@
                   </div>
 
                   <div class="row" [hidden]="!isShowPeople">
-                    <div class="col-md-9 px-1">
+                    <div class="col-md-4 px-1">
                       <div class="form-group">
                         <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">People Number</label>
                         <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
-                        <select class="form-control" name="people_select" [(ngModel)]="vehicleOne_Obj.people">
-                          <option [value]="item" *ngFor="let item of peoples">{{item}}</option>
-                        </select>
+                        <input type="number" maxlength="2" class="form-control" name="peoplemaxcategory_input" [(ngModel)]="vehicleOne_Obj.people_max" min="0" max="99" required>
                       </div>
                     </div>
                   </div>
-                  
+
                   <div class="row" [hidden]="!isShowCargo">
                     <div class="col-md-3 px-1">
                       <div class="form-group">
-                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Cargo</label>
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Weight Cargo</label>
                         <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
-                        <input type="text" class="form-control" placeholder="Max" [(ngModel)]="vehicleOne_Obj.cargo_max" name="cargomaxvehicle_input" required>
+                         <input type="number" class="form-control" name="weightcategory_input" placeholder="Max" [(ngModel)]="vehicleOne_Obj.weight_max"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">
                       </div>
                     </div>
 
@@ -69,8 +78,8 @@
                       <div class="form-group">
                         <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Unity Weight</label>
                         <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
-                        <select class="form-control" name="unitymeasurement_select" [(ngModel)]="vehicleOne_Obj.unity_measurement_weight">
-                          <option [value]="item" *ngFor="let item of unityWeightsL">{{item}}</option>
+                        <select class="form-control" name="unitymeasurement_select" [(ngModel)]="unityWeight">
+                          <option [value]="item.key" *ngFor="let item of unityWeight_View | keyvalue">{{item.key}}</option>
                         </select>
                       </div>
                     </div>
@@ -87,12 +96,12 @@
                   </div>
 
                   <!-- Bodywork to Save -->
-                  <div class="row" [hidden]="isEdit">
+                  <div class="row">
                       <div class="col-md-9 px-1">
                         <div class="form-group">
                           <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Bodywork</label>
                           <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
-                          <select class="form-control" name="bodywork_select" [(ngModel)]="vehicleOne_Obj.bodywork_vehicle" multiple>
+                          <select class="form-control" name="bodywork_select" [(ngModel)]="vehicleOne_Obj.bodywork_vehicle" (change)='changeNameVehicle()' required>
                             <option [value]="item.bodyWork" *ngFor="let item of bodyworkes">{{item.bodyWork}}</option>
                           </select>
                         </div>
@@ -103,51 +112,6 @@
                           <i class="fa fa-envelope"></i>
                         </button>
                       </div>
-                  </div>
-
-
-                  <!-- Bodywork to UPDATE -->
-                  <div class="row" [hidden]="!isEdit">
-                    <div class="col-md-9 px-1">
-                      <div class="form-group">
-                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Bodywork Vehicle</label>
-                        <select class="form-control" name="bodywork_select" [(ngModel)]="bodyworkEdit">
-                          <option [value]="item.bodyWork" *ngFor="let item of bodyworkes">{{item.bodyWork}}</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-1 col-1 px-2 text-left">
-                      <div class="form-group">
-                        <br>
-                        <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="addBodywork()">
-                          <i class="fa fa-plus"></i>
-                        </button>
-                      </div>
-                    </div>
-                    <!-- Table Edit Change-->
-                    <div class="col-md-9 px-3">
-                      <div class="form-group">
-                        <label>Registered *</label>
-                        <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
-                          <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '13px', 'font-weight': 'bold'}">
-                            <th class="text-center">Bodywork</th>
-                            <th class="text-center">Action</th>
-                          </tr>
-                          <tr *ngFor="let bodyw of vehicleOne_Obj.bodywork_vehicle; let id = index">
-                            <td>
-                              {{bodyw}}
-                            </td>
-                            <td>
-                              <span class="table-remove">
-                                <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="removeBodywork(bodyw)">
-                                  <i class="fa fa-minus" aria-hidden="true"></i>
-                                </button>
-                              </span>
-                            </td>
-                          </tr>
-                        </table>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>

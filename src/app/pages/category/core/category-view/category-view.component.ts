@@ -17,8 +17,8 @@ export class CategoryViewComponent implements OnInit {
 
   // Screen Option
   categoryOne_Obj = {} as CategoryModel;
-  statusNew_btn = true;
-  statusEditNew_btn = true;
+  isDisabled = true;
+  valueDefaultView = 'ND';
 
   constructor(
     private categoryService: CategoryService,
@@ -34,7 +34,7 @@ export class CategoryViewComponent implements OnInit {
 
   findCategories() {
     let categoriesVet: CategoryModel [] = [];
-    this.categoryService.getCategory().subscribe((categoryData: Response) => {
+    this.categoryService.get().subscribe((categoryData: Response) => {
       const categoryDataStr = JSON.stringify(categoryData.body);
       JSON.parse(categoryDataStr, function (key, value) {
         if (key === 'categories') {
@@ -44,15 +44,14 @@ export class CategoryViewComponent implements OnInit {
            return value;
         }
       });
-      console.log('categories', this.categories);
       this.categories = categoriesVet;
     });
   }
 
 
   selectCategory(event: any, categorySelect: any) {
-    this.statusNew_btn = false;
-    this.statusEditNew_btn = false;
+    this.isDisabled = false;
+    this.categoryOne_Obj = null;
     this.categoryOne_Obj = categorySelect;
   }
 
@@ -60,12 +59,13 @@ export class CategoryViewComponent implements OnInit {
    // --------- OPERATION TRANSACTION - CRUD ---------------------------------------//
 
    newCategory() {
-    this.router.navigate(['/category-new']);
+    this.categoryData.categoryruleData = null;
+    this.router.navigate(['/category-crud']);
   }
 
   editCategory() {
     this.categoryData.categoryruleData = this.categoryOne_Obj;
-    this.router.navigate(['/category-update']);
+    this.router.navigate(['/category-crud']);
   }
 
 }

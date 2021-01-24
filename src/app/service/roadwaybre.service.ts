@@ -24,26 +24,26 @@ export class RoadwaybreService {
     this.headers = this.headers.append('originApp', 'APP-MICROSERVICE');
   }
 
-  getRoadwayBRE(): Observable<Response> {
+  get(): Observable<Response> {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
     return this.httpClient.get<Response>(this.url, httpOptions)
     }
 
-  postRoadwayBRE(roadway: RoadwaybreModel): Observable<Response> {
+  post(roadway: RoadwaybreModel): Observable<Response> {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
     return this.httpClient.post<Response>(this.url, roadway, httpOptions)
   }
 
-  putRoadwayBRE(roadway: RoadwaybreModel) {
+  put(roadway: RoadwaybreModel) {
     console.log(' putVehicle ', roadway.id);
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
     return this.httpClient.put<Response>(this.url + '?id=' + roadway.id, roadway, httpOptions)
   };
 
-  deleteRoadwayBRE(roadway: RoadwaybreModel) {
+  delete(roadway: RoadwaybreModel) {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
     return this.httpClient.delete<Response>(this.url + '?id=' + roadway.id, httpOptions)

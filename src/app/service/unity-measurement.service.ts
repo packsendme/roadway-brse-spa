@@ -41,8 +41,6 @@ export class UnityMeasurementService {
 
   post(unityMeasurement: UnityMeasurementModel): Observable<Response> {
     this.headersOnInit();
-    console.log('OBJ', unityMeasurement );
-
     console.log('JSON', JSON.stringify(unityMeasurement) );
     const httpOptions = {headers: this.headers}
     return this.httpClient.post<Response>(this.url, unityMeasurement, httpOptions)

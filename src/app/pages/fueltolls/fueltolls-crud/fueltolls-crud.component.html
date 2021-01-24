@@ -1,0 +1,133 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">
+          {{titlePage}}
+        </h3>
+         <!-- <form id="add-form" (ngSubmit)="f.form.valid && saveEditLocation(f)" #f="ngForm" novalidate> -->
+         <form id="add-form" #f="ngForm" novalidate>
+          <div class="row">
+            <div div class="col-md-6">
+              <div class="card card-plain">
+                <div class="card-body">
+                  <!-- FIELD: COUNTRY -->
+                  <div class="row" [hidden]="!isEdit">
+                    <div class="col-md-10 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Location:</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <br>
+                        <label [ngStyle]="{'color': 'black', 'font-size': '18px'}">&nbsp;{{fueltollsOne_Obj.country}}</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- FIELD: COUNTRY -->
+                  <div class="row" [hidden]="isEdit">
+                    <div class="col-md-10 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Location</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <select class="form-control" name="location_select" [(ngModel)]="fueltollsOne_Obj.country">
+                          <option [ngValue]="item" *ngFor="let item of locations">{{item.countryShortName}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- FIELD: CURRENCY -->
+                  <div class="row" [hidden]="!isEdit">
+                    <div class="col-md-10 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Currency:</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <br>
+                        <label [ngStyle]="{'color': 'black', 'font-size': '18px'}">&nbsp;{{fueltollsOne_Obj.currency}}</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- FIELD: CURRENCY -->
+                  <div class="row" [hidden]="isEdit">
+                    <div class="col-md-6 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Currency</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <select class="form-control" name="currency_select" [(ngModel)]="fueltollsOne_Obj.currency">
+                          <option [ngValue]="item" *ngFor="let item of currencies">{{item.symbol}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- FIELD: TollsPrice -->
+                  <div class="row">
+                    <div class="col-md-3 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Tolls Price</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <input type="number" class="form-control" [(ngModel)]="fueltollsOne_Obj.tolls_price" name="tolssprice_input" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- FIELD: FuelGasoline -->
+                  <div class="row">
+                    <div class="col-md-3 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Fuel Gas</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <input type="number" class="form-control" [(ngModel)]="fueltollsOne_Obj.fuelGasoline_price" name="fuelGasoline_input" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- FIELD: FuelDiesel -->
+                  <div class="row">
+                    <div class="col-md-3 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Fuel Diesel</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <input type="number" class="form-control" [(ngModel)]="fueltollsOne_Obj.fuelDiesel_price" name="fuelDiesel_input" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- FIELD: DATE INC/UPDATE  -->
+                  <div class="row" [hidden]="!isEdit">
+                    <div class="col-md-9 px-3">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">Date Included:</label>
+                        <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">&nbsp;{{dt_incS}}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="(dt_updateS)">
+                    <div class="row" [hidden]="!isEdit">
+                      <div class="col-md-9 px-3">
+                        <div class="form-group">
+                          <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">Date Update:</label>
+                          <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">&nbsp;&nbsp;{{dt_updateS}}</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit"  style="height:50px;width:150px;" (click)="validateSave(f)" class="btn btn-primary btn-round">Save</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button style="height:50px;width:150px;"  (click)="delete(f)"  [disabled]="isDisabled" class="btn btn-primary btn-round">Delete</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button (click)="functionRedirectToView()"  style="height:50px;width:150px;"  class="btn btn-primary btn-round">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
