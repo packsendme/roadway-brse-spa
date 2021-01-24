@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title"> Location List</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <th>
+                CodCountry
+              </th>
+              <th>
+                Country Name
+              </th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let loc of locations; let i = index" (click)="selectLocation($event, loc)">
+                <td>{{loc.codCountry}}</td>
+                <td>{{loc.countryName}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <br>
+        <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <button type="submit" style="height:50px;width:150px;" (click)="new()" class="btn btn-primary btn-round">New Location</button>
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <button type="submit" [disabled]="isDisabled" style="height:50px;width:150px;" (click)="edit()" class="btn btn-primary btn-round">Edit Location</button>
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         </div>
+      </div>
+    </div>
+  </div>
+</div>

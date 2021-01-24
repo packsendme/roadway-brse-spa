@@ -1,0 +1,62 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title"> Tolls&Fuel Price</h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-8 px-3">
+            <div class="form-group">
+              <label [ngStyle]="{'color': 'black', 'font-size': '13px'}">Find By Country</label>
+              <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+              <select class="form-control" name="location_select" [(ngModel)]="locationOne_Obj">
+                <option [ngValue]="item" *ngFor="let item of locations">{{item.countryShortName}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3 px-0 text-left">
+            <label>&nbsp;</label>
+            <br>
+            <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="findTollsFuelByCountry()">
+              <i class="fa fa-file-text-o" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <br>
+        <br>
+
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <th>
+                Tolls Price
+              </th>
+              <th>
+                Gasoline Price
+              </th>
+              <th>
+                Diesel Price
+              </th>
+            </thead>
+            <tbody>
+              <tr (click)="select($event, tollsFuelVet)">
+                <td>{{tollsFuelVet.current}} {{tollsFuelVet.tolls_price | number : '1.2-2'}}</td>
+                <td>{{tollsFuelVet.current}} {{tollsFuelVet.fuelGasoline_price | number : '1.2-2'}}</td>
+                <td>{{tollsFuelVet.current}} {{tollsFuelVet.fuelDiesel_price | number : '1.2-2'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <button type="submit" style="height:50px;width:150px;" (click)="new()" class="btn btn-primary btn-round">New Location</button>
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <button type="submit" [disabled]="isDisabled" style="height:50px;width:150px;" (click)="edit()" class="btn btn-primary btn-round">Edit Location</button>
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         </div>
+      </div>
+    </div>
+  </div>
+</div>

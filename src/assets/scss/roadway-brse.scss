@@ -1,0 +1,61 @@
+/*!
+
+=========================================================
+* Paper Dashboard Angular - v2.1.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/roadway-brse-angular
+* Copyright 2019 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/roadway-brse-angular/blob/master/LICENSE.md)
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+
+@import 'roadway-brse/variables';
+@import 'roadway-brse/mixins';
+
+// Plugins CSS
+@import "roadway-brse/plugins/plugin-animate-bootstrap-notify";
+@import "roadway-brse/plugins/plugin-perfect-scrollbar";
+
+// Core CSS
+@import "roadway-brse/buttons";
+@import "roadway-brse/inputs";
+@import "roadway-brse/typography";
+@import "roadway-brse/misc";
+@import "roadway-brse/checkboxes-radio";
+
+
+// components
+@import "roadway-brse/navbar";
+@import "roadway-brse/page-header";
+@import "roadway-brse/dropdown";
+@import "roadway-brse/alerts";
+@import "roadway-brse/images";
+@import "roadway-brse/nucleo-outline";
+@import "roadway-brse/tables";
+@import "roadway-brse/sidebar-and-main-panel";
+@import "roadway-brse/footers";
+@import "roadway-brse/fixed-plugin";
+
+// cards
+@import "roadway-brse/cards";
+@import "roadway-brse/cards/card-plain";
+@import "roadway-brse/cards/card-chart";
+@import "roadway-brse/cards/card-user";
+@import "roadway-brse/cards/card-map";
+@import "roadway-brse/cards/card-stats";
+
+// angular differences
+@import "roadway-brse/angular/plugin-ngx-toastr";
+@import "roadway-brse/angular/sidebar-and-main-panel";
+@import "roadway-brse/angular/dropdown";
+@import "roadway-brse/angular/inputs";
+@import "roadway-brse/angular/fixed-plugin";
+
+@import "roadway-brse/responsive";

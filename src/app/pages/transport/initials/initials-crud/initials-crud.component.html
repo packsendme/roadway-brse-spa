@@ -1,0 +1,65 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">
+          Initials - Save&Update
+        </h3>
+         <form id="add-form" #f="ngForm" novalidate>
+          <div class="row">
+            <div div class="col-md-6">
+              <div class="card card-plain">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-8 pr-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Name</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <input type="text" class="form-control" [(ngModel)]="initialName" name="initial_input"
+                        maxlength="30"  required>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="submit" style="height:50px;width:150px;" (click)="validateSave(f)" class="btn btn-primary btn-round">Save</button>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="submit" style="height:50px;width:150px;" [disabled]="isDisabled"  (click)="delete(f)" class="btn btn-primary btn-round">Delete</button>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="submit" style="height:50px;width:150px;" (click)="functionRedirectToTransport(f)" class="btn btn-primary btn-round">Cancelar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title"> Initials - List</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <th>
+                Name
+              </th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let init of initialies; let i = index" (click)="selectInitial($event, init)">
+                <td>{{init.name}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

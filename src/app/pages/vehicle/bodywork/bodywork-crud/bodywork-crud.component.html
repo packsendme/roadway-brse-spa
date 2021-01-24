@@ -1,0 +1,64 @@
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title">
+            Bodywork - New&Edit
+          </h3>
+          <!-- <form id="add-form" (ngSubmit)="f.form.valid && saveEditLocation(f)" #f="ngForm" novalidate>-->
+          <form name="form1" id="form1" #f="ngForm" novalidate>
+            <div class="row">
+              <div div class="col-md-6">
+                <div class="card card-plain">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-12 pr-1">
+                        <div class="form-group">
+                          <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Name - BodyWork</label>
+                          <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                          <input name="bodyworkname" id="bodyworkname" type="text" class="form-control" [(ngModel)]="nameBodywork" minlength="8" maxlength="30"/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="submit" style="height:50px;width:150px;" (click)="validateSave(f)" class="btn btn-primary btn-round">Save</button>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="submit" style="height:50px;width:150px;" [disabled]="isDisabled"  (click)="delete(f)" class="btn btn-primary btn-round">Delete</button>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="submit" style="height:50px;width:150px;" (click)="functionRedirectToView(f)" class="btn btn-primary btn-round">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title"> BodyWork List</h4>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table">
+              <thead class=" text-primary">
+                <th>
+                  Name
+                </th>
+             </thead>
+              <tbody>
+                <tr *ngFor="let body of bodyworkes; let i = index" (click)="selectBodyWork($event, body)">
+                  <td>{{body.bodyWork}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

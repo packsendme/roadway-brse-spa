@@ -1,0 +1,256 @@
+<div class="row">
+  <div class="col-md-8">
+    <div class="card card-user">
+      <div class="card-body">
+        <h3 class="card-title">Category - New</h3>
+        <form id="add-form" #f="ngForm" novalidate>
+          <div div class="col-md-15">
+            <div class="card card-plain">
+              <div class="card-body">
+
+                <!-- FIELD - NAME_CATEGORY -->
+                <div class="row">
+                  <div class="col-md-9 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px','font-weight': 'bold'}">Name Category:</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px','font-weight': 'bold'}">&nbsp;&nbsp;{{nameCategoryNew_Obj}}</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px','font-weight': 'bold'}">{{nameCategoryLevelNew_Obj}}</label>
+                    </div>
+                  </div>
+                </div>
+
+                 <!-- FIELD - TRANSPORT -->
+                <div class="row">
+                  <div class="col-md-8 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Transport Category</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                      <select class="form-control" name="transport_select"  [(ngModel)]="transportNew_Obj" (change)="onChangeTransportLevel()">
+                        <option [ngValue]="item" *ngFor="let item of transporties">{{item.name_transport}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- buttom - REDIRECT TRANSPORT-INC -->
+                  <div class="col-md-3 px-0 text-left">
+                    <label>&nbsp;</label>
+                    <br>
+                    <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="functionRedirectToTransport()">
+                      <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- FIELD - VEHICLE -->
+                <div class="row">
+                  <div class="col-md-8 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Vehicle</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                      <select class="form-control" name="vehicle_select" [(ngModel)]="vehicleNew_Obj">
+                        <option [ngValue]="item" *ngFor="let item of vehicles">{{item.vehicle_name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-3 px-0 text-left">
+                    <label>&nbsp;</label>
+                    <br>
+                    <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="functionRedirectToVehicle()">
+                      <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="addVehicle()">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                  </div>
+
+                  <!-- CARGO/MIX Table  Edit Change-->
+                  <div class="col-md-8 px-3" [hidden]="!isCargoMix">
+                    <div class="form-group">
+                      <label>Selected to Register</label>
+                      <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
+                        <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '12px', 'font-weight': 'bold'}">
+                          <th class="text-center">Vehicle Name</th>
+                          <th class="text-center">Cargo Max</th>
+                          <th class="text-center">Unity</th>
+                          <th class="text-center">Axis</th>
+                          <th class="text-center">Action</th>
+                        </tr>
+                        <tr *ngFor="let vehic of vehicleNew_Vet; let id = index">
+                          <td>
+                            {{vehic.vehicle_name}}
+                          </td>
+                          <td>
+                            {{vehic.weight_max}}
+                          </td>
+                          <td *ngFor="let item of vehic.unity_weight | keyvalue">{{item.value}}</td>
+                          <td>
+                            {{vehic.axis_total}}
+                          </td>
+                          <td>
+                            <span class="table-remove">
+                              <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="removeVehicle(vehic)">
+                                <i class="fa fa-minus" aria-hidden="true"></i>
+                              </button>
+                            </span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+
+                  <!-- PEOPLE Table Edit Change-->
+                  <div class="col-md-8 px-3" [hidden]="!isPeople">
+                    <div class="form-group">
+                      <label>Selected to Register</label>
+                      <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
+                        <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '12px', 'font-weight': 'bold'}">
+                          <th class="text-center">Vehicle Name</th>
+                          <th class="text-center">People Max</th>
+                          <th class="text-center">Action</th>
+                        </tr>
+                        <tr *ngFor="let vehic of vehicleNew_Vet; let id = index">
+                          <td>
+                            {{vehic.vehicle_name}}
+                          </td>
+                          <td>
+                            {{vehic.people_max}}
+                          </td>
+                          <td>
+                            <span class="table-remove">
+                              <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="removeVehicle(vehic)">
+                                <i class="fa fa-minus" aria-hidden="true"></i>
+                              </button>
+                            </span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+
+                  <!-- MIXED Table Edit Change-->
+                  <div class="col-md-8 px-3" [hidden]="!isMixed">
+                    <div class="form-group">
+                      <label>Selected to Register</label>
+                      <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
+                        <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '12px', 'font-weight': 'bold'}">
+                          <th class="text-center">Vehicle Name</th>
+                          <th class="text-center">People Max</th>
+                          <th class="text-center">Cargo Max</th>
+                          <th class="text-center">Unity</th>
+                          <th class="text-center">Axis</th>
+                          <th class="text-center">Action</th>
+                        </tr>
+                        <tr *ngFor="let vehic of vehicleNew_Vet; let id = index">
+                          <td>
+                            {{vehic.vehicle_name}}
+                          </td>
+                          <td>
+                            {{vehic.people_max}}
+                          </td>
+                          <td>
+                            {{vehic.weight_max}}
+                          </td>
+                          <td *ngFor="let item of vehic.unity_weight | keyvalue">{{item.value}}</td>
+                          <td>
+                            {{vehic.axis_total}}
+                          </td>
+                          <td>
+                            <span class="table-remove">
+                              <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="removeVehicle(vehic)">
+                                <i class="fa fa-minus" aria-hidden="true"></i>
+                              </button>
+                            </span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- DATE INC/UPDATE  -->
+                <div class="row" [hidden]="!isEdit">
+                  <div class="col-md-9 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">Date Included:</label>
+                      <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">&nbsp;&nbsp;{{dt_incS}}</label>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="(dt_updateS)">
+                  <div class="row" [hidden]="!isEdit">
+                    <div class="col-md-9 px-3">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">Date Update:</label>
+                        <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">&nbsp;&nbsp;{{dt_updateS}}</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <br>
+        <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <button type="submit" style="height:50px;width:150px;" (click)="validateSave(f)" class="btn btn-primary btn-round">Save</button>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <button type="submit" style="height:50px;width:150px;" [disabled]="isvisible"  (click)="delete(f)" class="btn btn-primary btn-round">Delete</button>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <button type="submit" style="height:50px;width:150px;" (click)="functionRedirectToCategories(f)" class="btn btn-primary btn-round">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Instance Rule table - Weight / People -->
+  <div class="col-md-4">
+    <div class="card card-user">
+      <div class="card-header">
+        <h5 class="card-title">Instance Rule</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-10 px-2">
+            <div class="form-group">
+              <label [ngStyle]="{'color': 'black', 'font-size': '11px','font-weight': 'bold'}">Weight Cargo Maximum</label>
+            </div>
+          </div>
+          <br>
+          <br>
+          <div class="row">
+          <!-- FIELD WEIGHTY_MAX   -->
+            <div class="col-md-4 px-4">
+              <div class="form-group">
+                <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">Weight Max</label>
+                <input type="number" class="form-control" disabled="" [(ngModel)]="weightMaxNew"  placeholder="Max" name="cargomaxcategory_input" required>
+              </div>
+            </div>
+            <div class="col-md-5 px-6">
+              <div class="form-group">
+                <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">Unity</label>
+                <input class="form-control" disabled=""  [(ngModel)]="unityWeightValue_S" placeholder="Weight" name="unitymaxcategory_input" required>
+              </div>
+            </div>
+        </div>
+        <br>
+        <!-- RULE PEOPLE -->
+        <div class="row">
+          <div class="col-md-10 px-4">
+            <div class="form-group">
+              <label [ngStyle]="{'color': 'black', 'font-size': '11px','font-weight': 'bold'}">Amount of People</label>
+            </div>
+          </div>
+          <br>
+         <!-- <div class="row"> -->
+            <div class="col-md-4 px-4">
+              <div class="form-group">
+                <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">People Max</label>
+                <input class="form-control" disabled=""  [(ngModel)]="peopleMax" placeholder="Max" name="peoplemaxcategory_input" required>
+              </div>
+            </div>
+         <!-- </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

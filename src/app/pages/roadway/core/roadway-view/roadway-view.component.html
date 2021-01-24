@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title"> Business Rule List</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <th>
+                Name BRE
+              </th>
+              <th>
+                Transport
+              </th>
+              <th>
+                Date Creation
+              </th>
+              <th>
+                Version
+              </th>
+              <th>
+                Status
+              </th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let bre of roadwaysBRE; let i = index" (click)="selectRoadwayBRE($event, bre)">
+                <td>{{bre.name_bre}}</td>
+                <td>{{bre.transport}}</td>
+                <td>{{bre.date_creation | date:'MM/dd/yyyy'}}</td>
+                <td>{{bre.version}}</td>
+                <td>{{bre.status}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <br>
+        <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <button type="submit" style="height:50px;width:150px;" (click)="newRoadwayBRE()" class="btn btn-primary btn-round">New BRE</button>
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <button type="submit" style="height:50px;width:150px;" [disabled]="isEdit" (click)="editRoadwayBRE()" class="btn btn-primary btn-round">Edit BRE</button>
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         </div>
+      </div>
+    </div>
+  </div>
+</div>

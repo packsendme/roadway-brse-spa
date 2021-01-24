@@ -1,0 +1,210 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">
+          Unity Measurement - Save&Update
+        </h3>
+        <!-- <form id="add-form" (ngSubmit)="f.form.valid && saveEditLocation(f)" #f="ngForm" novalidate>-->
+        <form name="form1" id="form1" #f="ngForm" novalidate>
+          <div class="row">
+            <div div class="col-md-6">
+              <div class="card card-plain">
+                <div class="card-body">
+
+                  <!-- Field - Type Unity -->
+                  <div class="row">
+                    <div class="col-md-10 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Unity Type</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <input type="text" class="form-control" [(ngModel)]="unityType" name="typeUnity_input" required>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Field - unityArea -->
+                  <div class="row">
+                    <div class="col-md-6 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Unity Area</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <input type="text" class="form-control" [(ngModel)]="unityArea" name="unityArea_input" required>
+                      </div>
+                    </div>
+                    <div class="col-md-1 col-1 px-2 text-left">
+                      <div class="form-group">
+                        <br>
+                        <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="addArea()">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <!-- Table Edit Change-->
+                    <div class="col-md-6 px-1">
+                      <div class="form-group">
+                        <label>Registered *</label>
+                        <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
+                          <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '13px', 'font-weight': 'bold'}">
+                            <th class="text-center">Area</th>
+                            <th class="text-center">Action</th>
+                          </tr>
+                          <tr *ngFor="let area of unityArea_L; let id = index">
+                            <td>
+                              {{area}}
+                            </td>
+                            <td>
+                              <span class="table-remove">
+                                <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="removeArea(area)">
+                                  <i class="fa fa-minus" aria-hidden="true"></i>
+                                </button>
+                              </span>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Field - unityVolume -->
+                  <div class="row">
+                    <div class="col-md-6 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Unity Volume</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <input type="text" class="form-control" [(ngModel)]="unityVolume" name="unityVolume_input" required>
+                      </div>
+                    </div>
+                    <div class="col-md-1 col-1 px-2 text-left">
+                      <div class="form-group">
+                        <br>
+                        <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="addVolume()">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <!-- Table Edit Change-->
+                    <div class="col-md-6 px-1">
+                      <div class="form-group">
+                        <label>Registered *</label>
+                        <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
+                          <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '13px', 'font-weight': 'bold'}">
+                            <th class="text-center">Volume</th>
+                            <th class="text-center">Action</th>
+                          </tr>
+                          <tr *ngFor="let volume of unityVolume_L; let id = index">
+                            <td>
+                              {{volume}}
+                            </td>
+                            <td>
+                              <span class="table-remove">
+                                <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="removeVolume(volume)">
+                                  <i class="fa fa-minus" aria-hidden="true"></i>
+                                </button>
+                              </span>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Field - unityWeight -->
+                  <div class="row">
+                    <div class="col-md-5 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Unity Weight</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <input type="text" class="form-control" [(ngModel)]="unityWeight" name="unityWeight_input" required>
+                      </div>
+                    </div>
+                    <div class="col-md-3 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Level Unity</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;**</label>
+                        <select class="form-control" name="unitylevel_select"  [(ngModel)]="unityWeightLevel">
+                          <option [ngValue]="item" *ngFor="let item of unityWeightLevel_L">{{item}}</option>
+                        </select>
+                      </div>
+                    </div>
+
+
+                    <div class="col-md-1 col-1 px-2 text-left">
+                      <div class="form-group">
+                        <br>
+                        <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="addWeight()">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <!-- Table Edit Change-->
+                    <div class="col-md-6 px-1">
+                      <div class="form-group">
+                        <label>Registered *</label>
+                        <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
+                          <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '13px', 'font-weight': 'bold'}">
+                            <th class="text-center">Weight</th>
+                            <th class="text-center">level</th>
+                            <th class="text-center">Action</th>
+                          </tr>
+                          <tr *ngFor="let weight of unityWeight_M | keyvalue">
+                            <td>
+                              {{weight.value}}
+                            </td>
+                            <td>
+                              {{weight.key}}
+                            </td>
+                            <td>
+                              <span class="table-remove">
+                                <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="removeWeight(weight.key)">
+                                  <i class="fa fa-minus" aria-hidden="true"></i>
+                                </button>
+                              </span>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit" style="height:50px;width:150px;" (click)="validateSave(f)" class="btn btn-primary btn-round">Save</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit" style="height:50px;width:150px;" [disabled]="isDisabled"  (click)="delete(f)" class="btn btn-primary btn-round">Delete</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit" style="height:50px;width:150px;" (click)="functionRedirectToView(f)" class="btn btn-primary btn-round">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title"> Unity Measurement - List</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <th>
+                Unity Type
+              </th>
+           </thead>
+            <tbody>
+              <tr *ngFor="let unity of unityMeasurements; let i = index" (click)="select($event, unity)">
+                <td>{{unity.unityType}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

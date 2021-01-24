@@ -1,0 +1,131 @@
+<div class="row">
+  <div class="col-md-11">
+    <div class="card card-user">
+      <div class="card-body">
+        <h3 class="card-title">
+          {{titlePage}}
+        </h3>
+         <!-- <form id="add-form" (ngSubmit)="f.form.valid && saveEditLocation(f)" #f="ngForm" novalidate> -->
+         <form id="add-form" #f="ngForm" novalidate>
+            <div div class="col-md-6">
+              <div class="card card-plain">
+                <div class="card-body">
+
+                  <div class="row">
+                    <div class="col-md-9 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Vehicle Name</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <br>
+                        <label [ngStyle]="{'color': 'black', 'font-size': '16px', 'font-weight': 'bold'}">{{vehicleOne_Obj.vehicle_name}}</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-9 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Type Vehicle</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <select class="form-control" name="categoryvehicle_select" [(ngModel)]="vehicleOne_Obj.vehicle_type" (change)='changeNameVehicle()'  required>
+                          <option [value]="item.type_vehicle" *ngFor="let item of vehiclesTypes">{{item.type_vehicle}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-1 col-6 px-1 text-left">
+                      <label>&nbsp;</label>
+                      <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="functionRedirectToVehicleType()">
+                        <i class="fa fa-envelope"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Type Transport:</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <br>
+                        <input type="radio" name="people_radio" [(ngModel)]="vehicleOne_Obj.transport_type" value="Cargo" (change)=toggleDisplay()><label>&nbsp;Cargo</label>
+                        &nbsp;
+                        <input type="radio" name="people_radio" [(ngModel)]="vehicleOne_Obj.transport_type" value="Passenger" (change)=toggleDisplay()><label>&nbsp;Passenger</label>
+                        &nbsp;
+                        <input type="radio" name="transport_radio" [(ngModel)]="vehicleOne_Obj.transport_type" value="Mixed" (change)=toggleDisplay()><label>&nbsp;Mixed (Cargo + Passenger)</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" [hidden]="!isShowPeople">
+                    <div class="col-md-4 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">People Number</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <input type="number" maxlength="2" class="form-control" name="peoplemaxcategory_input" [(ngModel)]="vehicleOne_Obj.people_max" min="0" max="99" required>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" [hidden]="!isShowCargo">
+                    <div class="col-md-3 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Weight Cargo</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                         <input type="number" class="form-control" name="weightcategory_input" placeholder="Max" [(ngModel)]="vehicleOne_Obj.weight_max"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">
+                      </div>
+                    </div>
+
+                    <div class="col-md-4 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Unity Weight</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <select class="form-control" name="unitymeasurement_select" [(ngModel)]="unityWeight">
+                          <option [value]="item.key" *ngFor="let item of unityWeight_View | keyvalue">{{item.key}}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Axis</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <select class="form-control" name="axis_select" [(ngModel)]="vehicleOne_Obj.axis_total">
+                          <option [value]="item" *ngFor="let item of axis">{{item}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Bodywork to Save -->
+                  <div class="row">
+                      <div class="col-md-9 px-1">
+                        <div class="form-group">
+                          <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Bodywork</label>
+                          <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                          <select class="form-control" name="bodywork_select" [(ngModel)]="vehicleOne_Obj.bodywork_vehicle" (change)='changeNameVehicle()' required>
+                            <option [value]="item.bodyWork" *ngFor="let item of bodyworkes">{{item.bodyWork}}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-1 col-6 px-1 text-left">
+                        <label>&nbsp;</label>
+                        <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="functionRedirectToBodywork()">
+                          <i class="fa fa-envelope"></i>
+                        </button>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="submit"  style="height:50px;width:150px;" (click)="validateSave(f)" class="btn btn-primary btn-round">Save</button>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button style="height:50px;width:150px;"  (click)="delete(f)"  [disabled]="isDisabled" class="btn btn-primary btn-round">Delete</button>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button (click)="functionRedirectToVehicleView()"  style="height:50px;width:150px;"  class="btn btn-primary btn-round">Cancel</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

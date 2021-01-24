@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Category - List</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class="text-primary">
+              <th class="text-left">Category</th>
+              <th class="text-left">Transport</th>
+              <th class="text-center">People Max</th>
+              <th class="text-center">Cargo Max</th>
+              <th class="text-left">Unity</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cat of categories; let i = index" (click)="selectCategory($event, cat)">
+                <td class="text-left">{{cat.name_category}}</td>
+                <td class="text-left">{{cat.transport}}</td>
+                <td class="text-center">{{cat.people_max}}</td>
+                <td class="text-center">{{cat.weight_max | number : '1.1-2'}}</td>
+                <div *ngIf="(cat.unity_weight | json) != '{}'">
+                  <td class="text-center" *ngFor="let item of cat.unity_weight | keyvalue">{{item.value}}</td>
+                </div>
+                <div *ngIf="(cat.unity_weight | json) == '{}'">
+                  <td class="text-center">{{valueDefaultView}}</td>
+                </div>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <br>
+        <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <button type="submit" style="height:50px;width:150px;" (click)="newCategory()" class="btn btn-primary btn-round">New Category</button>
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <button type="submit" [disabled]="isDisabled" style="height:50px;width:150px;" (click)="editCategory()" class="btn btn-primary btn-round">Edit Category</button>
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
