@@ -12,5 +12,6 @@ export interface VehicleModel {
   height_dimension_max: string;
   width_dimension_max: string;
   length_dimension_max: string;
+  fuel_consumption: number;
   bodywork_vehicle: string;
 }

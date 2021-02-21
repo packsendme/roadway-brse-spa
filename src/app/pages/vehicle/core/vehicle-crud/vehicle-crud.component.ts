@@ -203,7 +203,8 @@ convertArrayToMapUnityWeghty() {
     let statusSave = false;
 
     if ((this.vehicleOne_Obj.category_vehicle) && ( this.vehicleOne_Obj.bodywork_vehicle) &&
-    (this.vehicleOne_Obj.classification_vehicle) && (this.vehicleOne_Obj.subclassification_vehicle)) {
+    (this.vehicleOne_Obj.classification_vehicle) && (this.vehicleOne_Obj.subclassification_vehicle)
+    && (this.vehicleOne_Obj.fuel_consumption)) {
       if (this.vehicleOne_Obj.transport_type === 'Cargo') {
         if ((this.vehicleOne_Obj.weight_max) && (this.unityWeight) && (this.vehicleOne_Obj.axis_total) &&
         (this.vehicleOne_Obj.height_dimension_max) && (this.vehicleOne_Obj.width_dimension_max) &&
@@ -256,14 +257,15 @@ convertArrayToMapUnityWeghty() {
     this.confirmationDialogService.confirm('Save', msg).then((result) => {
       if ( result === true ) {
         if (this.vehicleOne_Obj.id == null) {
-          console.log('Vehicle ', this.vehicleOne_Obj.classification_vehicle);
-          console.log('Vehicle ', this.vehicleOne_Obj.subclassification_vehicle);
+          console.log('FUEL CONSUMPTION ', this.vehicleOne_Obj.fuel_consumption);
 
           this.vehicleService.postVehicle(this.vehicleOne_Obj).subscribe({
             next: data => this.transactionOrchestrator(event, 'Save'),
             error: error => this.showNotification('bottom', 'center', error, 'error')
           });
         } else if (this.vehicleOne_Obj.id != null) {
+          console.log('FUEL CONSUMPTION ', this.vehicleOne_Obj.fuel_consumption);
+
           this.vehicleService.putVehicle(this.vehicleOne_Obj).subscribe({
             next: data => this.transactionOrchestrator(event, 'Update'),
             error: error => this.showNotification('bottom', 'center', error, 'error')
