@@ -71,7 +71,7 @@
 
                   <!-- Type_Vehicle - Field -->
                   <div class="row">
-                    <div class="col-md-9 px-1">
+                    <div class="col-md-11 px-1">
                       <div class="form-group">
                         <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Type Transport:</label>
                         <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
@@ -80,7 +80,7 @@
                         &nbsp;
                         <input type="radio" name="people_radio" [(ngModel)]="vehicleOne_Obj.transport_type" value="Passenger" (change)=toggleDisplay()><label>&nbsp;Passenger</label>
                         &nbsp;
-                        <input type="radio" name="transport_radio" [(ngModel)]="vehicleOne_Obj.transport_type" value="Mixed" (change)=toggleDisplay()><label>&nbsp;Mixed (Cargo + Passenger)</label>
+                        <input type="radio" name="transport_radio" [(ngModel)]="vehicleOne_Obj.transport_type" value="Mixed" (change)=toggleDisplay()><label>&nbsp;Mixed(Cargo/Passenger)</label>
                       </div>
                     </div>
                   </div>
