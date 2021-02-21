@@ -277,7 +277,7 @@ removeVehicle(vehicleEditSelect: VehicleModel) {
   const error = 'It is not possible to delete a single vehicle that is registered';
 
   if ( this.vehicleNew_Vet.length > 1) {
-    const vehicleObj = this.vehicleNew_Vet.findIndex(vehicle => vehicle.vehicle_name === vehicleEditSelect.vehicle_name);
+    const vehicleObj = this.vehicleNew_Vet.findIndex(vehicle => vehicle.category_vehicle === vehicleEditSelect.category_vehicle);
     this.vehicleNew_Vet.splice(vehicleObj, 1);
     this.calcRuleInstanceDeleteWeight(vehicleEditSelect);
   } else if ( this.vehicleNew_Vet.length === 1) {
@@ -289,7 +289,7 @@ addVehicle() {
   let statusVehicle = false;
   if ( this.vehicleNew_Vet.length >= 1) {
     this.vehicleNew_Vet.forEach( (vehicleObj) => {
-      if (vehicleObj.vehicle_name === this.vehicleNew_Obj.vehicle_name) {
+      if (vehicleObj.category_vehicle === this.vehicleNew_Obj.category_vehicle) {
         statusVehicle = true;
       }
     });

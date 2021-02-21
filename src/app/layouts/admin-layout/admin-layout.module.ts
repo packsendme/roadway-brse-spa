@@ -1,5 +1,4 @@
 import { VehicleViewComponent } from './../../pages/vehicle/core/vehicle-view/vehicle-view.component';
-import { VehicletypeCrudComponent } from '../../pages/vehicle/core/vehicletype-crud/vehicletype-crud.component';
 import { BodyworkCrudComponent } from './../../pages/vehicle/bodywork/bodywork-crud/bodywork-crud.component';
 import { DataTO } from './../../model/dataTO';
 import { NgModule } from '@angular/core';
@@ -40,6 +39,8 @@ import { SimulationViewComponent } from 'app/pages/simulation/simulation-view/si
 import { SimulationCrudComponent } from 'app/pages/simulation/simulation-crud/simulation-crud.component';
 import { FueltollsViewComponent } from 'app/pages/fueltolls/fueltolls-view/fueltolls-view.component';
 import { FueltollsCrudComponent } from 'app/pages/fueltolls/fueltolls-crud/fueltolls-crud.component';
+import { VehicletypeCrudComponent } from 'app/pages/vehicle/core/vehicletype-crud/vehicletype-crud.component';
+import { VehicleclassificationCrudComponent } from 'app/pages/vehicle/core/vehicleclassification-crud/vehicleclassification-crud.component';
 
 @NgModule({
   imports: [
@@ -74,7 +75,7 @@ import { FueltollsCrudComponent } from 'app/pages/fueltolls/fueltolls-crud/fuelt
     RoadwayNewComponent,
     RoadwayViewComponent,
     RoadwayUpdateComponent,
-    VehicletypeCrudComponent,
+    VehicleclassificationCrudComponent,
     BodyworkCrudComponent,
     TransportViewComponent,
     ConfirmationDialogComponent,
@@ -86,7 +87,8 @@ import { FueltollsCrudComponent } from 'app/pages/fueltolls/fueltolls-crud/fuelt
     SimulationViewComponent,
     SimulationCrudComponent,
     FueltollsViewComponent,
-    FueltollsCrudComponent
+    FueltollsCrudComponent,
+    VehicletypeCrudComponent
   ]
 })
 

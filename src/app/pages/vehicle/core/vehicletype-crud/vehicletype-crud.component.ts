@@ -1,25 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { VehicleTypeService } from 'app/service/vehicle-type.service';
-import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ConfirmationDialogService } from 'app/service/confirmation-dialog.service';
 import { VehicleTypeModel } from 'app/model/vehicle-type-model';
+import { ConfirmationDialogService } from 'app/service/confirmation-dialog.service';
+import { VehicleTypeService } from 'app/service/vehicle-type.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-vehicletype',
+  selector: 'app-vehicletype-crud',
   templateUrl: './vehicletype-crud.component.html',
   styleUrls: ['./vehicletype-crud.component.css']
 })
 export class VehicletypeCrudComponent implements OnInit {
 
-   // List Another Requests
-   vehiclesTypes: VehicleTypeModel[];
-
-  // Screen Option
+  // List Another Requests
   vehicleTypeOne_Obj = {} as VehicleTypeModel;
   isDisabled = true;
-  nameVehicleType: String = '';
+  vehiclesTypes: VehicleTypeModel[];
 
   constructor(
     private vehicleTypeService: VehicleTypeService,
@@ -35,8 +32,8 @@ export class VehicletypeCrudComponent implements OnInit {
 
   findVehiclesType() {
     let vehiclesTypesVet: VehicleTypeModel [] = [];
-    this.vehicleTypeService.getVehicleType().subscribe((vehicleTypeData: Response) => {
-      const vehicleTypeDataStr = JSON.stringify(vehicleTypeData.body);
+    this.vehicleTypeService.get().subscribe((vehicleCategoryData: Response) => {
+      const vehicleTypeDataStr = JSON.stringify(vehicleCategoryData.body);
       JSON.parse(vehicleTypeDataStr, function (key, value) {
         if (key === 'vehiclesType') {
           vehiclesTypesVet = value;
@@ -49,12 +46,13 @@ export class VehicletypeCrudComponent implements OnInit {
     });
   }
 
+
   // --------- OPERATION TRANSACTION - CRUD ---------------------------------------//
 
   validateSave(event: any) {
     let msg: string;
-    if (this.nameVehicleType) {
-      if (this.nameVehicleType.length < 5) {
+    if (this.vehicleTypeOne_Obj.type_vehicle) {
+      if (this.vehicleTypeOne_Obj.type_vehicle.length < 3) {
         msg = 'Name VehicleType must be 8 min - 30 max characters long';
         this.showNotification('bottom', 'center', msg, 'error');
       } else {
@@ -71,14 +69,13 @@ export class VehicletypeCrudComponent implements OnInit {
     // Transaction Save
     this.confirmationDialogService.confirm('Save', msg).then((result) => {
       if ( result === true ) {
-        this.vehicleTypeOne_Obj.type_vehicle = this.nameVehicleType;
         if (this.vehicleTypeOne_Obj.id == null) {
-          this.vehicleTypeService.postVehicleType(this.vehicleTypeOne_Obj).subscribe({
+          this.vehicleTypeService.post(this.vehicleTypeOne_Obj).subscribe({
             next: data => this.transactionOrchestrator(event, 'Save'),
             error: error => this.showNotification('bottom', 'center', error, 'error')
           });
         } else if (this.vehicleTypeOne_Obj.id != null) {
-          this.vehicleTypeService.putVehicleType(this.vehicleTypeOne_Obj).subscribe({
+          this.vehicleTypeService.put(this.vehicleTypeOne_Obj).subscribe({
             next: data => this.transactionOrchestrator(event, 'Update'),
             error: error => this.showNotification('bottom', 'center', error, 'error')
           });
@@ -95,7 +92,7 @@ export class VehicletypeCrudComponent implements OnInit {
         if ( result === true ) {
           // Transaction Delete
           if (this.vehicleTypeOne_Obj.id != null) {
-            this.vehicleTypeService.deleteVehicleType(this.vehicleTypeOne_Obj).subscribe({
+            this.vehicleTypeService.delete(this.vehicleTypeOne_Obj).subscribe({
               next: data => this.transactionOrchestrator(event, 'Delete'),
               error: error => this.showNotification('bottom', 'center', error, 'error')
             });
@@ -106,43 +103,10 @@ export class VehicletypeCrudComponent implements OnInit {
     }
   }
 
-// --------------------------------------------------------------------------------//
-
-selectVehicle(event: any, vehicleSelect: VehicleTypeModel) {
-  this.isDisabled = false;
-  this.vehicleTypeOne_Obj = vehicleSelect;
-  this.nameVehicleType = vehicleSelect.type_vehicle;
-}
-
-transactionOrchestrator(event: any, type: String) {
-    let msgTransaction = '' as  String;
-    console.log('Save Teste', type );
-    switch (type) {
-      case 'Save': {
-        msgTransaction = 'Register Success';
-        this.functionRedirectToVehicle();
-        break;
-      }
-      // tslint:disable-next-line:no-switch-case-fall-through
-      case 'Update': {
-        msgTransaction = 'Update Success';
-        this.functionRedirectToVehicle();
-        break;
-      }
-      case 'Delete': {
-        msgTransaction = 'Delete Success';
-        this.functionRedirectToVehicle();
-        break;
-      }
-    }
-    this.findVehiclesType()
-    this.showNotification('bottom', 'center', msgTransaction, 'success')
-    event.resetForm(event);
-    this.vehicleTypeOne_Obj = {} as VehicleTypeModel;
-  }
-
-  handleClear(f: NgForm) {
-    f.resetForm();
+  // --------------------------------------------------------------------------------//
+  selectVehicle(event: any, vehicleSelect: VehicleTypeModel) {
+    this.isDisabled = false;
+    this.vehicleTypeOne_Obj = vehicleSelect;
   }
 
   showNotification(from, align, msg, type) {
@@ -179,9 +143,42 @@ transactionOrchestrator(event: any, type: String) {
     }
   }
 
-  functionRedirectToVehicle() {
-    this.router.navigate(['/vehicle-crud']);
+  transactionOrchestrator(event: any, type: String) {
+    let msgTransaction = '' as  String;
+    console.log('Save Teste', type );
+    switch (type) {
+      case 'Save': {
+        msgTransaction = 'Register Success';
+        this.functionRedirectToVehicle();
+        break;
+      }
+      // tslint:disable-next-line:no-switch-case-fall-through
+      case 'Update': {
+        msgTransaction = 'Update Success';
+        this.functionRedirectToVehicle();
+        break;
+      }
+      case 'Delete': {
+        msgTransaction = 'Delete Success';
+        this.functionRedirectToVehicle();
+        break;
+      }
+    }
+    this.findVehiclesType()
+    this.showNotification('bottom', 'center', msgTransaction, 'success')
+    event.resetForm(event);
+    this.vehicleTypeOne_Obj = {} as VehicleTypeModel;
   }
+
+
+  handleClear(f: NgForm) {
+    f.resetForm();
+  }
+
+  functionRedirectToVehicle() {
+    this.router.navigate(['/vehiclecategory-crud']);
+  }
+
+
+
 }
-
-

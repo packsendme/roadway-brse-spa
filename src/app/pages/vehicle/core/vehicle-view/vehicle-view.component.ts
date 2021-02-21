@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataTO } from 'app/model/dataTO';
 import { VehicleModel } from 'app/model/vehicle-model';
-import { VehicleTypeService } from 'app/service/vehicle-type.service';
 import { VehicleService } from 'app/service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -21,7 +20,6 @@ export class VehicleViewComponent implements OnInit {
 
   constructor(
     private vehicleService: VehicleService,
-    private vehicleTypeService: VehicleTypeService,
     private toastr: ToastrService,
     private vehicleTO: DataTO,
     private router: Router) { }

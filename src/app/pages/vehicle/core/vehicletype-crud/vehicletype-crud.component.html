@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-body">
         <h3 class="card-title">
-          Vehicle Category - New&Edit
+          Vehicle Type - New&Edit
         </h3>
          <!-- <form id="add-form" (ngSubmit)="f.form.valid && saveEditLocation(f)" #f="ngForm" novalidate> -->
          <form id="add-form" #f="ngForm" novalidate>
@@ -11,12 +11,14 @@
             <div div class="col-md-6">
               <div class="card card-plain">
                 <div class="card-body">
+
+                  <!-- Vehicle Type - Field -->
                   <div class="row">
-                    <div class="col-md-8 pr-1">
+                    <div class="col-md-9 pr-1">
                       <div class="form-group">
-                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Name Category</label>
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Vehicle Type</label>
                         <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
-                        <input type="text" class="form-control" [(ngModel)]="nameVehicleType" name="vehiclecategory_input"
+                        <input type="text" class="form-control" [(ngModel)]="vehicleTypeOne_Obj.type_vehicle" name="vehicletype_input"
                         maxlength="30"  required>
                       </div>
                     </div>
@@ -50,7 +52,7 @@
           <table class="table">
             <thead class=" text-primary">
               <th>
-                Name Category
+                Vehicle Type
               </th>
            </thead>
             <tbody>

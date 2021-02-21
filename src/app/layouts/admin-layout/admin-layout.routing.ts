@@ -1,10 +1,10 @@
+import { VehicleclassificationCrudComponent } from './../../pages/vehicle/core/vehicleclassification-crud/vehicleclassification-crud.component';
 import { FueltollsCrudComponent } from './../../pages/fueltolls/fueltolls-crud/fueltolls-crud.component';
 import { FueltollsViewComponent } from './../../pages/fueltolls/fueltolls-view/fueltolls-view.component';
 import { UnitymeasurementCrudComponent } from '../../pages/category/unitymeasurement/unitymeasurement-crud/unitymeasurement-crud.component';
 import { BodyworkCrudComponent } from './../../pages/vehicle/bodywork/bodywork-crud/bodywork-crud.component';
 import { Routes } from '@angular/router';
 import { VehicleCrudComponent } from 'app/pages/vehicle/core/vehicle-crud/vehicle-crud.component';
-import { VehicletypeCrudComponent } from 'app/pages/vehicle/core/vehicletype-crud/vehicletype-crud.component';
 import { VehicleViewComponent } from 'app/pages/vehicle/core/vehicle-view/vehicle-view.component';
 import { InitialsCrudComponent } from 'app/pages/transport/initials/initials-crud/initials-crud.component';
 import { TransportViewComponent } from 'app/pages/transport/core/transport-view/transport-view.component';
@@ -19,12 +19,14 @@ import { RoadwayUpdateComponent } from 'app/pages/roadway/core/roadway-update/ro
 import { CurrencyCrudComponent } from 'app/pages/roadway/currency/currency-crud/currency-crud.component';
 import { SimulationViewComponent } from 'app/pages/simulation/simulation-view/simulation-view.component';
 import { SimulationCrudComponent } from 'app/pages/simulation/simulation-crud/simulation-crud.component';
+import { VehicletypeCrudComponent } from 'app/pages/vehicle/core/vehicletype-crud/vehicletype-crud.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'location-view',       component: LocationViewComponent },
     { path: 'location-crud',       component: LocationCrudComponent },
     { path: 'vehicle-crud',        component: VehicleCrudComponent },
     { path: 'vehicle-view',        component: VehicleViewComponent },
+    { path: 'vehicleclassification-crud',    component: VehicleclassificationCrudComponent },
     { path: 'vehicletype-crud',    component: VehicletypeCrudComponent },
     { path: 'category-crud',        component: CategoryCrudComponent },
     { path: 'category-view',       component: CategoryViewComponent },

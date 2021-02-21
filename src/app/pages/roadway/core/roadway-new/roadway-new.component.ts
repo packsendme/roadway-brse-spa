@@ -331,7 +331,7 @@ export class RoadwayNewComponent implements OnInit {
         categoriesNew_Vet_L.forEach(function (categoryObj) {
           categoryObj.vehicles.forEach(function(vehicleObj) {
             costsDS_Local.forEach(function (costsObj) {
-              if ( vehicleObj.vehicle_type === costsObj.vehicle) {
+              if ( vehicleObj.category_vehicle === costsObj.vehicle) {
                 const categoryObjExclude = costsDS_Local.findIndex(category => category.vehicle === costsObj.vehicle);
                 costsDS_Local.splice(categoryObjExclude, 1);
               }
@@ -385,7 +385,7 @@ generateFirstCostsTable(event: any) {
           countrySame = true;
         }
         categoryCostsObj = {
-          vehicle: vehicle.vehicle_type, countryName: countryS,
+          vehicle: vehicle.category_vehicle, countryName: countryS,
           weight_cost: valueCosts, distance_cost: valueCosts,
           worktime_cost: valueCosts, average_consumption_cost: valueCosts,
           currency_symbol: currencySymbol, currency: currencyName,
@@ -421,7 +421,7 @@ generateCostsTable_AddCountry(countryNameS: string) {
         statusNewCountry = false;
       }
       costsObj = {
-        vehicle: vehicle.vehicle_type, countryName: countryNameS,
+        vehicle: vehicle.category_vehicle, countryName: countryNameS,
         weight_cost: valueCosts, distance_cost: valueCosts,
         worktime_cost: valueCosts, average_consumption_cost: valueCosts,
         currency_symbol: currencySymbol, currency: currencyName,
@@ -448,7 +448,7 @@ generateCostsTable_AddVehicle(categoryObj: CategoryModel) {
   countries.forEach(function (country) {
     categoryObj.vehicles.forEach(function (vehicle) {
       categoryCostsObj = {
-        vehicle: vehicle.vehicle_type, countryName: country.countryName,
+        vehicle: vehicle.category_vehicle, countryName: country.countryName,
         weight_cost: valueCosts, distance_cost: valueCosts,
         worktime_cost: valueCosts, average_consumption_cost: valueCosts,
         currency_symbol: currencySymbol, currency: currencyName,
