@@ -483,7 +483,7 @@ export class RoadwayUpdateComponent implements OnInit {
         this.roadwaybreEdit_Obj.categories.forEach(function (categoryObj) {
           categoryObj.vehicles.forEach(function(vehicleObj) {
             costsDS_Local.forEach(function (costsObj) {
-              if ( vehicleObj.vehicle_type === costsObj.vehicle) {
+              if ( vehicleObj.category_vehicle === costsObj.vehicle) {
                 const categoryObjExclude = costsDS_Local.findIndex(category => category.vehicle === costsObj.vehicle);
                 costsDS_Local.splice(categoryObjExclude, 1);
               }
@@ -570,7 +570,7 @@ export class RoadwayUpdateComponent implements OnInit {
         }
 
         costsObj = {
-          vehicle: vehicle.vehicle_type, countryName: countryNameS,
+          vehicle: vehicle.category_vehicle, countryName: countryNameS,
           weight_cost: valueCosts, distance_cost: valueCosts,
           worktime_cost: valueCosts, average_consumption_cost: valueCosts,
           currency_symbol: currencySymbol, currency: currencyName,
@@ -596,7 +596,7 @@ export class RoadwayUpdateComponent implements OnInit {
     countries.forEach(function (country) {
       categoryObj.vehicles.forEach(function (vehicle) {
         categoryCostsObj = {
-          vehicle: vehicle.vehicle_type, countryName: country.countryName,
+          vehicle: vehicle.category_vehicle, countryName: country.countryName,
           weight_cost: valueCosts, distance_cost: valueCosts,
           worktime_cost: valueCosts, average_consumption_cost: valueCosts,
           currency_symbol: currencySymbol, currency: currencyName,

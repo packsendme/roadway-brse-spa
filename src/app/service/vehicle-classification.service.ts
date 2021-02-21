@@ -1,16 +1,16 @@
-import { VehicleTypeModel } from './../model/vehicle-type-model';
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'environments/environment';
+import { VehicleClassificationModel } from 'app/model/vehicle-classification-model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class VehicleTypeService {
-  url = environment.ip + environment.vehiclePort + environment.appName + '/vehicle/type';
+export class VehicleClassificationService {
+  url = environment.ip + environment.vehiclePort + environment.appName + '/vehicle/classification';
   headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-  vehicleType: VehicleTypeModel[] = [];
+  vehicleClassification: VehicleClassificationModel[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
@@ -37,19 +37,21 @@ export class VehicleTypeService {
       return this.httpClient.get<Response>(urlType, httpOptions)
       }
 
-  post(vehicleType: VehicleTypeModel): Observable<Response> {
+  post(vehicleType: VehicleClassificationModel): Observable<Response> {
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
     return this.httpClient.post<Response>(this.url, vehicleType, httpOptions)
   }
 
-  put(vehicleType: VehicleTypeModel){
+  put(vehicleType: VehicleClassificationModel){
+    console.log(' bodyWork ', vehicleType.id);
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
     return this.httpClient.put<Response>(this.url + '?id=' + vehicleType.id, vehicleType, httpOptions)
   };
 
-  delete(vehicleType: VehicleTypeModel) {
+  delete(vehicleType: VehicleClassificationModel) {
+    console.log(' deleteVehicle ', vehicleType.id);
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
     return this.httpClient.delete<Response>(this.url + '?id=' + vehicleType.id, httpOptions)

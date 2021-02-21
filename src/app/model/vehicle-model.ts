@@ -1,12 +1,16 @@
-
 export interface VehicleModel {
   id: string;
-  vehicle_name: string;
-  vehicle_type: string;
-  bodywork_vehicle: string;
-  weight_max: number;
-  people_max: number;
-  axis_total: number;
-  unity_weight: {};
+  category_vehicle: string;
+  type_vehicle: string;
+  classification_vehicle: string;
+  subclassification_vehicle: string;
   transport_type: string;
+  weight_max: number;
+  unity_weight: {};
+  axis_total: string;
+  people_max: number;
+  height_dimension_max: string;
+  width_dimension_max: string;
+  length_dimension_max: string;
+  bodywork_vehicle: string;
 }

@@ -11,37 +11,67 @@
               <div class="card card-plain">
                 <div class="card-body">
 
+                  <!-- Category Name - Field -->
                   <div class="row">
-                    <div class="col-md-9 px-1">
+                    <div class="col-md-12 px-1">
                       <div class="form-group">
-                        <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Vehicle Name</label>
-                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Category Name</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '12px'}">&nbsp;*</label>
                         <br>
-                        <label [ngStyle]="{'color': 'black', 'font-size': '16px', 'font-weight': 'bold'}">{{vehicleOne_Obj.vehicle_name}}</label>
+                        <input type="text" [ngStyle]="{'color': 'red', 'font-size': '14px', 'font-weight': 'bold'}" class="form-control" [(ngModel)]="vehicleOne_Obj.category_vehicle" name="vehiclename_input" disabled >
                       </div>
                     </div>
                   </div>
 
+                  <!-- Type Vehicle - Field -->
                   <div class="row">
                     <div class="col-md-9 px-1">
                       <div class="form-group">
-                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Type Vehicle</label>
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Vehicle Type</label>
                         <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
-                        <select class="form-control" name="categoryvehicle_select" [(ngModel)]="vehicleOne_Obj.vehicle_type" (change)='changeNameVehicle()'  required>
-                          <option [value]="item.type_vehicle" *ngFor="let item of vehiclesTypes">{{item.type_vehicle}}</option>
+                        <select class="form-control" name="vehicletype_select" [(ngModel)]="vehicleOne_Obj.type_vehicle" (change)="findClassificationAndSub()">
+                          <option [value]="item.type_vehicle" *ngFor="let item of vehicleType_L">{{item.type_vehicle}}</option>
                         </select>
                       </div>
                     </div>
-                    <div class="col-md-1 col-6 px-1 text-left">
+                    <div class="col-md-3 px-0 text-left">
                       <label>&nbsp;</label>
+                      <br>
                       <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="functionRedirectToVehicleType()">
-                        <i class="fa fa-envelope"></i>
+                        <i class="fa fa-file-text-o" aria-hidden="true"></i>
                       </button>
                     </div>
                   </div>
 
+                  <!-- ClassificationVehicle - Field -->
                   <div class="row">
-                    <div class="col-md-12 px-1">
+                    <div class="col-md-9 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Vehicle Classification</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <select class="form-control" name="vehicleCategory_select" [(ngModel)]="vehicleOne_Obj.classification_vehicle">
+                          <option [value]="item" *ngFor="let item of vehicleClassification_L ">{{item}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- SubClassificationVehicle - Field -->
+                  <div class="row">
+                    <div class="col-md-9 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Vehicle SubClassification</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <select class="form-control" name="vehicleSubCategory_select" [(ngModel)]="vehicleOne_Obj.subclassification_vehicle">
+                          <option [value]="item" *ngFor="let item of vehicleSubclassification_L">{{item}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Type_Vehicle - Field -->
+                  <div class="row">
+                    <div class="col-md-9 px-1">
                       <div class="form-group">
                         <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Type Transport:</label>
                         <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
@@ -65,7 +95,7 @@
                     </div>
                   </div>
 
-                  <div class="row" [hidden]="!isShowCargo">
+                  <div class="row" [hidden]="!isShowCargo" style="background-color:#f0f5f5; overflow: hidden;">
                     <div class="col-md-3 px-1">
                       <div class="form-group">
                         <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Weight Cargo</label>
@@ -74,7 +104,7 @@
                       </div>
                     </div>
 
-                    <div class="col-md-4 px-1">
+                    <div class="col-md-6 px-1">
                       <div class="form-group">
                         <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Unity Weight</label>
                         <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
@@ -83,8 +113,44 @@
                         </select>
                       </div>
                     </div>
+                  </div>
 
-                    <div class="col-md-3 px-1">
+                  <div class="row" [hidden]="!isShowCargo" style="background-color:#f0f5f5; overflow: hidden;">
+                      <div class="col-md-10 px-1">
+                        <div class="form-group">
+                          <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Dimensions:</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-3 px-8">
+                        <div class="form-group">
+                          <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Height</label>
+                          <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                          <input type="number" class="form-control" name="height_input" placeholder="Max" [(ngModel)]="vehicleOne_Obj.height_dimension_max"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">
+                        </div>
+                      </div>
+
+                      <div class="col-md-3 px-2">
+                        <div class="form-group">
+                          <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Width</label>
+                          <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                          <input type="number" class="form-control" name="heightcategory_input" placeholder="Max" [(ngModel)]="vehicleOne_Obj.width_dimension_max"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">
+                        </div>
+                      </div>
+
+                      <div class="col-md-3 px-3">
+                        <div class="form-group">
+                          <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Length</label>
+                          <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                          <input type="number" class="form-control" name="lengthcategory_input" placeholder="Max" [(ngModel)]="vehicleOne_Obj.length_dimension_max"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-9 px-1">
                       <div class="form-group">
                         <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Axis</label>
                         <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
@@ -94,6 +160,7 @@
                       </div>
                     </div>
                   </div>
+
 
                   <!-- Bodywork to Save -->
                   <div class="row">

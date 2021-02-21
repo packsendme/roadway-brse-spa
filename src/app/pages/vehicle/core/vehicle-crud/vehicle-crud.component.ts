@@ -1,3 +1,5 @@
+import { VehicleClassificationService } from './../../../../service/vehicle-classification.service';
+import { VehicleClassificationModel } from 'app/model/vehicle-classification-model';
 import { Component, OnInit, Directive, ElementRef, HostListener } from '@angular/core';
 import { VehicleService } from 'app/service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
@@ -5,9 +7,7 @@ import { NgForm, FormGroup, FormControl } from '@angular/forms';
 import { UnityMeasurementModel } from 'app/model/unity-measurement-model';
 import { Router } from '@angular/router';
 import { BodyworkModel } from 'app/model/bodywork-model';
-import { VehicleTypeModel } from 'app/model/vehicle-type-model';
 import { BodyworkService } from 'app/service/bodywork.service';
-import { VehicleTypeService } from 'app/service/vehicle-type.service';
 import { UnityMeasurementService } from 'app/service/unity-measurement.service';
 import { ConfirmationDialogService } from 'app/service/confirmation-dialog.service';
 import { DataTO } from 'app/model/dataTO';
@@ -24,10 +24,19 @@ export class VehicleCrudComponent implements OnInit {
   bodyworkEdit: string;
   titlePage: string;
 
+  vehicleType: String = '';
+  vehicleType_L: VehicleClassificationModel[];
+
+  vehicleClassification: String = '';
+  vehicleClassification_L: String[];
+  vehicleSubcategory: String = '';
+  vehicleSubclassification_L: String[];
+
+
   // List Another Requests
   vehicles: VehicleModel[];
   bodyworkes: BodyworkModel[];
-  vehiclesTypes: VehicleTypeModel[];
+  vehiclesTypes: VehicleClassificationModel[];
   unityMeasurements: UnityMeasurementModel[];
   unityWeightL: String[] = [];
 
@@ -50,7 +59,7 @@ export class VehicleCrudComponent implements OnInit {
   constructor(
     private vehicleService: VehicleService,
     private bodyworkService: BodyworkService,
-    private vehicleTypeService: VehicleTypeService,
+    private vehicleClassificationService: VehicleClassificationService,
     private unityMeasurementService: UnityMeasurementService,
     private toastr: ToastrService,
     private vehicleTO: DataTO,
@@ -62,6 +71,8 @@ export class VehicleCrudComponent implements OnInit {
         this.titlePage = 'Vehicle Category - Edit';
         this.isDisabled = false;
 
+        console.log('Vehicle 00', this.vehicleOne_Obj.classification_vehicle);
+        console.log('Vehicle 01', this.vehicleOne_Obj.subclassification_vehicle);
         // tslint:disable-next-line:forin
         for (const a in this.vehicleOne_Obj.unity_weight) {
           this.unityWeight =  this.vehicleOne_Obj.unity_weight[a];
@@ -112,20 +123,33 @@ findBodywork() {
 }
 
 findVehicleType() {
-  let vehiclesTypesVet: VehicleTypeModel [] = [];
-  this.vehicleTypeService.getVehicleType().subscribe((vehicleTypeData: Response) => {
+  let vehiclesTypesVet: VehicleClassificationModel [] = [];
+  const parameters = this.vehicleOne_Obj.type_vehicle;
+  this.vehicleClassificationService.get().subscribe((vehicleTypeData: Response) => {
     const vehicleTypeDataStr = JSON.stringify(vehicleTypeData.body);
     JSON.parse(vehicleTypeDataStr, function (key, value) {
-      if (key === 'vehiclesType') {
+      if (key === 'vehiclesClassification') {
         vehiclesTypesVet = value;
         return value;
       } else {
          return value;
       }
     });
-    this.vehiclesTypes = vehiclesTypesVet;
+    this.vehicleType_L = vehiclesTypesVet;
+    console.log('vehiclesClassification', this.vehicleType_L);
+    if (this.isEdit === true) {
+      this.findClassificationAndSub();
+    }
   });
 }
+
+findClassificationAndSub() {
+  let vehicleClassificationObj = {} as VehicleClassificationModel;
+  vehicleClassificationObj = this.vehicleType_L.find(category => category.type_vehicle === this.vehicleOne_Obj.type_vehicle);
+  this.vehicleClassification_L = vehicleClassificationObj.classification_vehicle
+  this.vehicleSubclassification_L = vehicleClassificationObj.subclassification_vehicle;
+}
+
 
 findUnityMeasurement() {
   let unityMeasurementVet: UnityMeasurementModel[] = [];
@@ -178,10 +202,12 @@ convertArrayToMapUnityWeghty() {
     let msg: string;
     let statusSave = false;
 
-    if ((this.vehicleOne_Obj.vehicle_type) && ( this.vehicleOne_Obj.bodywork_vehicle)) {
-      console.log('Cargo', this.vehicleOne_Obj.vehicle_type);
+    if ((this.vehicleOne_Obj.category_vehicle) && ( this.vehicleOne_Obj.bodywork_vehicle) &&
+    (this.vehicleOne_Obj.classification_vehicle) && (this.vehicleOne_Obj.subclassification_vehicle)) {
       if (this.vehicleOne_Obj.transport_type === 'Cargo') {
-        if ((this.vehicleOne_Obj.weight_max) && (this.unityWeight) && (this.vehicleOne_Obj.axis_total)) {
+        if ((this.vehicleOne_Obj.weight_max) && (this.unityWeight) && (this.vehicleOne_Obj.axis_total) &&
+        (this.vehicleOne_Obj.height_dimension_max) && (this.vehicleOne_Obj.width_dimension_max) &&
+        (this.vehicleOne_Obj.length_dimension_max)) {
           statusSave = true;
           this.vehicleOne_Obj.people_max = 0;
           this.vehicleOne_Obj.unity_weight = this.getUnityWeightByMap();
@@ -198,7 +224,9 @@ convertArrayToMapUnityWeghty() {
           }
       }  else if (this.vehicleOne_Obj.transport_type === 'Mixed') {
           if ((this.vehicleOne_Obj.weight_max) && (this.unityWeight_M) && (this.vehicleOne_Obj.axis_total)
-          && (this.vehicleOne_Obj.people_max !== 0)) {
+          && (this.vehicleOne_Obj.people_max !== 0)  &&
+          (this.vehicleOne_Obj.height_dimension_max) && (this.vehicleOne_Obj.width_dimension_max) &&
+          (this.vehicleOne_Obj.length_dimension_max)) {
             statusSave = true;
             this.vehicleOne_Obj.unity_weight = this.getUnityWeightByMap();
             const weightMapToArray = {};
@@ -228,6 +256,9 @@ convertArrayToMapUnityWeghty() {
     this.confirmationDialogService.confirm('Save', msg).then((result) => {
       if ( result === true ) {
         if (this.vehicleOne_Obj.id == null) {
+          console.log('Vehicle ', this.vehicleOne_Obj.classification_vehicle);
+          console.log('Vehicle ', this.vehicleOne_Obj.subclassification_vehicle);
+
           this.vehicleService.postVehicle(this.vehicleOne_Obj).subscribe({
             next: data => this.transactionOrchestrator(event, 'Save'),
             error: error => this.showNotification('bottom', 'center', error, 'error')
@@ -388,15 +419,14 @@ transactionOrchestrator(event: any, type: String) {
   */
 
   changeNameVehicle() {
-    this.vehicleOne_Obj.vehicle_name = this.vehicleOne_Obj.vehicle_type + '-' + this.vehicleOne_Obj.bodywork_vehicle;
-    console.log(' A B C D ', this.vehicleOne_Obj.vehicle_name);
+    this.vehicleOne_Obj.category_vehicle = this.vehicleOne_Obj.type_vehicle + '-'
+    + this.vehicleOne_Obj.classification_vehicle + '-' + this.vehicleOne_Obj.subclassification_vehicle;
   }
 
 // OPERATION REDIRECT  ---------------------//
 
-
   functionRedirectToVehicleType() {
-    this.router.navigate(['/vehicletype-crud']);
+    this.router.navigate(['/vehicleclassification-crud']);
   }
 
   functionRedirectToVehicleView() {

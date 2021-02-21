@@ -47,7 +47,7 @@
                       <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Vehicle</label>
                       <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                       <select class="form-control" name="vehicle_select" [(ngModel)]="vehicleNew_Obj">
-                        <option [ngValue]="item" *ngFor="let item of vehicles">{{item.vehicle_name}}</option>
+                        <option [ngValue]="item" *ngFor="let item of vehicles">{{item.category_vehicle}}</option>
                       </select>
                     </div>
                   </div>
@@ -76,7 +76,7 @@
                         </tr>
                         <tr *ngFor="let vehic of vehicleNew_Vet; let id = index">
                           <td>
-                            {{vehic.vehicle_name}}
+                            {{vehic.category_vehicle}}
                           </td>
                           <td>
                             {{vehic.weight_max}}
@@ -109,7 +109,7 @@
                         </tr>
                         <tr *ngFor="let vehic of vehicleNew_Vet; let id = index">
                           <td>
-                            {{vehic.vehicle_name}}
+                            {{vehic.category_vehicle}}
                           </td>
                           <td>
                             {{vehic.people_max}}
@@ -141,7 +141,7 @@
                         </tr>
                         <tr *ngFor="let vehic of vehicleNew_Vet; let id = index">
                           <td>
-                            {{vehic.vehicle_name}}
+                            {{vehic.category_vehicle}}
                           </td>
                           <td>
                             {{vehic.people_max}}
