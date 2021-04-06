@@ -12,5 +12,6 @@ export const environment = {
   categoryPort: '9019',
   transportPort: '9020',
   locationPort: '9021',
-  vehiclePort: '9022'
+  vehiclePort: '9022',
+  simulationPort: '9199'
 }

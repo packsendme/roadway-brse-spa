@@ -14,6 +14,8 @@ import { UnityMeasurementService } from 'app/service/unity-measurement.service';
 import { TransportTypeService } from 'app/service/transport-type.service';
 import { DataTO } from 'app/model/dataTO';
 import { DatePipe } from '@angular/common'
+import { InitialsModel } from 'app/model/initials-model';
+import { InitialsService } from 'app/service/initials.service';
 
 // tslint:disable-next-line:class-name
 interface weightUnitI {
@@ -38,6 +40,7 @@ export class CategoryCrudComponent implements OnInit {
   vehicles: VehicleModel[];
   unityMeasurements: UnityMeasurementModel[];
   unityWeightsL: String[] = [];
+  initialies: InitialsModel[];
   dt_incS = null;
   dt_updateS = null;
 
@@ -50,13 +53,13 @@ export class CategoryCrudComponent implements OnInit {
   isMixed = false;
   // New Object - Entity
 
-  nameCategoryNew_Obj: string;
-  nameCategoryLevelNew_Obj: string;
+  nameBusinessCategory: string;
   weightMaxNew = 0;
   unityWeightValue_S: string;
   unityWeightKey_Index: number = 0;
   peopleMax = 0;
   unityWeight_M = new Map<number, string>();
+  initials: string;
 
   transportNew_Obj = {} as TransportTypeModel;
   countryNew_Vet: LocationModel[] = [];
@@ -67,6 +70,7 @@ export class CategoryCrudComponent implements OnInit {
 
   constructor(
     private categoryData: DataTO,
+    private initialsService: InitialsService,
     private transportService: TransportTypeService,
     private categoryService: CategoryService,
     private vehicleService: VehicleService,
@@ -83,23 +87,25 @@ export class CategoryCrudComponent implements OnInit {
           this.dt_updateS = this.categoryOne_Obj.dt_update.toLocaleString();
           console.log('BBB ', this.dt_updateS);
         }
-        this.nameCategoryNew_Obj = this.categoryOne_Obj.name_category;
+        this.nameBusinessCategory = this.categoryOne_Obj.name_category;
         this.vehicleNew_Vet = this.categoryOne_Obj.vehicles;
         this.weightMaxNew = this.categoryOne_Obj.weight_max;
         this.peopleMax = this.categoryOne_Obj.people_max;
+        this.initials = this.categoryOne_Obj.initials;
         // tslint:disable-next-line:forin
         for (const a in this.categoryOne_Obj.unity_weight) {
           this.unityWeightValue_S = this.categoryOne_Obj.unity_weight[a];
           this.unityWeightKey_Index = Number(a);
         }
       } else {
-        this.nameCategoryNew_Obj = 'CAT_';
+        this.nameBusinessCategory = 'CAT_';
         this.categoryOne_Obj = {} as CategoryModel;
       }
     }
 
   ngOnInit(): void {
     this.findTransporties();
+    this.findInitialies();
   }
 
 
@@ -119,6 +125,22 @@ export class CategoryCrudComponent implements OnInit {
         }
       });
       this.vehicles = vehicleVet;
+    });
+  }
+
+  findInitialies() {
+    let initialiesVet: InitialsModel [] = [];
+    this.initialsService.get().subscribe((initialiesData: Response) => {
+      const initialsDataStr = JSON.stringify(initialiesData.body);
+      JSON.parse(initialsDataStr, function (key, value) {
+        if (key === 'initials') {
+          initialiesVet = value;
+          return value;
+        } else {
+           return value;
+        }
+      });
+      this.initialies = initialiesVet;
     });
   }
 
@@ -161,7 +183,6 @@ export class CategoryCrudComponent implements OnInit {
 
   validateSave(event: any) {
     let msg: string;
-    let nameCat: string;
 
     this.unityWeight_M.set(this.unityWeightKey_Index, this.unityWeightValue_S);
     const weightMapToArray = {};
@@ -177,20 +198,15 @@ export class CategoryCrudComponent implements OnInit {
       if(this.isEdit === true) {
         dt_updateD = new Date();
         dt_incD = this.categoryOne_Obj.dt_inc;
-        if(this.nameCategoryLevelNew_Obj) {
-          nameCat = this.nameCategoryNew_Obj + this.nameCategoryLevelNew_Obj;
-        } else{
-          nameCat = this.nameCategoryNew_Obj;
-        }
       } else{
         dt_updateD = null;
         dt_incD = new Date()
-        nameCat = this.nameCategoryNew_Obj + this.nameCategoryLevelNew_Obj;
       }
 
       const categoryObjEntity: CategoryModel = {
         id: this.categoryOne_Obj.id,
-        name_category: nameCat,
+        name_category: this.nameBusinessCategory,
+        initials: this.initials,
         transport: this.transportNew_Obj.name_transport,
         weight_max: this.weightMaxNew,
         unity_weight: weightMapToArray,
@@ -209,6 +225,8 @@ export class CategoryCrudComponent implements OnInit {
   save(categoryObj: CategoryModel, msg: any) {
     this.confirmationDialogService.confirm('Save', msg).then((result) => {
       console.log('Save', categoryObj);
+      console.log('SAVE - VEHICLE', this.vehicleNew_Vet);
+
       if ( result === true ) {
          // Transaction Save
         if (categoryObj.id == null) {
@@ -250,9 +268,6 @@ export class CategoryCrudComponent implements OnInit {
 // ------------------------------------------------------------------------//
 
 onChangeTransportLevel() {
-  this.nameCategoryNew_Obj = 'CAT_';
-  this.nameCategoryLevelNew_Obj = this.transportNew_Obj.initials;
-
   if (this.transportNew_Obj.transport_type === 'Cargo') {
     this.isCargoMix = true;
     this.isPeople = false;
@@ -270,6 +285,10 @@ onChangeTransportLevel() {
     this.vehicleNew_Vet = [];
   }
   this.findVehiclesByTransport();
+}
+
+onChangeNameCategory() {
+  this.nameBusinessCategory = 'CAT_' + this.transportNew_Obj.name_transport + '-' + this.initials;
 }
 
 // FIELD VEHICLE ---------------------//
@@ -561,6 +580,11 @@ showNotification(from, align, msg, type) {
 
   functionRedirectToCategories() {
     this.router.navigate(['/category-view']);
+  }
+
+
+  functionRedirectToInitials() {
+    this.router.navigate(['/initials-crud']);
   }
 
 }

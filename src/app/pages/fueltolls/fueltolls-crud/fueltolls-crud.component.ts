@@ -51,6 +51,8 @@ export class FueltollsCrudComponent implements OnInit {
         this.isEdit = false;
         this.titlePage = 'Fuel&Tolls - Save New';
         this.isDisabled = true;
+        this.fueltollsOne_Obj.dt_inc = new Date();
+        this.dt_incS = new Date().toLocaleString();
       }
     }
 
@@ -120,7 +122,7 @@ export class FueltollsCrudComponent implements OnInit {
 
   save(event: any, msg: any) {
     // Transaction Save
-    console.log('SAVE ', this.locatioOne_Obj.cities);
+    console.log('SAVE  COUNTRY ', this.fueltollsOne_Obj.country);
 
     this.confirmationDialogService.confirm('Save', msg).then((result) => {
       if ( result === true ) {
@@ -130,7 +132,7 @@ export class FueltollsCrudComponent implements OnInit {
             error: error => this.showNotification('bottom','center', error, 'error')
           });
         } else if (this.isEdit === true) {
-          this.locationService.putLocation(this.locatioOne_Obj).subscribe({
+          this.tollsfuelService.put(this.locatioOne_Obj.countryName, this.fueltollsOne_Obj).subscribe({
             next: data => this.transactionOrchestrator(event, 'Update'),
             error: error => this.showNotification('bottom', 'center', error, 'error')
           });

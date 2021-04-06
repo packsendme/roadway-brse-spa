@@ -171,6 +171,18 @@
                     </div>
                   </div>
 
+                  <!-- Fuel Type to Save -->
+                  <div class="row">
+                    <div class="col-md-9 px-1">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Tipo Combustivel</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <select class="form-control" name="fueltype_select" [(ngModel)]="vehicleOne_Obj.fuel_type" required>
+                          <option [value]="item" *ngFor="let item of fuelType">{{item}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
 
                   <!-- Bodywork to Save -->
                   <div class="row">

@@ -2,6 +2,7 @@ import { VehicleModel } from './vehicle-model';
 export interface CategoryModel {
     id: string;
     name_category: string;
+    initials: string;
     transport: string;
     weight_max: number;
     people_max: number;

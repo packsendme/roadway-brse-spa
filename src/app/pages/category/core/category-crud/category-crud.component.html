@@ -2,7 +2,7 @@
   <div class="col-md-8">
     <div class="card card-user">
       <div class="card-body">
-        <h3 class="card-title">Category - New</h3>
+        <h3 class="card-title">Business Rule</h3>
         <form id="add-form" #f="ngForm" novalidate>
           <div div class="col-md-15">
             <div class="card card-plain">
@@ -12,9 +12,10 @@
                 <div class="row">
                   <div class="col-md-9 px-3">
                     <div class="form-group">
-                      <label [ngStyle]="{'color': 'black', 'font-size': '13px','font-weight': 'bold'}">Name Category:</label>
-                      <label [ngStyle]="{'color': 'red', 'font-size': '13px','font-weight': 'bold'}">&nbsp;&nbsp;{{nameCategoryNew_Obj}}</label>
-                      <label [ngStyle]="{'color': 'red', 'font-size': '13px','font-weight': 'bold'}">{{nameCategoryLevelNew_Obj}}</label>
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px','font-weight': 'bold'}">Name Business Category:</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                      <br>
+                      <input type="text" [ngStyle]="{'color': 'red', 'font-size': '14px', 'font-weight': 'bold'}" class="form-control" [(ngModel)]="nameBusinessCategory" name="businesscatname_input" disabled >
                     </div>
                   </div>
                 </div>
@@ -35,6 +36,26 @@
                     <label>&nbsp;</label>
                     <br>
                     <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="functionRedirectToTransport()">
+                      <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+
+                 <!-- FIELD - SIGLA -->
+                 <div class="row">
+                  <div class="col-md-8 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Initials Category </label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                      <select class="form-control" name="initials_select"  [(ngModel)]="initials" (change)="onChangeNameCategory()">
+                        <option [ngValue]="item.name" *ngFor="let item of initialies">{{item.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-3 px-0 text-left">
+                    <label>&nbsp;</label>
+                    <br>
+                    <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="functionRedirectToInitials()">
                       <i class="fa fa-file-text-o" aria-hidden="true"></i>
                     </button>
                   </div>

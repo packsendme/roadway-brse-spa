@@ -30,7 +30,7 @@
                         <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Location</label>
                         <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                         <select class="form-control" name="location_select" [(ngModel)]="fueltollsOne_Obj.country">
-                          <option [ngValue]="item" *ngFor="let item of locations">{{item.countryShortName}}</option>
+                          <option [ngValue]="item.countryShortName" *ngFor="let item of locations">{{item.countryShortName}}</option>
                         </select>
                       </div>
                     </div>
@@ -49,13 +49,13 @@
                   </div>
 
                   <!-- FIELD: CURRENCY -->
-                  <div class="row" [hidden]="isEdit">
+                  <div class="row">
                     <div class="col-md-6 px-1">
                       <div class="form-group">
                         <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Currency</label>
                         <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                         <select class="form-control" name="currency_select" [(ngModel)]="fueltollsOne_Obj.currency">
-                          <option [ngValue]="item" *ngFor="let item of currencies">{{item.symbol}}</option>
+                          <option [ngValue]="item.symbol" *ngFor="let item of currencies">{{item.symbol}}</option>
                         </select>
                       </div>
                     </div>
@@ -95,8 +95,8 @@
                   </div>
 
                   <!-- FIELD: DATE INC/UPDATE  -->
-                  <div class="row" [hidden]="!isEdit">
-                    <div class="col-md-9 px-3">
+                  <div class="row">
+                    <div class="col-md-12 px-3">
                       <div class="form-group">
                         <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">Date Included:</label>
                         <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">&nbsp;{{dt_incS}}</label>

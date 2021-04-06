@@ -14,6 +14,8 @@ import { RoadwaybreService } from 'app/service/roadwaybre.service';
 import { RoadwaybreModel } from 'app/model/roadwaybre-model';
 import { StatusModel } from 'app/model/status-model.enum';
 import { CurrencyService } from 'app/service/currency.service';
+import { LifecycleService } from 'app/service/lifecycle.service';
+import { TariffPlanModel } from 'app/model/tariff-plan-model';
 
 @Component({
   selector: 'roadway-new',
@@ -27,6 +29,7 @@ export class RoadwayNewComponent implements OnInit {
   locations: LocationModel[];
   transporties: TransportTypeModel[];
   currencies: CurrencyModel[];
+  tariffPlan = {} as TariffPlanModel;
 
   // Screen Option
   statusDelete_btn = true;
@@ -40,10 +43,11 @@ export class RoadwayNewComponent implements OnInit {
   isCargoMix = false;
   isPeople = false;
   isMixed = false;
+  symbol_distance = '$';
 
   // New Object - Entity
   transportNew_Obj: TransportTypeModel;
-  currency_Obj: CurrencyModel;
+  currency_Obj = {} as CurrencyModel;
   countryNew_Vet: LocationModel[] = [];
   countryNew_Obj: LocationModel;
   categoriesNew_Vet: CategoryModel[] = [];
@@ -54,6 +58,14 @@ export class RoadwayNewComponent implements OnInit {
   statusNew: String;
   versionNew: String;
   transportOld: String;
+  fragile: number;
+  persishable: number;
+  operationOwnerCost: number;
+  employeer_cost: number;
+  reshipping_cost: number;
+  viewRiskCostsTable = false;
+  viewOperationalCostsTable = false;
+  viewBasicCostsTable = false;
 
   // Costs Table
   costsBRE_DS: CostsModel[] = [];
@@ -65,6 +77,7 @@ export class RoadwayNewComponent implements OnInit {
     private locationService: LocationService,
     private currencyService: CurrencyService,
     private toastr: ToastrService,
+    private lifeCycleService: LifecycleService,
     private router: Router,
     private transportService: TransportTypeService,
     private confirmationDialogService: ConfirmationDialogService) {}
@@ -211,8 +224,14 @@ export class RoadwayNewComponent implements OnInit {
           transport: this.transportNew_Obj.name_transport,
           date_creation: new Date(),
           date_change: null,
+          fragile_cost: this.fragile,
+          persishable_cost: this.persishable,
+          reshipping_cost: this.reshipping_cost,
+          operation_cost: this.operationOwnerCost,
+          employeer_cost: this.employeer_cost,
           status: this.statusNew,
           version: this.versionNew,
+          tariffPlan: this.tariffPlan,
           categories: this.categoriesNew_Vet,
           locations: this.countryNew_Vet,
           costs: this.costsBRE_DS,
@@ -230,13 +249,14 @@ export class RoadwayNewComponent implements OnInit {
     });
   }
 
+
 // ------------------------------------------------------------------------//
 // OPERATION ::   Transaction Field Value
 // ------------------------------------------------------------------------//
 
   // UPDATE TABLE BY CHANGE CATEGORY  ---------------------//
   onChangeNameBRE() {
-    this.nameBRENew_Obj = 'BRE-' + this.categoryNew_Obj.name_category + '-' + this.transportNew_Obj.name_transport;
+    this.nameBRENew_Obj = 'BRE-' + this.transportNew_Obj.name_transport + '-' + this.transportNew_Obj.initials;
   }
 
 
@@ -252,7 +272,7 @@ export class RoadwayNewComponent implements OnInit {
       let statusCountry = false;
       if (this.countryNew_Vet.length >= 1) {
         this.countryNew_Vet.forEach( (countryObj) => {
-        if (countryObj.countryName === this.countryNew_Obj.countryName) {
+        if (countryObj.countryShortName === this.countryNew_Obj.countryShortName) {
           statusCountry = true;
         }
       })
@@ -262,7 +282,7 @@ export class RoadwayNewComponent implements OnInit {
       console.log('countryNew_Obj', this.countryNew_Obj);
       this.countryNew_Vet.push(this.countryNew_Obj);
       if ( this.costsBRE_DS.length > 0 ) {
-        this.generateCostsTable_AddCountry(this.countryNew_Obj.countryName);
+        this.generateCostsTable_AddCountry(this.countryNew_Obj.countryShortName);
       }
     } else {
       this.transactionOrchestrator(null, 'Validation', 'The selected field is already added');
@@ -349,18 +369,45 @@ export class RoadwayNewComponent implements OnInit {
 // OPERATION UPDATE ::  COSTS TABLES
 // ------------------------------------------------------------------------//
 
-prepareCostsTable(event: any) {
+generateCostsTable(event: any) {
+
+  if (this.tariffPlan.fragile_plan === true || this.tariffPlan.persishable_plan === true) {
+    this.viewRiskCostsTable = true;
+  } else {
+    this.viewRiskCostsTable = false;
+  }
+
+  if (this.tariffPlan.reshipping_plan === true || this.tariffPlan.tolls_plan === true) {
+    this.viewOperationalCostsTable = true;
+  } else {
+    this.viewOperationalCostsTable = false;
+  }
+
+  if (this.tariffPlan.weight_plan === true || this.tariffPlan.distance_plan === true ||
+      this.tariffPlan.dimension_plan === true || this.tariffPlan.fuelconsumption_plan === true ||
+      this.tariffPlan.worktime_plan === true) {
+    this.viewBasicCostsTable = true;
+    this.prepareCostsTable();
+  } else {
+    this.viewBasicCostsTable = false;
+
+  }
+}
+
+
+
+prepareCostsTable() {
   console.log('generateCostsTable size countryNew_Vet ', this.countryNew_Vet.length);
 
   if (( this.countryNew_Vet.length === 0)  && (this.categoriesNew_Vet.length === 0 ) && (this.currency_Obj)) {
     console.log('generateCostsTable - transactionOrchestrator ');
     this.transactionOrchestrator(null, 'Validation', 'The selected field is already added');
   } else {
-      this.generateFirstCostsTable(event);
+      this.generateFirstCostsTable();
   }
 }
 
-generateFirstCostsTable(event: any) {
+generateFirstCostsTable() {
   const valueCosts = 0.00;
   let categoryCostsObj: CostsModel;
   this.isShow = true;
@@ -372,11 +419,11 @@ generateFirstCostsTable(event: any) {
   let countryS: string = null;
   let countryOld: string = null;
   let countrySame = true;
-  let currencyName = this.currency_Obj.name;
-  let currencySymbol = this.currency_Obj.symbol;
+  const currencyName = this.currency_Obj.name;
+  const currencySymbol = this.currency_Obj.symbol;
 
   locations.forEach(function (location) {
-    countryS = location.countryName;
+    countryS = location.countryShortName;
     categories.forEach(function (category) {
       category.vehicles.forEach(function (vehicle) {
         if ( countryS === countryOld) {
@@ -387,8 +434,8 @@ generateFirstCostsTable(event: any) {
         categoryCostsObj = {
           vehicle: vehicle.category_vehicle, countryName: countryS,
           weight_cost: valueCosts, distance_cost: valueCosts,
-          worktime_cost: valueCosts, average_consumption_cost: valueCosts,
-          currency_symbol: currencySymbol, currency: currencyName,
+          worktime_cost: valueCosts, fuel_type: vehicle.fuel_type, average_consumption_cost: valueCosts,
+          heightDimension_cost: valueCosts, widthDimension_cost: valueCosts, lengthDimension_cost: valueCosts,
           countryNew: countrySame, statusChange: false
         };
         // Add Object geneate to Array
@@ -409,8 +456,8 @@ generateCostsTable_AddCountry(countryNameS: string) {
   const categories = this.categoriesNew_Vet;
   let index = 0;
   costsBRE_L = this.costsBRE_DS;
-  let currencyName = this.currency_Obj.name;
-  let currencySymbol = this.currency_Obj.symbol;
+  const currencyName = this.currency_Obj.name;
+  const currencySymbol = this.currency_Obj.symbol;
 
   categories.forEach(function (category) {
     category.vehicles.forEach(function (vehicle) {
@@ -422,10 +469,10 @@ generateCostsTable_AddCountry(countryNameS: string) {
       }
       costsObj = {
         vehicle: vehicle.category_vehicle, countryName: countryNameS,
-        weight_cost: valueCosts, distance_cost: valueCosts,
-        worktime_cost: valueCosts, average_consumption_cost: valueCosts,
-        currency_symbol: currencySymbol, currency: currencyName,
-        countryNew: statusNewCountry, statusChange: false
+          weight_cost: valueCosts, distance_cost: valueCosts,
+          worktime_cost: valueCosts, fuel_type: vehicle.fuel_type, average_consumption_cost: valueCosts,
+          heightDimension_cost: valueCosts, widthDimension_cost: valueCosts, lengthDimension_cost: valueCosts,
+          countryNew: statusNewCountry, statusChange: false
       };
       costsBRE_L.push(costsObj);
       index++;
@@ -441,17 +488,17 @@ generateCostsTable_AddVehicle(categoryObj: CategoryModel) {
   const countries = this.countryNew_Vet;
   const categories = this.countryNew_Vet;
   costsBRE_L = this.costsBRE_DS;
-  let currencyName = this.currency_Obj.name;
-  let currencySymbol = this.currency_Obj.symbol;
+  const currencyName = this.currency_Obj.name;
+  const currencySymbol = this.currency_Obj.symbol;
 
 
   countries.forEach(function (country) {
     categoryObj.vehicles.forEach(function (vehicle) {
       categoryCostsObj = {
-        vehicle: vehicle.category_vehicle, countryName: country.countryName,
+        vehicle: vehicle.category_vehicle, countryName: country.countryShortName,
         weight_cost: valueCosts, distance_cost: valueCosts,
-        worktime_cost: valueCosts, average_consumption_cost: valueCosts,
-        currency_symbol: currencySymbol, currency: currencyName,
+        worktime_cost: valueCosts, fuel_type: vehicle.fuel_type, average_consumption_cost: valueCosts,
+        heightDimension_cost: valueCosts, widthDimension_cost: valueCosts, lengthDimension_cost: valueCosts,
         countryNew: false, statusChange: false
       };
       costsBRE_L.push(categoryCostsObj);
@@ -468,7 +515,6 @@ generateCostsTable_AddVehicle(categoryObj: CategoryModel) {
     switch (type) {
       case 'Save': {
         type = 'success';
-        this.functionRedirectToRoadwayBREView();
         break;
       }
       case 'Validation': {
@@ -559,7 +605,7 @@ generateCostsTable_AddVehicle(categoryObj: CategoryModel) {
   onRowEditInit(costsObj: CostsModel) {
     this.clonedCosts[costsObj.vehicle] = {...costsObj};
   }
-  onRowEditSave(costs: CostsModel) {
+  onRowEditSave(costs: CostsModel, index: number) {
     costs.statusChange = true;
   }
   onRowEditCancel(costs: CostsModel, index: number) {

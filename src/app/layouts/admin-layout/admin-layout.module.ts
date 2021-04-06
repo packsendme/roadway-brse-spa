@@ -41,9 +41,12 @@ import { FueltollsViewComponent } from 'app/pages/fueltolls/fueltolls-view/fuelt
 import { FueltollsCrudComponent } from 'app/pages/fueltolls/fueltolls-crud/fueltolls-crud.component';
 import { VehicletypeCrudComponent } from 'app/pages/vehicle/core/vehicletype-crud/vehicletype-crud.component';
 import { VehicleclassificationCrudComponent } from 'app/pages/vehicle/core/vehicleclassification-crud/vehicleclassification-crud.component';
-
+import {AccordionModule} from 'primeng/accordion';
+import {CardModule} from 'primeng/card';
 @NgModule({
   imports: [
+    CardModule,
+    AccordionModule,
     LayoutModule,
     MatAutocompleteModule,
     MatCheckboxModule,

@@ -68,4 +68,8 @@ export class CategoryViewComponent implements OnInit {
     this.router.navigate(['/category-crud']);
   }
 
+  tariffBRE() {
+    this.router.navigate(['/roadway-view']);
+  }
+
 }

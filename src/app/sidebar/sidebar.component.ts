@@ -9,12 +9,12 @@ export interface RouteInfo {
 }
 
 export const ROUTES: RouteInfo[] = [
-    { path: '/location-view',          title: 'Location',          icon:'nc-bank',       class: '' },
-    { path: '/vehicle-view',           title: 'Vehicle',           icon:'nc-diamond',    class: '' },
-    { path: '/category-view',        title: 'Category',          icon:'nc-bell-55',    class: '' },
-    { path: '/transport-view',         title: 'Transport',         icon:'nc-tile-56',    class: '' },
-    { path: '/roadway-view', title: 'Roadway-BRE',       icon:'nc-tile-56',    class: '' },
-    { path: '/fueltolls-view', title: 'Tolls&Fuel',       icon:'nc-tile-56',    class: '' },
+    { path: '/location-view',          title: 'Localizaçao',          icon:'nc-bank',       class: '' },
+    { path: '/vehicle-view',           title: 'Veiculos',           icon:'nc-diamond',    class: '' },
+    { path: '/category-view',        title: 'Regras de Negocio',          icon:'nc-bell-55',    class: '' },
+    { path: '/fueltolls-view', title: 'Pedágio & Combustivel',       icon:'nc-tile-56',    class: '' },
+    { path: '/simulation-crud', title: 'Simulaçao Entrega',       icon:'nc-tile-56',    class: '' },
+
   ];
 
 @Component({

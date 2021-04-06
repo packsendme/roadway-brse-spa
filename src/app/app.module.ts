@@ -26,6 +26,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
+import {AccordionModule} from 'primeng/accordion';
 import { TwoDigitDecimaNumberDirective } from './utility/TwoDigitDecimaNumber.directive';
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { TwoDigitDecimaNumberDirective } from './utility/TwoDigitDecimaNumber.di
     TwoDigitDecimaNumberDirective
   ],
   imports: [
+    AccordionModule,
     BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(AppRoutes, {useHash: true}),

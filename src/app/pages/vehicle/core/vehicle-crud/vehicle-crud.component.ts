@@ -44,6 +44,7 @@ export class VehicleCrudComponent implements OnInit {
   unityWeight_View = new Map<string, string>();
   unityWeight_M = new Map<string, string>();
   axis: string[] = ['2', '3', '6', '7', '9'];
+  fuelType:string[]=["Gasoline","Diesel","Electric", "Flex"];
 
   // Screen Option
   vehicleOne_Obj = {} as VehicleModel;
@@ -70,9 +71,7 @@ export class VehicleCrudComponent implements OnInit {
         this.isEdit = true;
         this.titlePage = 'Vehicle Category - Edit';
         this.isDisabled = false;
-
-        console.log('Vehicle 00', this.vehicleOne_Obj.classification_vehicle);
-        console.log('Vehicle 01', this.vehicleOne_Obj.subclassification_vehicle);
+        console.log('FUEL TYPE ', this.vehicleOne_Obj.fuel_type);
         // tslint:disable-next-line:forin
         for (const a in this.vehicleOne_Obj.unity_weight) {
           this.unityWeight =  this.vehicleOne_Obj.unity_weight[a];
@@ -204,7 +203,7 @@ convertArrayToMapUnityWeghty() {
 
     if ((this.vehicleOne_Obj.category_vehicle) && ( this.vehicleOne_Obj.bodywork_vehicle) &&
     (this.vehicleOne_Obj.classification_vehicle) && (this.vehicleOne_Obj.subclassification_vehicle)
-    && (this.vehicleOne_Obj.fuel_consumption)) {
+    && (this.vehicleOne_Obj.fuel_consumption) && (this.vehicleOne_Obj.fuel_type)) {
       if (this.vehicleOne_Obj.transport_type === 'Cargo') {
         if ((this.vehicleOne_Obj.weight_max) && (this.unityWeight) && (this.vehicleOne_Obj.axis_total) &&
         (this.vehicleOne_Obj.height_dimension_max) && (this.vehicleOne_Obj.width_dimension_max) &&

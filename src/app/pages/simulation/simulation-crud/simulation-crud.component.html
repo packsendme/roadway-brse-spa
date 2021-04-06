@@ -1,0 +1,257 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="card card-user">
+      <div class="card-body">
+        <h3 class="card-title">Simulaçao - Plano Negocio</h3>
+        <form name="form1" id="form1" #f="ngForm" novalidate>
+          <div div class="col-md-15">
+            <div class="card card-plain">
+              <div class="card-body">
+
+                <!-- Transport Type FIELD-->
+                <div class="row">
+                  <div class="col-md-12 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Tipo Transporte</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                      <select class="form-control" name="transport_select"  [(ngModel)]="simulationRequest_Obj.type_transport" (change)="fieldByTransportType()">
+                        <option [ngValue]="item.name_transport" *ngFor="let item of transporties">{{item.name_transport}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Product Fields-->
+                <div class="row">
+                  <div class="col-md-12 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Tipo de Produto</label>
+                      <input name="typeprod_input" id="typeprod_input" type="text" class="form-control" [(ngModel)]="simulationRequest_Obj.product_transport" minlength="8" maxlength="30"/>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Direction Fields-->
+                <div class="col-md-12 px-3">
+                  <div class="row" style="background-color:#f0f5f5">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': '#2d5986', 'font-size': '13px', 'font-weight': 'bold'}">Localidades</label>
+                    </div>
+                  </div>
+                  <!-- Origen Fields-->
+                  <div class="row" style="background-color:#f0f5f5">
+                    &nbsp;&nbsp;&nbsp;
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Origem</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                      <input name="oigem_input" [ngStyle]="{'width':'460px'}" id="oigem_input" type="text" class="form-control" [(ngModel)]="simulationRequest_Obj.address_origin"/>
+                    </div>
+                  </div>
+                  <!-- Destination Fields-->
+                  <div class="row" style="background-color:#f0f5f5">
+                    &nbsp;&nbsp;&nbsp;
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Destino</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                      <input name="destino_input" [ngStyle]="{'width':'460px'}" id="destino_input" type="text" class="form-control" [(ngModel)]="simulationRequest_Obj.address_destination" />
+                    </div>
+                  </div>
+                </div>
+                <br>
+
+                <!-- People Fields-->
+                <div class="col-md-12 px-3" [hidden]="!viewPeople">
+                  <div class="row" style="background-color:#f0f5f5">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': '#2d5986', 'font-size': '13px', 'font-weight': 'bold'}">Pessoas</label>
+                    </div>
+                  </div>
+                  <div class="row" style="background-color:#f0f5f5">
+                    &nbsp;&nbsp;&nbsp;
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Numero de Pessoas</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                       <input type="number" [ngStyle]="{'width':'100px'}" class="form-control" name="people_input" placeholder="0" [(ngModel)]="simulationRequest_Obj.people"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0"/>
+                    </div>
+                  </div>
+                </div>
+                <br>
+
+                <!-- Weight Fields-->
+                <div class="col-md-12 px-3" [hidden]="!viewTransports">
+                  <div class="row" style="background-color:#f0f5f5">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': '#2d5986', 'font-size': '13px', 'font-weight': 'bold'}">Peso do Produto:</label>
+                    </div>
+                  </div>
+                  <div class="row" style="background-color:#f0f5f5">
+                    &nbsp;&nbsp;&nbsp;
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Peso</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                      <input type="number" [ngStyle]="{'width':'100px'}" class="form-control" name="weight_input" placeholder="0" [(ngModel)]="simulationRequest_Obj.weight_max"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.0"/>
+                    </div>
+                    &nbsp;
+                    &nbsp;
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Unidade de Medida</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                      <select class="form-control" name="unity_select"  [(ngModel)]="simulationRequest_Obj.unity_weight">
+                        <option [ngValue]="item" *ngFor="let item of unityWeightL">{{item}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <br>
+
+                <!-- Dimension Fields-->
+                <div class="col-md-12 px-3" [hidden]="!viewTransports">
+                  <div class="row" style="background-color:#f0f5f5; overflow: hidden;">
+                    <div class="col-md-10 px-2">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': '#2d5986', 'font-size': '13px', 'font-weight': 'bold'}">Dimensao Produto:</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3 px-4">
+                        <div class="form-group">
+                          <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Altura</label>
+                          <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                          <input type="number" class="form-control" name="height_input" placeholder="Max" [(ngModel)]="simulationRequest_Obj.height_max"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">
+                        </div>
+                      </div>
+                      <div class="col-md-3 px-3">
+                        <div class="form-group">
+                          <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Largura</label>
+                          <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                          <input type="number" class="form-control" name="heightcategory_input" placeholder="Max" [(ngModel)]="simulationRequest_Obj.width_max"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">
+                        </div>
+                      </div>
+                      <div class="col-md-4 px-3">
+                        <div class="form-group">
+                          <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Profundidade</label>
+                          <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                          <input type="number" class="form-control" name="lengthcategory_input" placeholder="Max" [(ngModel)]="simulationRequest_Obj.length_max"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit" style="height:50px;width:180px;" (click)="prepareSimulation()" class="btn btn-primary btn-round">Simular Custos</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIMULATION RESPONSE   -->
+  <div class="col-md-6">
+    <div class="card card-user">
+      <div class="card-header">
+        <h5 class="card-title">Retorno Custos</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12 px-2">
+            <div class="form-group">
+              <div *ngFor="let content of simulationResponse_Obj.responseData">
+                <p-accordion>
+
+                  <p-accordionTab header="{{content.vehicle}}&nbsp;&nbsp;&nbsp;{{content.cost_total_EX}}">
+                    <div class="col-md-12 px-1">
+                      <div class="row" style="background-color:#e3e6e6; overflow: hidden;">
+                        <div class="col-md-6 px-2">
+                          <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">&nbsp;</label>
+                          <p-card [style]="{'max-height':'350px','overflow':'hidden'}">
+                            <label [ngStyle]="{'color': '#2d5986', 'font-size': '17px', 'font-weight': 'bold'}">Custo Base</label>
+                            <div class="col-md-13 px-2">
+                              <div class="row">
+                                <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Distancia:&nbsp;</label>
+                                <span [ngStyle]="{'color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{content.vlr_distance}}</span>
+                              </div>
+                              <div class="row">
+                                <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Peso:&nbsp;</label>
+                                <span [ngStyle]="{'color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{content.vlr_weight}}</span>
+                              </div>
+                              <div class="row">
+                                <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Dimensao:&nbsp;</label>
+                                <span [ngStyle]="{'color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{content.vlr_dimension}}</span>
+                              </div>
+                              <div class="row">
+                                <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">TempoW:&nbsp;</label>
+                                <span [ngStyle]="{'color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{content.vlr_worktime}}</span>
+                              </div>
+                              <div class="row">
+                                <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Combustivel:&nbsp;</label>
+                                <span [ngStyle]="{'color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{content.vlr_fuelconsumption}}</span>
+                              </div>
+                              <div class="row">
+                                <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Pedágio:&nbsp;</label>
+                                <span [ngStyle]="{'color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{content.vlr_tolls}}</span>
+                              </div>
+                              <div class="row">
+                                <span [ngStyle]="{'background-color': '#FCFFA0','color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">TOTAL BASE:&nbsp;</span>
+                                  <span [ngStyle]="{'background-color': '#FCFFA0','color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{content.cost_total_base}}</span>
+                              </div>
+                            </div>
+                          </p-card>
+                        </div>
+                        <br>
+                        <div class="col-md-6 px-2" >
+                          <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">&nbsp;</label>
+                          <p-card [style]="{'max-height':'300px','overflow':'hidden'}">
+                            <label [ngStyle]="{'color': '#2d5986', 'font-size': '17px', 'font-weight': 'bold'}">Custo Risco</label>
+                            <div class="col-md-13 px-2">
+                              <div class="row">
+                                <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Fragil:&nbsp;</label>
+                                <span [ngStyle]="{'color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{content.vlr_fragile}}</span>
+                              </div>
+                              <div class="row">
+                                <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Perecível:&nbsp;</label>
+                                <span [ngStyle]="{'color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{content.vlr_persishable}}</span>
+                              </div>
+                              <div class="row">
+                                <span [ngStyle]="{'background-color': '#FCFFA0','color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">TOTAL RISCO:&nbsp;</span>
+                                <span [ngStyle]="{'background-color': '#FCFFA0','color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{content.cost_total_risk}}</span>
+                              </div>
+                              <label [ngStyle]="{'color': '#2d5986', 'font-size': '17px', 'font-weight': 'bold'}">Custo Operacional</label>
+                              <div class="row">
+                                <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Entregador:&nbsp;</label>
+                                <span [ngStyle]="{'color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{content.vlr_employeer}}</span>
+                              </div>
+                              <div class="row">
+                                <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Operacao:&nbsp;</label>
+                                <span [ngStyle]="{'color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{content.vlr_operationOwner}}</span>
+                              </div>
+                              <div class="row">
+                                <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Reentrega**:&nbsp;</label>
+                                <span [ngStyle]="{'color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{content.vlr_reshipping}}</span>
+                              </div>
+                              <div class="row">
+                                <span [ngStyle]="{'background-color': '#FFD7BE','color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">TOTAL GERAL:&nbsp;</span>
+                                <span [ngStyle]="{'background-color': '#FFD7BE','color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{content.cost_total_EX}}</span>
+                              </div>
+                            </div>
+                          </p-card>
+                        </div>
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">&nbsp;</label>
+                      </div>
+                    </div>
+                  </p-accordionTab>
+                </p-accordion>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
