@@ -32,10 +32,7 @@ export class SimulationService {
 
   post(simulationRequest: SimulationRequestModel): Observable<Response> {
     this.headersOnInit();
-    console.log('POST SIMULATION', this.url);
-    console.log('POST SIMULATION', simulationRequest);
-
-    const httpOptions = {headers: this.headers}
-    return this.httpClient.post<Response>(this.url, simulationRequest, httpOptions)
+    let httpOptions = {headers: this.headers}
+    return this.httpClient.post<Response>(this.url, simulationRequest, httpOptions);
   }
 }

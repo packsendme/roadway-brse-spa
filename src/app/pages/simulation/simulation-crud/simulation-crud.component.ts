@@ -100,24 +100,29 @@ findTransporties() {
 
 funcParserSimulation(simulationData: Response) {
   let costsRoadwayVet: CostsRoadwayModel[];
-  console.log('PARSER-simulationData '+ simulationData.body);
-
-  if(simulationData.body === null){
-    console.log('IS NULL-simulationData '+ simulationData.body);
-
-  }
+  const simulationResponse_Loc = {} as SimulationResponseModel;
 
   const simulationTypeDataStr = JSON.stringify(simulationData.body);
   JSON.parse(simulationTypeDataStr, function (key, value) {
     if (key === 'responseData') {
+      console.log('simulationData10 ', value);
       costsRoadwayVet = value;
       return value;
-    } else {
+    } else if (key === 'distance_total') {
+        simulationResponse_Loc.distance_total = value;
+        return value;
+    } else if (key === 'duration') {
+      simulationResponse_Loc.duration = value;
        return value;
+    } else if (key === 'toll_total') {
+      simulationResponse_Loc.toll_total = value;
+       return value;
+    } else{
+        return value;
     }
   });
-  this.simulationResponse_Obj.responseData = costsRoadwayVet;
-  console.log('PARSER-SIMULATION '+ this.simulationResponse_Obj.responseData);
+  simulationResponse_Loc.responseData = costsRoadwayVet;
+  this.simulationResponse_Obj = simulationResponse_Loc;
 }
 
 

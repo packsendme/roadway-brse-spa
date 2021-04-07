@@ -44,7 +44,7 @@
                     <div class="form-group">
                       <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Origem</label>
                       <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
-                      <input name="oigem_input" [ngStyle]="{'width':'460px'}" id="oigem_input" type="text" class="form-control" [(ngModel)]="simulationRequest_Obj.address_origin"/>
+                      <input name="oigem_input" [ngStyle]="{'width':'400px'}" id="oigem_input" type="text" class="form-control" [(ngModel)]="simulationRequest_Obj.address_origin"/>
                     </div>
                   </div>
                   <!-- Destination Fields-->
@@ -53,7 +53,7 @@
                     <div class="form-group">
                       <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Destino</label>
                       <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
-                      <input name="destino_input" [ngStyle]="{'width':'460px'}" id="destino_input" type="text" class="form-control" [(ngModel)]="simulationRequest_Obj.address_destination" />
+                      <input name="destino_input" [ngStyle]="{'width':'400px'}" id="destino_input" type="text" class="form-control" [(ngModel)]="simulationRequest_Obj.address_destination" />
                     </div>
                   </div>
                 </div>
@@ -158,6 +158,37 @@
         <h5 class="card-title">Retorno Custos</h5>
       </div>
       <div class="card-body">
+
+        <div class="col-md-12 px-3">
+          <div class="row" style="background-color:#f0f5f5; overflow: hidden;">
+            <div class="col-md-10 px-2">
+              <div class="form-group">
+                  <label [ngStyle]="{'color': '#2d5986', 'font-size': '17px', 'font-weight': 'bold'}">Informaçoes Logistica:</label>
+              </div>
+            </div>
+            <div class="row" style="background-color:#f0f5f5">
+              &nbsp;&nbsp;&nbsp;
+              <div class="form-group">
+                <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Distancia/Km Total:&nbsp;</label>
+                <span [ngStyle]="{'color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{simulationResponse_Obj.distance_total}}</span>
+              </div>
+              &nbsp;
+              &nbsp;
+              <div class="form-group">
+                <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Pedágios Total:&nbsp;</label>
+                <span [ngStyle]="{'color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{simulationResponse_Obj.toll_total}}</span>
+              </div>
+              &nbsp;
+              &nbsp;
+              <div class="form-group">
+                <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Tempo/Minutos:&nbsp;</label>
+                <span [ngStyle]="{'color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{simulationResponse_Obj.duration}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+
         <div class="row">
           <div class="col-md-12 px-2">
             <div class="form-group">
@@ -198,7 +229,12 @@
                               </div>
                               <div class="row">
                                 <span [ngStyle]="{'background-color': '#FCFFA0','color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">TOTAL BASE:&nbsp;</span>
-                                  <span [ngStyle]="{'background-color': '#FCFFA0','color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{content.cost_total_base}}</span>
+                                <span [ngStyle]="{'background-color': '#FCFFA0','color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{content.cost_total_base}}</span>
+                              </div>
+                              <div class="row">
+                                <span [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">&nbsp;</span>
+                                <span [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">&nbsp;</span>
+                                <span [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">&nbsp;</span>
                               </div>
                             </div>
                           </p-card>
@@ -221,6 +257,7 @@
                                 <span [ngStyle]="{'background-color': '#FCFFA0','color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">TOTAL RISCO:&nbsp;</span>
                                 <span [ngStyle]="{'background-color': '#FCFFA0','color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{content.cost_total_risk}}</span>
                               </div>
+                              <br>
                               <label [ngStyle]="{'color': '#2d5986', 'font-size': '17px', 'font-weight': 'bold'}">Custo Operacional</label>
                               <div class="row">
                                 <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Entregador:&nbsp;</label>
