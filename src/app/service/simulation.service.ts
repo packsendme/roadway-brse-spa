@@ -1,3 +1,4 @@
+import { SimulationResponseModel } from './../model/simulation-response-model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SimulationRequestModel } from 'app/model/simulation-request-model';
@@ -7,13 +8,16 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class SimulationService {
+export class SimulationService  {
   url = environment.ip + environment.simulationPort + '/roadway/simulation';
-  headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+  headers = new HttpHeaders();
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) { this.headersOnInit();}
 
   headersOnInit() {
+    console.log(' headersOnInit OK ');
+    this.headers = null
+    this.headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     this.headers = this.headers.append('Access-Control-Allow-Origin', '*');
     this.headers = this.headers.append('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     this.headers = this.headers.append('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -30,9 +34,17 @@ export class SimulationService {
     return this.httpClient.get<Response>(url_parameters, httpOptions)
   }
 
-  post(simulationRequest: SimulationRequestModel): Observable<Response> {
+  postSimulation(simulationRequest: SimulationRequestModel): Observable<Response> {
     this.headersOnInit();
     let httpOptions = {headers: this.headers}
+    console.log('headersOnInit = ', httpOptions);
     return this.httpClient.post<Response>(this.url, simulationRequest, httpOptions);
+  }
+
+  postSaveSimulation(simulationResponseModel: SimulationResponseModel): Observable<Response> {
+    this.headersOnInit();
+    let httpOptions = {headers: this.headers}
+    console.log('headersOnInit = ', httpOptions);
+    return this.httpClient.post<Response>(this.url, simulationResponseModel, httpOptions);
   }
 }

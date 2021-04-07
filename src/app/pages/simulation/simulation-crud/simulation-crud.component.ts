@@ -64,18 +64,25 @@ prepareSimulation(event: any) {
   if (statusSave === true) {
     msg = 'Confirma simulaçao?';
     this.simulationRequest_Obj.delivery_type = 'NDA';
-    this.findSimulation(msg);
+    this.findSimulation();
   } else {
     msg = 'Verifique os campos obrigatorios';
     this.showNotification('bottom', 'center', msg, 'error');
   }
 }
 
-findSimulation(msg: any) {
-  this.confirmationDialogService.confirm('Save', msg).then((result) => {
+findSimulation() {
+  this.simulationRequestService.postSimulation(this.simulationRequest_Obj).subscribe({
+    next: data => this.funcParserSimulation(data),
+    error: error => this.showNotification('bottom', 'center', error, 'error')
+  });
+}
+
+saveSimulation() {
+  this.confirmationDialogService.confirm('Save', 'Deseja salvar a simulaçao?').then((result) => {
     if ( result === true ) {
-      this.simulationRequestService.post(this.simulationRequest_Obj).subscribe({
-        next: data => this.funcParserSimulation(data),
+      this.simulationRequestService.postSaveSimulation(this.simulationResponse_Obj).subscribe({
+        next: data => this.transactionOrchestrator(null, 'Save', 'Register Success'),
         error: error => this.showNotification('bottom', 'center', error, 'error')
       });
     }
@@ -145,23 +152,23 @@ fieldByTransportType() {
 // NOTIFICATION MESSAGE
 // ------------------------------------------------------------------------//
 
-transactionOrchestrator(event: any, type: String) {
-  let msgTransaction = '' as  String;
+transactionOrchestrator(event: any, type: String, msgTransaction: String ) {
   switch (type) {
     case 'Save': {
-      msgTransaction = 'Simulation Success';
       type = 'success';
       break;
     }
     case 'Validation': {
-      msgTransaction = 'Check the required fields';
       type = 'error';
-      console.log('Validation');
+      break;
+    }
+    case 'Info': {
+      type = 'info';
       break;
     }
     default: {
       break;
-   }
+  }
   }
   this.showNotification('bottom', 'center', msgTransaction, type)
 }
@@ -171,8 +178,7 @@ showNotification(from, align, msg, type) {
   switch (type) {
     case 'success':
       this.toastr.success(
-        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+ msg +'</span>','',
-        {
+        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+ msg +'</span>','', {
           timeOut: 4000,
           closeButton: true,
           enableHtml: true,
@@ -183,8 +189,7 @@ showNotification(from, align, msg, type) {
     break;
     case 'error':
       this.toastr.error(
-        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+ msg +'</span>','',
-        {
+        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+ msg +'</span>','', {
           timeOut: 4000,
           enableHtml: true,
           closeButton: true,
@@ -193,8 +198,20 @@ showNotification(from, align, msg, type) {
         }
       );
     break;
+    case 'info':
+      this.toastr.info(
+        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+ msg +'</span>','', {
+          timeOut: 4000,
+          enableHtml: true,
+          closeButton: true,
+          toastClass: 'alert alert-warning alert-with-icon',
+          positionClass: 'toast-' + from + '-' + align
+        }
+      );
+    // tslint:disable-next-line:no-switch-case-fall-through
     default:
-      break;
-    }
+    break;
   }
+  }
+
 }

@@ -143,8 +143,11 @@
           </div>
           <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button type="submit" style="height:50px;width:180px;" (click)="prepareSimulation()" class="btn btn-primary btn-round">Simular Custos</button>
+            <button type="submit" style="height:50px;width:180px;" (click)="prepareSimulation()" class="btn btn-primary btn-round">Simular Transporte</button>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit" style="height:50px;width:180px;" (click)="saveSimulation()" class="btn btn-primary btn-round">Salvar Simulaçao</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
           </div>
         </form>
       </div>
@@ -159,30 +162,32 @@
       </div>
       <div class="card-body">
 
-        <div class="col-md-12 px-3">
+        <div class="col-md-12 px-4">
           <div class="row" style="background-color:#f0f5f5; overflow: hidden;">
             <div class="col-md-10 px-2">
               <div class="form-group">
-                  <label [ngStyle]="{'color': '#2d5986', 'font-size': '17px', 'font-weight': 'bold'}">Informaçoes Logistica:</label>
+                  <label [ngStyle]="{'color': '#2d5986', 'font-size': '15px', 'font-weight': 'bold'}">Informaçoes Logistica:</label>
               </div>
             </div>
-            <div class="row" style="background-color:#f0f5f5">
-              &nbsp;&nbsp;&nbsp;
-              <div class="form-group">
-                <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Distancia/Km Total:&nbsp;</label>
-                <span [ngStyle]="{'color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{simulationResponse_Obj.distance_total}}</span>
-              </div>
-              &nbsp;
-              &nbsp;
-              <div class="form-group">
-                <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Pedágios Total:&nbsp;</label>
-                <span [ngStyle]="{'color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{simulationResponse_Obj.toll_total}}</span>
-              </div>
-              &nbsp;
-              &nbsp;
-              <div class="form-group">
-                <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Tempo/Minutos:&nbsp;</label>
-                <span [ngStyle]="{'color': 'red', 'font-size': '13px', 'font-weight': 'bold'}">{{simulationResponse_Obj.duration}}</span>
+            <div class="col-md-12 px-2">
+              <div class="row" style="background-color:#f0f5f5">
+                &nbsp;&nbsp;&nbsp;
+                <div class="form-group">
+                  <label [ngStyle]="{'color': 'black', 'font-size': '11px', 'font-weight': 'bold'}">Distancia/Km:&nbsp;</label>
+                  <span [ngStyle]="{'color': 'red', 'font-size': '11px', 'font-weight': 'bold'}">{{simulationResponse_Obj.distance_total}}</span>
+                </div>
+                &nbsp;
+                &nbsp;
+                <div class="form-group">
+                  <label [ngStyle]="{'color': 'black', 'font-size': '11px', 'font-weight': 'bold'}">Pedágios:&nbsp;</label>
+                  <span [ngStyle]="{'color': 'red', 'font-size': '11px', 'font-weight': 'bold'}">{{simulationResponse_Obj.toll_total}}</span>
+                </div>
+                &nbsp;
+                &nbsp;
+                <div class="form-group">
+                  <label [ngStyle]="{'color': 'black', 'font-size': '11px', 'font-weight': 'bold'}">Tempo/Minutos:&nbsp;</label>
+                  <span [ngStyle]="{'color': 'red', 'font-size': '11px', 'font-weight': 'bold'}">{{simulationResponse_Obj.duration}}</span>
+                </div>
               </div>
             </div>
           </div>
