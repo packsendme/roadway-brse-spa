@@ -105,7 +105,6 @@ export class CategoryCrudComponent implements OnInit {
 
   ngOnInit(): void {
     this.findTransporties();
-    this.findInitialies();
   }
 
 
@@ -113,7 +112,6 @@ export class CategoryCrudComponent implements OnInit {
 
   findVehiclesByTransport() {
     let vehicleVet: VehicleModel[] = [];
-    console.log('CAT_', this.transportNew_Obj.transport_type);
     this.vehicleService.getVehicleByCargo(this.transportNew_Obj.transport_type).subscribe((vehicleData: Response) => {
       const vehicleStr = JSON.stringify(vehicleData.body);
       JSON.parse(vehicleStr, function (key, value) {
@@ -125,22 +123,6 @@ export class CategoryCrudComponent implements OnInit {
         }
       });
       this.vehicles = vehicleVet;
-    });
-  }
-
-  findInitialies() {
-    let initialiesVet: InitialsModel [] = [];
-    this.initialsService.get().subscribe((initialiesData: Response) => {
-      const initialsDataStr = JSON.stringify(initialiesData.body);
-      JSON.parse(initialsDataStr, function (key, value) {
-        if (key === 'initials') {
-          initialiesVet = value;
-          return value;
-        } else {
-           return value;
-        }
-      });
-      this.initialies = initialiesVet;
     });
   }
 
@@ -268,6 +250,7 @@ export class CategoryCrudComponent implements OnInit {
 // ------------------------------------------------------------------------//
 
 onChangeTransportLevel() {
+  this.nameBusinessCategory = '';
   if (this.transportNew_Obj.transport_type === 'Cargo') {
     this.isCargoMix = true;
     this.isPeople = false;
@@ -284,11 +267,9 @@ onChangeTransportLevel() {
     this.isCargoMix = false;
     this.vehicleNew_Vet = [];
   }
-  this.findVehiclesByTransport();
-}
-
-onChangeNameCategory() {
+  this.initials = this.transportNew_Obj.initials;
   this.nameBusinessCategory = 'CAT_' + this.transportNew_Obj.name_transport + '-' + this.initials;
+  this.findVehiclesByTransport();
 }
 
 // FIELD VEHICLE ---------------------//
@@ -337,13 +318,11 @@ calcRuleInstanceAddWeight(vehicleObjSelect: VehicleModel) {
     unityWeight_key = Number(a);
     unityWeight_value = vehicleObjSelect.unity_weight[a];
   }
+
   console.log('unityWeight_key KEY ', unityWeight_key);
   console.log('unityWeight_value VALUE ', unityWeight_value);
-
-
   console.log('Object 1 ', vehicleObjSelect.weight_max);
   console.log('Object 1 ', this.weightMaxNew);
-
 
   if ( ( vehicleObjSelect.transport_type === 'Cargo') || ( vehicleObjSelect.transport_type === 'Mixed')) {
     if (this.weightMaxNew === 0) {
@@ -353,7 +332,7 @@ calcRuleInstanceAddWeight(vehicleObjSelect: VehicleModel) {
     } else if (vehicleObjSelect.weight_max > this.weightMaxNew) {
         if (unityWeight_key === this.unityWeightKey_Index) {
           this.weightMaxNew = vehicleObjSelect.weight_max;
-        } else  if (unityWeight_key > this.unityWeightKey_Index) {
+        } else if (unityWeight_key > this.unityWeightKey_Index) {
             this.weightMaxNew = vehicleObjSelect.weight_max;
             this.unityWeightValue_S = unityWeight_value;
             this.unityWeightKey_Index = unityWeight_key;
@@ -365,17 +344,16 @@ calcRuleInstanceAddWeight(vehicleObjSelect: VehicleModel) {
           this.weightMaxNew = vehicleObjSelect.weight_max;
           this.unityWeightValue_S = unityWeight_value;
           this.unityWeightKey_Index = unityWeight_key;
+        }
       }
-  }
-
-  }
-  if ( ( vehicleObjSelect.transport_type === 'Passenger') || ( vehicleObjSelect.transport_type === 'Mixed')) {
-     if ( this.peopleMax === 0) {
-      this.peopleMax = vehicleObjSelect.people_max;
-     } else if ( vehicleObjSelect.people_max > this.peopleMax) {
-      this.peopleMax = vehicleObjSelect.people_max;
     }
-  }
+    if ( vehicleObjSelect.transport_type === 'Passenger') {
+      if ( this.peopleMax === 0) {
+        this.peopleMax = vehicleObjSelect.people_max;
+      } else if ( vehicleObjSelect.people_max > this.peopleMax) {
+          this.peopleMax = vehicleObjSelect.people_max;
+      }
+    }
 }
 
 getWeightUnitMax(): weightUnitI[] {
@@ -497,14 +475,13 @@ transactionOrchestrator(event: any, type: String) {
     case 'Update': {
       msgTransaction = 'Update Success';
       type = 'success';
-      console.log('Update Success');
       this.functionRedirectToCategories();
       break;
     }
     case 'Save': {
       msgTransaction = 'Register Success';
       type = 'success';
-      this.functionRedirectToCategories();
+      this.functionRedirectToCosts();
       break;
     }
     case 'Delete': {
@@ -582,9 +559,16 @@ showNotification(from, align, msg, type) {
     this.router.navigate(['/category-view']);
   }
 
-
-  functionRedirectToInitials() {
-    this.router.navigate(['/initials-crud']);
+  functionRedirectToCosts() {
+    const msg = 'Deseja definir os custos operacionais para está categoria?';
+    this.confirmationDialogService.confirm('Custos Operacionais', msg).then((result) => {
+      if ( result === true ) {
+        this.router.navigate(['/roadway-new']);
+      } else {
+        this.router.navigate(['/category-view']);
+      }
+    })
+    .catch(() => alert('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
   }
 
 }

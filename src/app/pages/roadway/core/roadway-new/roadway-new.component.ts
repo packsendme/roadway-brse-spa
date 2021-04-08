@@ -97,6 +97,7 @@ export class RoadwayNewComponent implements OnInit {
 
   prepareCategoriesByTransport() {
     this.findCategoriesByTransport();
+    this.tariffPlan = this.transportNew_Obj.tariffPlan;
 
     if (this.transportNew_Obj.transport_type === 'Cargo') {
         this.isCargoMix = true;
@@ -369,7 +370,7 @@ export class RoadwayNewComponent implements OnInit {
 // OPERATION UPDATE ::  COSTS TABLES
 // ------------------------------------------------------------------------//
 
-generateCostsTable(event: any) {
+generateCostsTable() {
 
   if (this.tariffPlan.fragile_plan === true || this.tariffPlan.persishable_plan === true) {
     this.viewRiskCostsTable = true;

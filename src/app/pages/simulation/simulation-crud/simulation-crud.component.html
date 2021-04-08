@@ -14,8 +14,8 @@
                     <div class="form-group">
                       <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Tipo Transporte</label>
                       <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
-                      <select class="form-control" name="transport_select"  [(ngModel)]="simulationRequest_Obj.type_transport" (change)="fieldByTransportType()">
-                        <option [ngValue]="item.name_transport" *ngFor="let item of transporties">{{item.name_transport}}</option>
+                      <select class="form-control" name="transport_select"  [(ngModel)]="transport_Obj" (change)="fieldByTransportType()">
+                        <option [ngValue]="item" *ngFor="let item of transporties">{{item.name_transport}}</option>
                       </select>
                     </div>
                   </div>
@@ -78,7 +78,7 @@
                 <br>
 
                 <!-- Weight Fields-->
-                <div class="col-md-12 px-3" [hidden]="!viewTransports">
+                <div class="col-md-12 px-3" [hidden]="!viewWeight">
                   <div class="row" style="background-color:#f0f5f5">
                     <div class="form-group">
                       <label [ngStyle]="{'color': '#2d5986', 'font-size': '13px', 'font-weight': 'bold'}">Peso do Produto:</label>
@@ -105,7 +105,7 @@
                 <br>
 
                 <!-- Dimension Fields-->
-                <div class="col-md-12 px-3" [hidden]="!viewTransports">
+                <div class="col-md-12 px-3" [hidden]="!viewDimension">
                   <div class="row" style="background-color:#f0f5f5; overflow: hidden;">
                     <div class="col-md-10 px-2">
                       <div class="form-group">
@@ -142,12 +142,12 @@
             </div>
           </div>
           <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button type="submit" style="height:50px;width:180px;" (click)="prepareSimulation()" class="btn btn-primary btn-round">Simular Transporte</button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button type="submit" style="height:50px;width:180px;" (click)="saveSimulation()" class="btn btn-primary btn-round">Salvar Simulaçao</button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
+            &nbsp;&nbsp;
+            <button type="submit" style="height:50px;width:110px;" (click)="prepareSimulation()" class="btn btn-primary btn-round">Simular</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit" style="height:50px;width:100px;" [disabled]="isDisabled" (click)="saveSimulation()" class="btn btn-primary btn-round">Salvar</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit" style="height:50px;width:100px;" [disabled]="isDisabledDelete" (click)="deleteSimulation()" class="btn btn-primary btn-round">Delete</button>
           </div>
         </form>
       </div>
@@ -294,6 +294,7 @@
         </div>
       </div>
     </div>
+    <button *ngIf="isShow" (click)="gotoTop()">👆</button>
   </div>
 
 </div>

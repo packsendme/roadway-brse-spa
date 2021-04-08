@@ -3,7 +3,7 @@
     <div class="card card-user">
       <div class="card-body">
         <h3 class="card-title">
-          Roadway - New
+          Regras de Negócio BRE - New
         </h3>
         <form id="add-form" #f="ngForm" novalidate>
           <div div class="col-md-15">
@@ -15,7 +15,7 @@
                 <div class="row">
                   <div class="col-md-9 px-3">
                     <div class="form-group">
-                      <label [ngStyle]="{'color': 'black', 'font-size': '12px','font-weight': 'bold'}">Name BRE:</label>
+                      <label [ngStyle]="{'color': 'black', 'font-size': '12px','font-weight': 'bold'}">Nome Regra Negocio:</label>
                       <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                       <br>
                       <input type="text" [ngStyle]="{'color': 'red', 'font-size': '14px', 'font-weight': 'bold'}" class="form-control" [(ngModel)]="nameBRENew_Obj" name="businesscatname_input" disabled >
@@ -27,7 +27,7 @@
                 <div class="row">
                   <div class="col-md-9 px-3">
                     <div class="form-group">
-                      <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Transport</label>
+                      <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Transporte</label>
                       <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                       <select class="form-control" name="transport_select"  [(ngModel)]="transportNew_Obj" (change)="prepareCategoriesByTransport()">
                         <option [ngValue]="item" *ngFor="let item of transporties">{{item.name_transport}}</option>
@@ -47,7 +47,7 @@
                 <div class="row">
                   <div class="col-md-9 px-3">
                     <div class="form-group">
-                      <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Rule Distribution</label>
+                      <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Localidade - Regras Distribuiçao</label>
                       <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                       <select class="form-control" name="location_select" [(ngModel)]="countryNew_Obj">
                         <option [ngValue]="item" *ngFor="let item of locations">{{item.countryName}}</option>
@@ -70,9 +70,9 @@
                       <label>Selected to Register</label>
                       <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
                         <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '13px', 'font-weight': 'bold'}">
-                          <th class="text-center">CodCountry</th>
-                          <th class="text-center">Country Acronym</th>
-                          <th class="text-center">Country Name</th>
+                          <th class="text-center">Codigo</th>
+                          <th class="text-center">Acronym</th>
+                          <th class="text-center">Pais</th>
                           <th class="text-center">Action</th>
                         </tr>
                         <tr *ngFor="let loc of countryNew_Vet; let id = index">
@@ -127,10 +127,10 @@
                       <label>Selected to Register</label>
                       <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
                         <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '12px', 'font-weight': 'bold'}">
-                          <th class="text-center">Category</th>
-                          <th class="text-center">Transport</th>
-                          <th class="text-center">Weight Max</th>
-                          <th class="text-center">Unity</th>
+                          <th class="text-center">Categoria</th>
+                          <th class="text-center">Transporte</th>
+                          <th class="text-center">Peso Max</th>
+                          <th class="text-center">Unidade Medida</th>
                           <th class="text-center">Action</th>
                         </tr>
                         <tr *ngFor="let cat of categoriesNew_Vet; let id = index">
@@ -162,9 +162,9 @@
                       <label>Selected to Register</label>
                       <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
                         <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '12px', 'font-weight': 'bold'}">
-                          <th class="text-center">Category</th>
-                          <th class="text-center">Transport</th>
-                          <th class="text-center">People Max</th>
+                          <th class="text-center">Categoria</th>
+                          <th class="text-center">Transporte</th>
+                          <th class="text-center">Pessoas Max</th>
                           <th class="text-center">Action</th>
                         </tr>
                         <tr *ngFor="let cat of categoriesNew_Vet; let id = index">
@@ -195,11 +195,11 @@
                       <label>Selected to Register</label>
                       <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
                         <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '12px', 'font-weight': 'bold'}">
-                          <th class="text-center">Category</th>
-                          <th class="text-center">Transport</th>
-                          <th class="text-center">People Max</th>
-                          <th class="text-center">Weight Max</th>
-                          <th class="text-center">Unity</th>
+                          <th class="text-center">Categoria</th>
+                          <th class="text-center">Transporte</th>
+                          <th class="text-center">Pessoas Max</th>
+                          <th class="text-center">Peso Max</th>
+                          <th class="text-center">Unidade</th>
                           <th class="text-center">Action</th>
                         </tr>
                         <tr *ngFor="let cat of categoriesNew_Vet; let id = index">
@@ -268,29 +268,29 @@
                 <div class="col-md-9 px-3">
                   <div class="row" style="background-color:#f0f5f5">
                     <div class="form-group">
-                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Plano Tarifaçao/Custos:</label>
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Plano Custos &nbsp;</label>(Tipo de Transporte):
                       <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                       <br>
                       &nbsp;
                       <div class="checkbox">
                         <div class="col-md-20 px-3">
-                          <input id="checkbox1" type="checkbox" name="checkbox1" [(ngModel)]="tariffPlan.weight_plan"/>
+                          <input id="checkbox1"  [disabled]="true" type="checkbox" name="checkbox1" [(ngModel)]="tariffPlan.weight_plan"/>
                           <label  [ngStyle]="{'color': 'black', 'font-size': '13px'}" for="checkbox1">&nbsp;Peso</label>
                           &nbsp;
                           &nbsp;
-                          <input id="checkbox2" type="checkbox" name="checkbox2"  [(ngModel)]="tariffPlan.distance_plan"/>
+                          <input id="checkbox2" [disabled]="true" type="checkbox" name="checkbox2"  [(ngModel)]="tariffPlan.distance_plan"/>
                           <label  [ngStyle]="{'color': 'black', 'font-size': '13px'}" for="checkbox2">&nbsp;Distancia/Km</label>
                           &nbsp;
                           &nbsp;
-                          <input id="checkbox6" type="checkbox" name="checkbox6"  [(ngModel)]="tariffPlan.persishable_plan"/>
+                          <input id="checkbox6" [disabled]="true" type="checkbox" name="checkbox6"  [(ngModel)]="tariffPlan.persishable_plan"/>
                           <label  [ngStyle]="{'color': 'black', 'font-size': '13px'}" for="checkbox6">&nbsp;Perecível</label>
                           &nbsp;
                           &nbsp;
-                          <input id="checkbox4" type="checkbox" name="checkbox4"  [(ngModel)]="tariffPlan.fuelconsumption_plan"/>
+                          <input id="checkbox4" [disabled]="true" type="checkbox" name="checkbox4"  [(ngModel)]="tariffPlan.fuelconsumption_plan"/>
                           <label  [ngStyle]="{'color': 'black', 'font-size': '13px'}" for="checkbox4">&nbsp;Consumo L/Km</label>
                           &nbsp;
                           &nbsp;
-                          <input id="checkbox9" type="checkbox" name="checkbox9"  [(ngModel)]="tariffPlan.tolls_plan"/>
+                          <input id="checkbox9" [disabled]="true" type="checkbox" name="checkbox9"  [(ngModel)]="tariffPlan.tolls_plan"/>
                           <label  [ngStyle]="{'color': 'black', 'font-size': '13px'}" for="checkbox9">&nbsp;Pedágio</label>
                           &nbsp;
                           &nbsp;
@@ -298,29 +298,29 @@
                       </div>
                       <div class="checkbox">
                         <div class="col-md-20 px-3">
-                          <input id="checkbox7" type="checkbox" name="checkbox7" [(ngModel)]="tariffPlan.fragile_plan"/>
+                          <input id="checkbox7" [disabled]="true" type="checkbox" name="checkbox7" [(ngModel)]="tariffPlan.fragile_plan"/>
                           <label  [ngStyle]="{'color': 'black', 'font-size': '13px'}" for="checkbox7">&nbsp;Fágil</label>
                           &nbsp;
                           &nbsp;
-                          <input id="checkbox3" type="checkbox" name="checkbox3" [(ngModel)]="tariffPlan.dimension_plan"/>
+                          <input id="checkbox3" [disabled]="true" type="checkbox" name="checkbox3" [(ngModel)]="tariffPlan.dimension_plan"/>
                           <label  [ngStyle]="{'color': 'black', 'font-size': '13px'}" for="checkbox3">&nbsp;Dimensao/cm&nbsp;</label>
                           &nbsp;
-                          <input id="checkbox8" type="checkbox" name="checkbox8" [(ngModel)]="tariffPlan.reshipping_plan"/>
+                          <input id="checkbox8" [disabled]="true" type="checkbox" name="checkbox8" [(ngModel)]="tariffPlan.reshipping_plan"/>
                           <label  [ngStyle]="{'color': 'black', 'font-size': '13px'}" for="checkbox8">&nbsp;Reenvio</label>
                           &nbsp;
                           &nbsp;
                           &nbsp;
-                          <input id="checkbox5" type="checkbox" name="checkbox5" [(ngModel)]="tariffPlan.worktime_plan"/>
+                          <input id="checkbox5" [disabled]="true" type="checkbox" name="checkbox5" [(ngModel)]="tariffPlan.worktime_plan"/>
                           <label  [ngStyle]="{'color': 'black', 'font-size': '13px'}" for="checkbox5">&nbsp;Horas Trabalho</label>
                           &nbsp;
                           &nbsp;
-                          <input id="checkbox10" type="checkbox" name="checkbox10" [(ngModel)]="tariffPlan.antt_plan"/>
+                          <input id="checkbox10" [disabled]="true" type="checkbox" name="checkbox10" [(ngModel)]="tariffPlan.antt_plan"/>
                           <label  [ngStyle]="{'color': 'black', 'font-size': '12px'}" for="checkbox10">&nbsp;ANTT Tabela</label>
                         </div>
                       </div>
                     </div>
                     <div class="col-md-12" layout-align="center center">
-                      <button type="submit" style="height:40px;width:150px;" (click)="generateCostsTable(f)" class="btn btn-primary btn-round">Gerar Custos</button>
+                      <button type="submit" style="height:40px;width:150px;" (click)="generateCostsTable()" class="btn btn-primary btn-round">Gerar Custos</button>
                     </div>
                   </div>
                 </div>

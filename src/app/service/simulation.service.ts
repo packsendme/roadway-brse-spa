@@ -27,24 +27,29 @@ export class SimulationService  {
     this.headers = this.headers.append('originApp', 'APP-MICROSERVICE');
   }
 
-  get(country: string): Observable<Response> {
-    const url_parameters = this.url + '?country=' + country;
+  postSimulationTransport(simulationRequest: SimulationRequestModel): Observable<Response> {
+    const url_parameters = this.url + '/transport';
     this.headersOnInit();
     const httpOptions = {headers: this.headers}
-    return this.httpClient.get<Response>(url_parameters, httpOptions)
+    return this.httpClient.post<Response>(url_parameters, simulationRequest, httpOptions);
   }
 
-  postSimulation(simulationRequest: SimulationRequestModel): Observable<Response> {
+  get(): Observable<Response> {
     this.headersOnInit();
-    let httpOptions = {headers: this.headers}
-    console.log('headersOnInit = ', httpOptions);
-    return this.httpClient.post<Response>(this.url, simulationRequest, httpOptions);
+    const httpOptions = {headers: this.headers}
+    return this.httpClient.get<Response>(this.url, httpOptions)
   }
 
-  postSaveSimulation(simulationResponseModel: SimulationResponseModel): Observable<Response> {
+  post(simulationResponseModel: SimulationResponseModel): Observable<Response> {
     this.headersOnInit();
-    let httpOptions = {headers: this.headers}
-    console.log('headersOnInit = ', httpOptions);
+    const httpOptions = {headers: this.headers}
     return this.httpClient.post<Response>(this.url, simulationResponseModel, httpOptions);
   }
+
+  delete(simulation: SimulationResponseModel){
+    this.headersOnInit();
+    const httpOptions = {headers: this.headers}
+    return this.httpClient.delete<Response>(this.url + '?id=' + simulation.id, httpOptions)
+  }
+
 }

@@ -2,7 +2,7 @@
   <div class="col-md-8">
     <div class="card card-user">
       <div class="card-body">
-        <h3 class="card-title">Business Rule</h3>
+        <h3 class="card-title">Categoria de Negocio</h3>
         <form id="add-form" #f="ngForm" novalidate>
           <div div class="col-md-15">
             <div class="card card-plain">
@@ -10,12 +10,17 @@
 
                 <!-- FIELD - NAME_CATEGORY -->
                 <div class="row">
-                  <div class="col-md-9 px-3">
+                  <div class="col-md-6 px-3">
                     <div class="form-group">
-                      <label [ngStyle]="{'color': 'black', 'font-size': '13px','font-weight': 'bold'}">Name Business Category:</label>
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Nome Categoria BRE</label>
                       <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
-                      <br>
-                      <input type="text" [ngStyle]="{'color': 'red', 'font-size': '14px', 'font-weight': 'bold'}" class="form-control" [(ngModel)]="nameBusinessCategory" name="businesscatname_input" disabled >
+                      <input type="text" class="form-control" [ngStyle]="{'color': 'red', 'font-size': '13px', 'font-weight': 'bold'}" [(ngModel)]="nameBusinessCategory" name="namebusinesscat_input" disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-2 px-3">
+                    <div class="form-group">
+                      <label [ngStyle]="{'width':'30px','color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Id</label>
+                      <input type="text" class="form-control" [(ngModel)]="initials" name="identificator_input" disabled >
                     </div>
                   </div>
                 </div>
@@ -24,7 +29,7 @@
                 <div class="row">
                   <div class="col-md-8 px-3">
                     <div class="form-group">
-                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Transport Category</label>
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Categoria Transporte</label>
                       <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                       <select class="form-control" name="transport_select"  [(ngModel)]="transportNew_Obj" (change)="onChangeTransportLevel()">
                         <option [ngValue]="item" *ngFor="let item of transporties">{{item.name_transport}}</option>
@@ -41,31 +46,11 @@
                   </div>
                 </div>
 
-                 <!-- FIELD - SIGLA -->
-                 <div class="row">
-                  <div class="col-md-8 px-3">
-                    <div class="form-group">
-                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Initials Category </label>
-                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
-                      <select class="form-control" name="initials_select"  [(ngModel)]="initials" (change)="onChangeNameCategory()">
-                        <option [ngValue]="item.name" *ngFor="let item of initialies">{{item.name}}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-md-3 px-0 text-left">
-                    <label>&nbsp;</label>
-                    <br>
-                    <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="functionRedirectToInitials()">
-                      <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                    </button>
-                  </div>
-                </div>
-
                 <!-- FIELD - VEHICLE -->
                 <div class="row">
                   <div class="col-md-8 px-3">
                     <div class="form-group">
-                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Vehicle</label>
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Selecionar Veiculos</label>
                       <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                       <select class="form-control" name="vehicle_select" [(ngModel)]="vehicleNew_Obj">
                         <option [ngValue]="item" *ngFor="let item of vehicles">{{item.category_vehicle}}</option>
@@ -89,10 +74,10 @@
                       <label>Selected to Register</label>
                       <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
                         <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '12px', 'font-weight': 'bold'}">
-                          <th class="text-center">Vehicle Name</th>
-                          <th class="text-center">Cargo Max</th>
-                          <th class="text-center">Unity</th>
-                          <th class="text-center">Axis</th>
+                          <th class="text-center">Nome Veiculo Name</th>
+                          <th class="text-center">Carga Max</th>
+                          <th class="text-center">Unidade Med</th>
+                          <th class="text-center">Eixos</th>
                           <th class="text-center">Action</th>
                         </tr>
                         <tr *ngFor="let vehic of vehicleNew_Vet; let id = index">
@@ -124,8 +109,8 @@
                       <label>Selected to Register</label>
                       <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
                         <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '12px', 'font-weight': 'bold'}">
-                          <th class="text-center">Vehicle Name</th>
-                          <th class="text-center">People Max</th>
+                          <th class="text-center">Nome Veiculo</th>
+                          <th class="text-center">Pessoas Max</th>
                           <th class="text-center">Action</th>
                         </tr>
                         <tr *ngFor="let vehic of vehicleNew_Vet; let id = index">
@@ -153,11 +138,11 @@
                       <label>Selected to Register</label>
                       <table class="table table-bordered table-responsive-md table-striped text-center" [ngStyle]="{'background-color': 'mintcream', 'color': 'black', 'font-size': '13px'}">
                         <tr [ngStyle]="{'background-color': 'mintcream', 'color': 'darkcyan', 'font-size': '12px', 'font-weight': 'bold'}">
-                          <th class="text-center">Vehicle Name</th>
-                          <th class="text-center">People Max</th>
-                          <th class="text-center">Cargo Max</th>
-                          <th class="text-center">Unity</th>
-                          <th class="text-center">Axis</th>
+                          <th class="text-center">Nome Veiculo</th>
+                          <th class="text-center">Pessoas Max</th>
+                          <th class="text-center">Carga Max</th>
+                          <th class="text-center">Unidade Med</th>
+                          <th class="text-center">Eixo</th>
                           <th class="text-center">Action</th>
                         </tr>
                         <tr *ngFor="let vehic of vehicleNew_Vet; let id = index">
@@ -213,9 +198,9 @@
         <br>
         <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <button type="submit" style="height:50px;width:150px;" (click)="validateSave(f)" class="btn btn-primary btn-round">Save</button>
+          <button type="submit" style="height:50px;width:150px;" (click)="validateSave(f)" class="btn btn-primary btn-round">Salvar</button>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <button type="submit" style="height:50px;width:150px;" [disabled]="isvisible"  (click)="delete(f)" class="btn btn-primary btn-round">Delete</button>
+          <button type="submit" style="height:50px;width:150px;" [disabled]="isvisible"  (click)="delete(f)" class="btn btn-primary btn-round">Deletar</button>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <button type="submit" style="height:50px;width:150px;" (click)="functionRedirectToCategories(f)" class="btn btn-primary btn-round">Cancelar</button>
         </div>
@@ -227,13 +212,13 @@
   <div class="col-md-4">
     <div class="card card-user">
       <div class="card-header">
-        <h5 class="card-title">Instance Rule</h5>
+        <h5 class="card-title">Instancia Categoria BRE</h5>
       </div>
       <div class="card-body">
         <div class="row">
           <div class="col-md-10 px-2">
             <div class="form-group">
-              <label [ngStyle]="{'color': 'black', 'font-size': '11px','font-weight': 'bold'}">Weight Cargo Maximum</label>
+              <label [ngStyle]="{'color': 'black', 'font-size': '11px','font-weight': 'bold'}">Carga Maxima</label>
             </div>
           </div>
           <br>
@@ -242,13 +227,13 @@
           <!-- FIELD WEIGHTY_MAX   -->
             <div class="col-md-4 px-4">
               <div class="form-group">
-                <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">Weight Max</label>
+                <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">Peso Max</label>
                 <input type="number" class="form-control" disabled="" [(ngModel)]="weightMaxNew"  placeholder="Max" name="cargomaxcategory_input" required>
               </div>
             </div>
             <div class="col-md-5 px-6">
               <div class="form-group">
-                <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">Unity</label>
+                <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">Unidade Med.</label>
                 <input class="form-control" disabled=""  [(ngModel)]="unityWeightValue_S" placeholder="Weight" name="unitymaxcategory_input" required>
               </div>
             </div>
@@ -258,7 +243,7 @@
         <div class="row">
           <div class="col-md-10 px-4">
             <div class="form-group">
-              <label [ngStyle]="{'color': 'black', 'font-size': '11px','font-weight': 'bold'}">Amount of People</label>
+              <label [ngStyle]="{'color': 'black', 'font-size': '11px','font-weight': 'bold'}">Total Pessoas</label>
             </div>
           </div>
           <br>

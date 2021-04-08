@@ -8,20 +8,20 @@
          <!-- <form id="add-form" (ngSubmit)="f.form.valid && saveEditLocation(f)" #f="ngForm" novalidate> -->
          <form id="add-form" #f="ngForm" novalidate>
           <div class="row">
-            <div div class="col-md-6">
+            <div div class="col-md-10">
               <div class="card card-plain">
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-6 px-3">
                       <div class="form-group">
-                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Name Transport</label>
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Nome Transporte</label>
                         <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                         <input type="text" class="form-control" [(ngModel)]="transportiesOne_Obj.name_transport" name="nametransport_input" required>
                       </div>
                     </div>
-                    <div class="col-md-3 px-3">
+                    <div class="col-md-2 px-3">
                       <div class="form-group">
-                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Type</label>
+                        <label [ngStyle]="{'width':'30px','color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Id</label>
                         <input type="text" class="form-control" [(ngModel)]="transportiesOne_Obj.identifier" name="typeIdtransport_input" disabled >
                       </div>
                     </div>
@@ -31,7 +31,7 @@
                   <div class="row">
                     <div class="col-md-10 px-3">
                       <div class="form-group">
-                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Type Transport:</label>
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Tipo Carga:</label>
                         <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                         <br>
                         <input type="radio" name="transport_radio" [(ngModel)]="transportiesOne_Obj.transport_type" value="Cargo" (change)=toggleDisplay()><label>&nbsp;Cargo</label>
@@ -45,9 +45,9 @@
 
                   <!-- FIELD - SIGLA -->
                   <div class="row">
-                    <div class="col-md-9 px-3">
+                    <div class="col-md-7 px-3">
                       <div class="form-group">
-                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Initials Transport </label>
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Sigla Transporte</label>
                         <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                         <select class="form-control" name="initials_select"  [(ngModel)]="transportiesOne_Obj.initials" >
                           <option [ngValue]="item.name" *ngFor="let item of initialies">{{item.name}}</option>
@@ -60,6 +60,64 @@
                       <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="functionRedirectToInitials()">
                         <i class="fa fa-file-text-o" aria-hidden="true"></i>
                       </button>
+                    </div>
+                  </div>
+
+                  <!-- FIELD - TARIFF PLAN-->
+                  <div class="col-md-8 px-3">
+                    <div class="row" style="background-color:#f0f5f5">
+                      <div class="form-group">
+                        <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Plano Tarifaçao/Custos:</label>
+                        <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                        <br>
+                        &nbsp;
+                        <div class="checkbox">
+                          <div class="col-md-20 px-3">
+                            <input id="checkbox1" type="checkbox" name="checkbox1" [(ngModel)]="tariffPlan.weight_plan"/>
+                            <label  [ngStyle]="{'color': 'black', 'font-size': '13px'}" for="checkbox1">&nbsp;Peso</label>
+                            &nbsp;
+                            &nbsp;
+                            <input id="checkbox2" type="checkbox" name="checkbox2"  [(ngModel)]="tariffPlan.distance_plan"/>
+                            <label  [ngStyle]="{'color': 'black', 'font-size': '13px'}" for="checkbox2">&nbsp;Distancia/Km</label>
+                            &nbsp;
+                            &nbsp;
+                            <input id="checkbox6" type="checkbox" name="checkbox6"  [(ngModel)]="tariffPlan.persishable_plan"/>
+                            <label  [ngStyle]="{'color': 'black', 'font-size': '13px'}" for="checkbox6">&nbsp;Perecível</label>
+                            &nbsp;
+                            &nbsp;
+                            <input id="checkbox4" type="checkbox" name="checkbox4"  [(ngModel)]="tariffPlan.fuelconsumption_plan"/>
+                            <label  [ngStyle]="{'color': 'black', 'font-size': '13px'}" for="checkbox4">&nbsp;Consumo L/Km</label>
+                            &nbsp;
+                            &nbsp;
+                            <input id="checkbox9" type="checkbox" name="checkbox9"  [(ngModel)]="tariffPlan.tolls_plan"/>
+                            <label  [ngStyle]="{'color': 'black', 'font-size': '13px'}" for="checkbox9">&nbsp;Pedágio</label>
+                            &nbsp;
+                            &nbsp;
+                          </div>
+                        </div>
+                        <div class="checkbox">
+                          <div class="col-md-20 px-3">
+                            <input id="checkbox7" type="checkbox" name="checkbox7" [(ngModel)]="tariffPlan.fragile_plan"/>
+                            <label  [ngStyle]="{'color': 'black', 'font-size': '13px'}" for="checkbox7">&nbsp;Fágil</label>
+                            &nbsp;
+                            &nbsp;
+                            <input id="checkbox3" type="checkbox" name="checkbox3" [(ngModel)]="tariffPlan.dimension_plan"/>
+                            <label  [ngStyle]="{'color': 'black', 'font-size': '13px'}" for="checkbox3">&nbsp;Dimensao/cm&nbsp;</label>
+                            &nbsp;
+                            <input id="checkbox8" type="checkbox" name="checkbox8" [(ngModel)]="tariffPlan.reshipping_plan"/>
+                            <label  [ngStyle]="{'color': 'black', 'font-size': '13px'}" for="checkbox8">&nbsp;Reenvio</label>
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            <input id="checkbox5" type="checkbox" name="checkbox5" [(ngModel)]="tariffPlan.worktime_plan"/>
+                            <label  [ngStyle]="{'color': 'black', 'font-size': '13px'}" for="checkbox5">&nbsp;Horas Trabalho</label>
+                            &nbsp;
+                            &nbsp;
+                            <input id="checkbox10" type="checkbox" name="checkbox10" [(ngModel)]="tariffPlan.antt_plan"/>
+                            <label  [ngStyle]="{'color': 'black', 'font-size': '12px'}" for="checkbox10">&nbsp;ANTT Tabela</label>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

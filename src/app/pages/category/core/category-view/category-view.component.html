@@ -2,17 +2,17 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">Regras Negocio - List</h4>
+        <h4 class="card-title">Categorias de Negocio</h4>
       </div>
       <div class="card-body">
         <div class="table-responsive">
           <table class="table">
             <thead class="text-primary">
-              <th class="text-left">Category</th>
-              <th class="text-left">Transport</th>
-              <th class="text-center">People Max</th>
-              <th class="text-center">Cargo Max</th>
-              <th class="text-left">Unity</th>
+              <th class="text-left">Nome Categoria</th>
+              <th class="text-left">Categoria Transporte</th>
+              <th class="text-center">Pessoas Max</th>
+              <th class="text-center">Carga Max</th>
+              <th class="text-left">Unidade Medida</th>
             </thead>
             <tbody>
               <tr *ngFor="let cat of categories; let i = index" (click)="selectCategory($event, cat)">
@@ -34,13 +34,13 @@
         <br>
         <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-             <button type="submit" style="height:50px;width:150px;" (click)="newCategory()" class="btn btn-primary btn-round">New Category</button>
+             <button type="submit" style="height:50px;width:150px;" (click)="newCategory()" class="btn btn-primary btn-round">Nova Categoria</button>
              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-             <button type="submit" [disabled]="isDisabled" style="height:50px;width:150px;" (click)="editCategory()" class="btn btn-primary btn-round">Edit BRE</button>
+             <button type="submit" [disabled]="isDisabled" style="height:50px;width:150px;" (click)="editCategory()" class="btn btn-primary btn-round">Editar Categoria</button>
              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-             <button type="submit" style="height:50px;width:150px;" (click)="tariffBRE()" class="btn btn-primary btn-round">BRE Tariff</button>
+             <button type="submit" style="height:50px;width:150px;" (click)="viewCostsBRE()" class="btn btn-primary btn-round">Visualizar BRE</button>
              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-         </div>
+            </div>
       </div>
     </div>
   </div>

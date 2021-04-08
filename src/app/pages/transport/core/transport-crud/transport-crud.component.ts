@@ -8,6 +8,7 @@ import { InitialsModel } from 'app/model/initials-model';
 import { DataTO } from 'app/model/dataTO';
 import { ConfirmationDialogService } from 'app/service/confirmation-dialog.service';
 import { Router } from '@angular/router';
+import { TariffPlanModel } from 'app/model/tariff-plan-model';
 
 @Component({
   selector: 'app-transport',
@@ -22,7 +23,8 @@ export class TransportCrudComponent implements OnInit {
 
   // Screen Option
   transportiesOne_Obj = {} as TransportTypeModel;
-    isDisabled = false;
+  tariffPlan = {} as TariffPlanModel;
+  isDisabled = false;
   titlePage: string;
 
   constructor(
@@ -34,11 +36,12 @@ export class TransportCrudComponent implements OnInit {
     private router: Router) {
       if ( this.transportTO.transportData != null ) {
         this.transportiesOne_Obj = transportTO.transportData;
-        this.titlePage = 'Transport Category - Edit';
+        this.titlePage = 'Categoria de Transporte - Edit';
         this.isDisabled = false;
+        this.tariffPlan = transportTO.transportData.tariffPlan;
       } else {
          this.transportiesOne_Obj = {} as TransportTypeModel;
-        this.titlePage = 'Transport Category - Save';
+        this.titlePage = 'Categoria de Transporte - Save';
         this.isDisabled = true;
       }
     }
@@ -90,7 +93,14 @@ findInitialies() {
 
     if ((this.transportiesOne_Obj.name_transport) && (this.transportiesOne_Obj.initials)
      && (this.transportiesOne_Obj.transport_type) && (this.transportiesOne_Obj.transport_type)) {
-      statusSave = true;
+       if((this.tariffPlan.dimension_plan === true) || (this.tariffPlan.distance_plan === true) ||
+       (this.tariffPlan.antt_plan === true) && (this.tariffPlan.fragile_plan === true) ||
+       (this.tariffPlan.fuelconsumption_plan === true) || (this.tariffPlan.persishable_plan === true) ||
+       (this.tariffPlan.reshipping_plan === true) || (this.tariffPlan.tolls_plan === true) ||
+       (this.tariffPlan.weight_plan === true) || (this.tariffPlan.worktime_plan === true)) {
+        statusSave = true;
+        this.transportiesOne_Obj.tariffPlan = this.tariffPlan;
+       }
     } else {
       statusSave = false;
     }
@@ -220,7 +230,7 @@ findInitialies() {
     }
   }
 
-  
+
 // TRANSACTION   ---------------------//
 
   toggleDisplay() {

@@ -1,1 +1,46 @@
-<p>simulation-view works!</p>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title"> Simulaçoes List</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <th>
+                Tipo Transporte
+              </th>
+              <th>
+                Origem
+              </th>
+              <th>
+                Destino
+              </th>
+              <th>
+                Data
+              </th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let simObj of simulationResponseL; let i = index" (click)="select($event, simObj)">
+                <td>{{simObj.requestData.type_transport}}</td>
+                <td>{{simObj.requestData.address_origin}}</td>
+                <td>{{simObj.requestData.address_destination}}</td>
+                <td>{{simObj.dt_simulation | date:'MM/dd/yyyy'}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <br>
+        <div class="col-md-12" layout-align="center center" [style]="{'background-color':'aliceblue'}">
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <button type="submit" style="height:50px;width:150px;" (click)="new()" class="btn btn-primary btn-round">Nova Simulacao</button>
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <button type="submit" style="height:50px;width:150px;" [disabled]="isDisabled" (click)="view()" class="btn btn-primary btn-round">Visualizar</button>
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
