@@ -12,20 +12,13 @@
               <th class="text-left">Categoria Transporte</th>
               <th class="text-center">Pessoas Max</th>
               <th class="text-center">Carga Max</th>
-              <th class="text-left">Unidade Medida</th>
             </thead>
             <tbody>
               <tr *ngFor="let cat of categories; let i = index" (click)="selectCategory($event, cat)">
                 <td class="text-left">{{cat.name_category}}</td>
-                <td class="text-left">{{cat.transport}}</td>
+                <td class="text-left">{{cat.transport.name_transport}}</td>
                 <td class="text-center">{{cat.people_max}}</td>
-                <td class="text-center">{{cat.weight_max | number : '1.1-2'}}</td>
-                <div *ngIf="(cat.unity_weight | json) != '{}'">
-                  <td class="text-center" *ngFor="let item of cat.unity_weight | keyvalue">{{item.value}}</td>
-                </div>
-                <div *ngIf="(cat.unity_weight | json) == '{}'">
-                  <td class="text-center">{{valueDefaultView}}</td>
-                </div>
+                <td class="text-center">{{cat.weightUnityVehicle_max}}</td>
             </tr>
             </tbody>
           </table>

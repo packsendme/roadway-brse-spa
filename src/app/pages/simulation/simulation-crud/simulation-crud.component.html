@@ -10,13 +10,21 @@
 
                 <!-- Transport Type FIELD-->
                 <div class="row">
-                  <div class="col-md-12 px-3">
+                  <div class="col-md-12 px-3" [hidden]="viewInc">
                     <div class="form-group">
                       <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Tipo Transporte</label>
                       <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
-                      <select class="form-control" name="transport_select"  [(ngModel)]="transport_Obj" (change)="fieldByTransportType()">
+                      <select [hidden]="viewInc" class="form-control" name="transport_select"  [(ngModel)]="transport_Obj" (change)="fieldByTransportType()">
                         <option [ngValue]="item" *ngFor="let item of transporties">{{item.name_transport}}</option>
                       </select>
+                    </div>
+                  </div>
+                  <div class="col-md-12 px-3" [hidden]="viewEdit">
+                    <div class="form-group">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Tipo Transporte</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                      <br>
+                      <span [ngStyle]="{'color': 'red', 'font-size': '15px', 'font-weight': 'bold'}">{{transport_Obj.name_transport}}</span>
                     </div>
                   </div>
                 </div>
@@ -96,8 +104,8 @@
                     <div class="form-group">
                       <label [ngStyle]="{'color': 'black', 'font-size': '12px', 'font-weight': 'bold'}">Unidade de Medida</label>
                       <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
-                      <select class="form-control" name="unity_select"  [(ngModel)]="simulationRequest_Obj.unity_weight">
-                        <option [ngValue]="item" *ngFor="let item of unityWeightL">{{item}}</option>
+                      <select class="form-control" name="unitymeasurement_select" [(ngModel)]="unityWeight">
+                        <option [ngStyle]="{'width':'90px'}" [value]="item.key" *ngFor="let item of unityWeight_View | keyvalue">{{item.key}}</option>
                       </select>
                     </div>
                   </div>

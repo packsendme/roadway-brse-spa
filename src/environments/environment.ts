@@ -13,5 +13,8 @@ export const environment = {
   transportPort: '9020',
   locationPort: '9021',
   vehiclePort: '9022',
-  simulationPort: '9199'
+  simulationPort: '9199',
+  apiName: '/api',
+  exchangePort: '9200',
+
 }

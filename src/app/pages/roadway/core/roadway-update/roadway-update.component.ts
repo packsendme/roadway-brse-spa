@@ -14,8 +14,8 @@ import { RoadwaybreService } from 'app/service/roadwaybre.service'
 import { TransportTypeService } from 'app/service/transport-type.service'
 import { RoadwaybreModel } from 'app/model/roadwaybre-model'
 import { DataTO } from 'app/model/dataTO'
-import { CurrencyModel } from 'app/model/currency-model'
 import { StatusModel } from 'app/model/status-model.enum'
+import { CurrencyModel } from 'app/model/currency-model'
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -34,6 +34,8 @@ export class RoadwayUpdateComponent implements OnInit {
   // Screen Option
   countrySelCosts = {} as string
   symbol_distance = '$';
+  symbol_consumption = 'km/l';
+
   // Status
   isRegistered = false
   isPublished = false
@@ -65,6 +67,8 @@ export class RoadwayUpdateComponent implements OnInit {
   costsBRE_DS: CostsModel[] = []
   costsBREII_DS: CostsModel[] = []
   clonedCosts: { [s: string]: CostsModel; } = {}
+  vlr_dollar_exchange = 0.00;
+  nameTransport: string = '';
 
   // Edit Object - Entity
   roadwaybreEdit_Obj = {} as RoadwaybreModel
@@ -87,6 +91,8 @@ export class RoadwayUpdateComponent implements OnInit {
     private confirmationDialogService: ConfirmationDialogService) {
       if ( this.roadwayData.roadwayBREData != null ) {
         this.roadwaybreEdit_Obj = this.roadwayData.roadwayBREData;
+        this.nameTransport = this.roadwaybreEdit_Obj.transport_name;
+        this.transportEdit_Obj = this.roadwaybreEdit_Obj.transport;
         this.generateCostsTable();
         this.isEdit = true;
 
@@ -136,10 +142,12 @@ export class RoadwayUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.findLocations()
-    this.findTransporties()
+//    this.findTransporties()
     this.generateFirstCostsTable()
-    this.findCategoriesByTransport()
-    this.findCurrencies()
+    this.prepareCategoriesByTransport();
+    this.findCategoriesByTransport();
+    //this.findCategoriesByTransport()
+    //this.findCurrencies()
   }
 
 // ------------------------------------------------------------------------//
@@ -147,7 +155,7 @@ export class RoadwayUpdateComponent implements OnInit {
 // ------------------------------------------------------------------------//
 
   prepareCategoriesByTransport() {
-    this.findCategoriesByTransport()
+    //this.findCategoriesByTransport()
     if (this.transportEdit_Obj.transport_type === 'Cargo') {
       this.isCargoMix = true
       this.isPeople = false
@@ -165,7 +173,7 @@ export class RoadwayUpdateComponent implements OnInit {
 
   findCategoriesByTransport() {
     let categoriesVet: CategoryModel [] = []
-    this.categoryService.getCategoryByTransport(this.roadwaybreEdit_Obj.transport).subscribe((categoryData: Response) => {
+    this.categoryService.getCategoryByTransport(this.roadwaybreEdit_Obj.transport_name).subscribe((categoryData: Response) => {
       const categoryDataStr = JSON.stringify(categoryData.body)
       JSON.parse(categoryDataStr, function (key, value) {
         if (key === 'categories') {
@@ -199,53 +207,6 @@ export class RoadwayUpdateComponent implements OnInit {
     })
   }
 
-  findTransporties() {
-    let transportiesVet: TransportTypeModel [] = []
-    this.transportService.get().subscribe((transportTypeData: Response) => {
-      const transportTypeDataStr = JSON.stringify(transportTypeData.body)
-      JSON.parse(transportTypeDataStr, function (key, value) {
-        if (key === 'transports') {
-          transportiesVet = value
-          return value
-        } else {
-          return value
-        }
-      })
-      this.transportEdit_Obj = transportiesVet.find(transp => transp.name_transport === this.roadwaybreEdit_Obj.transport)
-      this.transporties = transportiesVet
-
-      if (this.transportEdit_Obj.transport_type === 'Cargo') {
-        this.isCargoMix = true
-        this.isPeople = false
-        this.isMixed = false
-      } else if (this.transportEdit_Obj.transport_type === 'Passenger') {
-        this.isPeople = true
-        this.isCargoMix = false
-        this.isMixed = false
-      } else if (this.transportEdit_Obj.transport_type === 'Mixed') {
-        this.isMixed = true
-        this.isPeople = false
-        this.isCargoMix = false
-      }
-    })
-  }
-
-  findCurrencies() {
-    let currenciesVet: CurrencyModel [] = []
-    this.currencyService.get().subscribe((currencyData: Response) => {
-      const currenciesDataStr = JSON.stringify(currencyData.body)
-      JSON.parse(currenciesDataStr, function (key, value) {
-        if (key === 'currencies') {
-          currenciesVet = value
-          return value
-        } else {
-           return value
-        }
-      })
-      this.currencies = currenciesVet
-    })
-  }
-
 
 // ------------------------------------------------------------------------//
 // OPERATION ::  TRANSACTION - CRUD
@@ -272,8 +233,11 @@ export class RoadwayUpdateComponent implements OnInit {
     .then((result) => {
       if ( result === true ) {
         this.roadwaybreEdit_Obj.locations.forEach( (location) => {
+          console.log('LOCATION  01 ', location.countryName)
           this.costsBRE_DS.forEach( (costsObj) => {
-            if ( location.countryName === costsObj.countryName ) {
+            console.log('LOCATION  02 ', costsObj.countryName)
+            if ( location.countryShortName === costsObj.countryName ) {
+              console.log('costsOb 00 ', costsObj.distance_cost)
               costsArray.push(costsObj)
             }
           })
@@ -281,6 +245,7 @@ export class RoadwayUpdateComponent implements OnInit {
         const roadwayEntity: RoadwaybreModel = {
           id: this.roadwaybreEdit_Obj.id,
           name_bre: this.roadwaybreEdit_Obj.name_bre,
+          transport_name: this.roadwaybreEdit_Obj.transport_name,
           transport: this.roadwaybreEdit_Obj.transport,
           date_creation: this.roadwaybreEdit_Obj.date_creation,
           date_change: new Date(),
@@ -291,6 +256,7 @@ export class RoadwayUpdateComponent implements OnInit {
           employeer_cost: this.roadwaybreEdit_Obj.employeer_cost,
           status: this.roadwaybreEdit_Obj.status,
           version:  this.roadwaybreEdit_Obj.version,
+          vlr_exchange: this.roadwaybreEdit_Obj.vlr_exchange,
           tariffPlan: this.roadwaybreEdit_Obj.tariffPlan ,
           categories: this.roadwaybreEdit_Obj.categories,
           locations: this.roadwaybreEdit_Obj.locations,
@@ -407,11 +373,6 @@ export class RoadwayUpdateComponent implements OnInit {
 // ------------------------------------------------------------------------//
 // OPERATION ::   Transaction Field Value
 // ------------------------------------------------------------------------//
-
-  // UPDATE TABLE BY CHANGE CATEGORY  ---------------------//
-  onChangeNameBRE() {
-    this.roadwaybreEdit_Obj.name_bre = 'BRE-' + this.transportEdit_Obj.name_transport + this.categoryEdit_Obj.name_category
-  }
 
   // FIELD COUNTRY ---------------------//
   addCountry() {
@@ -601,7 +562,7 @@ generateCostsTable() {
         costsObj = {
           vehicle: vehicle.category_vehicle, countryName: countryNameS,
           weight_cost: valueCosts, distance_cost: valueCosts,
-          worktime_cost: valueCosts, fuel_type: vehicle.fuel_type, average_consumption_cost: valueCosts,
+          worktime_cost: valueCosts, fuel_type: vehicle.fuel_type, average_consumption_cost: vehicle.fuel_consumption,
           heightDimension_cost: valueCosts, widthDimension_cost: valueCosts, lengthDimension_cost: valueCosts,
           countryNew: statusNewCountry, statusChange: false
         }
@@ -625,7 +586,7 @@ generateCostsTable() {
         categoryCostsObj = {
           vehicle: vehicle.category_vehicle, countryName: country.countryShortName,
           weight_cost: valueCosts, distance_cost: valueCosts,
-          worktime_cost: valueCosts, fuel_type: vehicle.fuel_type, average_consumption_cost: valueCosts,
+          worktime_cost: valueCosts, fuel_type: vehicle.fuel_type, average_consumption_cost: vehicle.fuel_consumption,
           heightDimension_cost: valueCosts, widthDimension_cost: valueCosts, lengthDimension_cost: valueCosts,
           countryNew: false, statusChange: false
         }
@@ -645,10 +606,14 @@ generateCostsTable() {
   }
 
   onRowEditInit(costsObj: CostsModel) {
+    console.log(' ABC 1 ', costsObj.distance_cost);
     this.clonedCosts[costsObj.vehicle] = {...costsObj}
   }
 
   onRowEditSave(costs: CostsModel) {
+    console.log(' ABC 2 ', costs.distance_cost);
+    this.clonedCosts[costs.vehicle] = {...costs}
+
     costs.statusChange = true
   }
 
@@ -694,10 +659,10 @@ generateCostsTable() {
 // ------------------------------------------------------------------------//
 
   functionPublished() {
-    const msg = 'Do you confirm the publication of the business rule that is registered?'
+    const msg = 'Deseja publicar para uso a regra de negocio que está registrada?'
     this.confirmationDialogService.confirm('Change Status', msg)
     .then((result) => {
-      this.lifeCycleService.putPublished(this.roadwaybreEdit_Obj.id, this.roadwaybreEdit_Obj.transport).subscribe({
+      this.lifeCycleService.putPublished(this.roadwaybreEdit_Obj.id, this.roadwaybreEdit_Obj.transport_name).subscribe({
         next: data => this.transactionOrchestrator(null, 'Update', 'Roadway-BRE Published Successfully'),
         error: error => this.showNotification('bottom', 'center', error, 'error')
       })

@@ -27,7 +27,7 @@
             <tbody>
               <tr *ngFor="let bre of roadwaysBRE; let i = index" (click)="selectRoadwayBRE($event, bre)">
                 <td>{{bre.name_bre}}</td>
-                <td>{{bre.transport}}</td>
+                <td>{{bre.transport_name}}</td>
                 <td>{{bre.date_creation | date:'MM/dd/yyyy'}}</td>
                 <td>{{bre.version}}</td>
                 <td>{{bre.status}}</td>

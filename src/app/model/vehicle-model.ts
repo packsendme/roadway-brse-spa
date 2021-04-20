@@ -2,6 +2,7 @@ export interface VehicleModel {
   id: string;
   category_vehicle: string;
   type_vehicle: string;
+  restriction: boolean;
   classification_vehicle: string;
   subclassification_vehicle: string;
   transport_type: string;
@@ -13,6 +14,7 @@ export interface VehicleModel {
   width_dimension_max: string;
   length_dimension_max: string;
   fuel_type: string;
+  distance_max: number;
   fuel_consumption: number;
   bodywork_vehicle: string;
 }

@@ -53,10 +53,12 @@ select(event: any, simulationSelect: any) {
   this.simulationResponse_obj = simulationSelect;
 }
   new() {
+    this.simulationTO.simulationResponseData = null;
     this.router.navigate(['/simulation-crud']);
   }
 
   view() {
+    this.simulationTO.simulationResponseData = null;
     this.simulationTO.simulationResponseData = this.simulationResponse_obj;
     this.router.navigate(['/simulation-crud']);
   }

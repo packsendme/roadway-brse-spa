@@ -31,7 +31,9 @@ export class VehicleCrudComponent implements OnInit {
   vehicleClassification_L: String[];
   vehicleSubcategory: String = '';
   vehicleSubclassification_L: String[];
-
+  viewRestrictionS: String = null;
+  viewRestriction = true;
+  vlrDefault = 0.00;
 
   // List Another Requests
   vehicles: VehicleModel[];
@@ -48,6 +50,7 @@ export class VehicleCrudComponent implements OnInit {
 
   // Screen Option
   vehicleOne_Obj = {} as VehicleModel;
+  isShowFuelConsumption = false;
   isShowPeople = false;
   isShowCargo = false;
   isEdit = false;
@@ -75,6 +78,19 @@ export class VehicleCrudComponent implements OnInit {
         // tslint:disable-next-line:forin
         for (const a in this.vehicleOne_Obj.unity_weight) {
           this.unityWeight =  this.vehicleOne_Obj.unity_weight[a];
+        }
+
+        if (this.vehicleOne_Obj.fuel_type === 'Electric') {
+          this.isShowFuelConsumption = true;
+        } else {
+          this.isShowFuelConsumption = false;
+        }
+
+        if (this.vehicleOne_Obj.restriction === true) {
+          this.viewRestrictionS =  'yes';
+          this.toggleDisplayRestriction();
+        } else {
+          this.viewRestrictionS =  'no';
         }
 
         if (this.vehicleOne_Obj.transport_type === 'Cargo') {
@@ -203,12 +219,25 @@ convertArrayToMapUnityWeghty() {
 
     if ((this.vehicleOne_Obj.category_vehicle) && ( this.vehicleOne_Obj.bodywork_vehicle) &&
     (this.vehicleOne_Obj.classification_vehicle) && (this.vehicleOne_Obj.subclassification_vehicle)
-    && (this.vehicleOne_Obj.fuel_consumption) && (this.vehicleOne_Obj.fuel_type)) {
-      if (this.vehicleOne_Obj.transport_type === 'Cargo') {
-        if ((this.vehicleOne_Obj.weight_max) && (this.unityWeight) && (this.vehicleOne_Obj.axis_total) &&
+    && (this.vehicleOne_Obj.fuel_type)) {
+      statusSave = true;
+
+      if ((this.vehicleOne_Obj.fuel_type !== 'Electric') && (!this.vehicleOne_Obj.fuel_consumption)
+        && (!this.vehicleOne_Obj.axis_total)) {
+          console.log('01');
+          statusSave = false;
+      } else if (this.viewRestrictionS === null) {
+          console.log('02');
+          statusSave = false;
+      } else if ((this.viewRestrictionS === 'yes') && (!this.vehicleOne_Obj.distance_max)) {
+        console.log('03');
+        statusSave = false;
+      } else if (this.vehicleOne_Obj.transport_type === 'Cargo') {
+        if ((this.vehicleOne_Obj.weight_max) && (this.unityWeight)  &&
         (this.vehicleOne_Obj.height_dimension_max) && (this.vehicleOne_Obj.width_dimension_max) &&
         (this.vehicleOne_Obj.length_dimension_max)) {
           statusSave = true;
+          console.log('04');
           this.vehicleOne_Obj.people_max = 0;
           this.vehicleOne_Obj.unity_weight = this.getUnityWeightByMap();
         } else {
@@ -216,6 +245,7 @@ convertArrayToMapUnityWeghty() {
         }
       } else if (this.vehicleOne_Obj.transport_type === 'Passenger') {
           if (this.vehicleOne_Obj.people_max !== 0) {
+            console.log('05');
             statusSave = true;
             this.vehicleOne_Obj.weight_max = 0.0;
             this.vehicleOne_Obj.unity_weight = null; //this.getUnityWeightByMap();
@@ -223,11 +253,12 @@ convertArrayToMapUnityWeghty() {
             statusSave = false;
           }
       }  else if (this.vehicleOne_Obj.transport_type === 'Mixed') {
-          if ((this.vehicleOne_Obj.weight_max) && (this.unityWeight_M) && (this.vehicleOne_Obj.axis_total)
-          && (this.vehicleOne_Obj.people_max !== 0)  &&
+          if ((this.vehicleOne_Obj.weight_max) && (this.unityWeight_M)
+          && (this.vehicleOne_Obj.people_max)  &&
           (this.vehicleOne_Obj.height_dimension_max) && (this.vehicleOne_Obj.width_dimension_max) &&
           (this.vehicleOne_Obj.length_dimension_max)) {
             statusSave = true;
+            console.log('06');
             this.vehicleOne_Obj.unity_weight = this.getUnityWeightByMap();
             const weightMapToArray = {};
             this.unityWeight_M.forEach((val: string, key: string) => {
@@ -256,14 +287,14 @@ convertArrayToMapUnityWeghty() {
     this.confirmationDialogService.confirm('Save', msg).then((result) => {
       if ( result === true ) {
         if (this.vehicleOne_Obj.id == null) {
-          console.log('FUEL CONSUMPTION ', this.vehicleOne_Obj.fuel_consumption);
+          console.log('FUEL RESTRICTION ', this.vehicleOne_Obj.restriction);
 
           this.vehicleService.postVehicle(this.vehicleOne_Obj).subscribe({
             next: data => this.transactionOrchestrator(event, 'Save'),
             error: error => this.showNotification('bottom', 'center', error, 'error')
           });
         } else if (this.vehicleOne_Obj.id != null) {
-          console.log('FUEL CONSUMPTION ', this.vehicleOne_Obj.fuel_consumption);
+          console.log('FUEL RESTRICTION ', this.vehicleOne_Obj.restriction);
 
           this.vehicleService.putVehicle(this.vehicleOne_Obj).subscribe({
             next: data => this.transactionOrchestrator(event, 'Update'),
@@ -388,40 +419,32 @@ transactionOrchestrator(event: any, type: String) {
     }
   }
 
-  /* Operation Bodywork  ---------------------//
-  addBodywork() {
-    let statusAdd = false;
-    if ( this.vehicleOne_Obj.bodywork_vehicle.length >= 1) {
-      this.vehicleOne_Obj.bodywork_vehicle.forEach( (bodyworkObj) => {
-        if (bodyworkObj === this.bodyworkEdit) {
-          statusAdd = true;
-        }
-      })
-    }
-
-    if ( statusAdd === false ) {
-      this.vehicleOne_Obj.bodywork_vehicle.push(this.bodyworkEdit);
-    } else {
-      this.transactionOrchestrator(null, 'ValidationII');
+  toggleDisplayRestriction() {
+    if (this.viewRestrictionS === 'yes') {
+      this.viewRestriction = false;
+      this.vehicleOne_Obj.restriction = true;
+    } else if (this.viewRestrictionS === 'no') {
+      this.viewRestriction = true;
+      this.vehicleOne_Obj.restriction = false;
+      this.vehicleOne_Obj.distance_max = this.vlrDefault;
     }
   }
 
 
-  removeBodywork(bodyworkEditSelect: string) {
-    const error = 'It is not possible delete';
-
-    if (  this.vehicleOne_Obj.bodywork_vehicle.length > 1) {
-      const vehicleObj = this.vehicleOne_Obj.bodywork_vehicle.findIndex(bodywork => bodywork === bodyworkEditSelect);
-      this.vehicleOne_Obj.bodywork_vehicle.splice(vehicleObj, 1);
-    } else if ( this.vehicleOne_Obj.bodywork_vehicle.length === 1) {
-      this.showNotification('bottom','center', error, 'error')
-    }
-  }
-  */
 
   changeNameVehicle() {
     this.vehicleOne_Obj.category_vehicle = this.vehicleOne_Obj.type_vehicle + '-'
     + this.vehicleOne_Obj.classification_vehicle + '-' + this.vehicleOne_Obj.subclassification_vehicle;
+  }
+
+
+  changeFuelConsumption(){
+    if (this.vehicleOne_Obj.fuel_type === 'Electric') {
+      this.isShowFuelConsumption = true;
+    }
+    else{
+      this.isShowFuelConsumption = false;
+    }
   }
 
 // OPERATION REDIRECT  ---------------------//

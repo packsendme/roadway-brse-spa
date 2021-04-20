@@ -31,6 +31,14 @@ export class TransportTypeService {
     return this.httpClient.get<Response>(this.url, httpOptions)
     }
 
+    getTransportByName(name: String): Observable<Response> {
+      const url_parameters = this.url + '/type/' + name;
+      this.headersOnInit();
+      const httpOptions = {headers: this.headers}
+      console.log('GET', url_parameters);
+      return this.httpClient.get<Response>(url_parameters, httpOptions)
+    }
+
   post(transportType: TransportTypeModel): Observable<Response> {
     console.log('TRANSPORT', transportType);
     this.headersOnInit();

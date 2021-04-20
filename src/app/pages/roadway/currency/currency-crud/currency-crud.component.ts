@@ -1,11 +1,11 @@
 import { LocationService } from './../../../../service/location.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CurrencyModel } from 'app/model/currency-model';
 import { LocationModel } from 'app/model/location-model';
 import { ConfirmationDialogService } from 'app/service/confirmation-dialog.service';
 import { CurrencyService } from 'app/service/currency.service';
 import { ToastrService } from 'ngx-toastr';
+import { CurrencyModel } from 'app/model/currency-model';
 
 @Component({
   selector: 'app-currency-crud',

@@ -43,6 +43,8 @@ import { VehicletypeCrudComponent } from 'app/pages/vehicle/core/vehicletype-cru
 import { VehicleclassificationCrudComponent } from 'app/pages/vehicle/core/vehicleclassification-crud/vehicleclassification-crud.component';
 import {AccordionModule} from 'primeng/accordion';
 import {CardModule} from 'primeng/card';
+//import { ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   imports: [
     CardModule,

@@ -6,8 +6,8 @@ export interface SimulationRequestModel {
   people: number;
   weight_max: number;
   unity_weight: string;
-  height_max: string;
+  height_max: number;
   width_max: number;
-  length_max: string;
+  length_max: number;
   delivery_type: string;
 }

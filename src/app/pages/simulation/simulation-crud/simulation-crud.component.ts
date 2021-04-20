@@ -11,6 +11,8 @@ import { DataTO } from 'app/model/dataTO';
 import { Router } from '@angular/router';
 import { TariffPlanModel } from 'app/model/tariff-plan-model';
 import { exit } from 'process';
+import { UnityMeasurementModel } from 'app/model/unity-measurement-model';
+import { UnityMeasurementService } from 'app/service/unity-measurement.service';
 
 
 @Component({
@@ -20,24 +22,33 @@ import { exit } from 'process';
 })
 export class SimulationCrudComponent implements OnInit{
 
+
   simulationRequest_Obj = {} as SimulationRequestModel;
   simulationResponse_Obj = {} as SimulationResponseModel;
   transport_Obj = {} as TransportTypeModel;
   tariffPlan = {} as TariffPlanModel;
-
   transporties: TransportTypeModel[];
+  unityMeasurements: UnityMeasurementModel[];
+  unityWeightL: String[] = [];
+  unityWeight = '';
+  unityWeight_View = new Map<string, string>();
+  unityWeight_M = new Map<string, string>();
+
   viewPeople = false;
   viewDimension = false;
   viewWeight = false;
+  viewEdit = true;
+  viewInc = true;
   isDisabled = true;
   isDisabledDelete = true;
-  unityWeightL: string[];
   mesage: string;
+  vlrDefault = 0.0;
 
   isShow: boolean;
   topPosToStartShowing = 100;
 
   constructor(
+    private unityMeasurementService: UnityMeasurementService,
     private simulationRequestService: SimulationService,
     private transportService: TransportTypeService,
     private simulationTO: DataTO,
@@ -49,12 +60,18 @@ export class SimulationCrudComponent implements OnInit{
       this.simulationRequest_Obj = this.simulationTO.simulationResponseData.requestData;
       this.simulationResponse_Obj = this.simulationTO.simulationResponseData;
       this.isDisabledDelete = false;
-      this.fieldByTransportType();
+      this.viewEdit = false;
+      this.viewInc = true;
+      console.log('TRANSPORTE  ', this.simulationRequest_Obj.type_transport);
+      this.findTransportiesByName(this.simulationRequest_Obj.type_transport);
+    } else{
+      this.viewEdit = true;
+      this.viewInc = false;
     }
   }
 
   ngOnInit(): void {
-    this.unityWeightL = ['gr','kg','t'];
+    this.findUnityMeasurement();
     this.findTransporties();
   }
 
@@ -81,24 +98,83 @@ export class SimulationCrudComponent implements OnInit{
 // REQUESTs - EXTERNAL
 // ------------------------------------------------------------------------//
 
+findUnityMeasurement() {
+  let unityMeasurementVet: UnityMeasurementModel[] = [];
+  this.unityMeasurementService.get().subscribe((unityMeasurementData: Response) => {
+    const unityMeasurementDataStr = JSON.stringify(unityMeasurementData.body);
+    JSON.parse(unityMeasurementDataStr, function (key, value) {
+      if (key === 'unityMeasurements') {
+        unityMeasurementVet = value;
+        return value;
+      } else {
+        return value;
+      }
+    });
+    this.unityMeasurements = unityMeasurementVet;
+    this.convertArrayToMapUnityWeghty();
+  });
+}
+
+convertArrayToMapUnityWeghty() {
+  const  unityWeight_Local = new Map<string, string>();
+  // tslint:disable-next-line:forin
+  this.unityMeasurements.forEach(function(unitObj) {
+    // tslint:disable-next-line:forin
+    for (const a in unitObj.unityWeight) {
+      console.log('Cargo', unitObj.unityWeight[a]);
+      console.log('Cargo A', a);
+      unityWeight_Local.set(unitObj.unityWeight[a],a);
+    }
+  })
+  this.unityWeight_View = unityWeight_Local;
+  console.log('Cargo unityWeight_View', this.unityWeight_View);
+}
+
+getUnityWeightByMap(): any {
+  const unityWeightLocal_M = new Map<string, string>();
+  const key = this.unityWeight_View.get(this.unityWeight);
+  const value = this.unityWeight;
+  unityWeightLocal_M.set(key, value);
+  const weightMapToArray = {};
+  // tslint:disable-next-line:no-shadowed-variable
+  unityWeightLocal_M.forEach((val: string, key: string) => {
+    weightMapToArray[key] = val;
+  });
+  return weightMapToArray;
+}
+
 prepareSimulation(event: any) {
   let statusSave = true;
   let msg: string;
+  this.simulationRequest_Obj.unity_weight = this.getUnityWeightByMap();
   this.tariffPlan = this.transport_Obj.tariffPlan;
   if ((!this.simulationRequest_Obj.address_destination) || (!this.simulationRequest_Obj.address_origin)) {
     statusSave = false;
-  } else if (this.tariffPlan.weight_plan === true) {
-      if ((!this.simulationRequest_Obj.weight_max) || (!this.simulationRequest_Obj.unity_weight)) {
-        statusSave = false;
-      }
-    } else if (this.tariffPlan.dimension_plan === true) {
-       if ((!this.simulationRequest_Obj.height_max) || (!this.simulationRequest_Obj.width_max) ||
-        (!this.simulationRequest_Obj.length_max)) {
-        statusSave = false;
-      }
+  }
+
+  if (this.tariffPlan.weight_plan === true) {
+    if ((!this.simulationRequest_Obj.weight_max) || (!this.simulationRequest_Obj.unity_weight)) {
+      statusSave = false;
     }
+  } else{
+    this.simulationRequest_Obj.weight_max = this.vlrDefault;
+  }
+
+  if (this.tariffPlan.dimension_plan === true) {
+    if ((!this.simulationRequest_Obj.height_max) || (!this.simulationRequest_Obj.width_max) ||
+      (!this.simulationRequest_Obj.length_max)) {
+      statusSave = false;
+    }
+  } else {
+    console.log(' DIMENSION_PLAN ');
+    this.simulationRequest_Obj.height_max = this.vlrDefault;
+    this.simulationRequest_Obj.width_max = this.vlrDefault;
+    this.simulationRequest_Obj.length_max = this.vlrDefault;
+  }
+
   if (statusSave === true) {
     msg = 'Confirma simulaçao?';
+    console.log(' RESULT PAYLOAD SIM', this.simulationRequest_Obj);
     this.simulationRequest_Obj.delivery_type = 'NDA';
     this.findSimulation();
   } else {
@@ -108,7 +184,7 @@ prepareSimulation(event: any) {
 }
 
 findSimulation() {
-  this.simulationRequest_Obj.type_transport = this.transport_Obj.transport_type;
+  this.simulationRequest_Obj.type_transport = this.transport_Obj.name_transport;
   this.simulationRequestService.postSimulationTransport(this.simulationRequest_Obj).subscribe({
     next: data => this.funcParserSimulation(data),
     error: error => this.showNotification('bottom', 'center', error, 'error')
@@ -136,6 +212,40 @@ deleteSimulation() {
         error: error => this.showNotification('bottom', 'center', error, 'error')
       });
     }
+  });
+}
+
+findTransportiesByName(name: String) {
+  const tariffPlanObj = {} as TariffPlanModel;
+  const transportSave = {} as TransportTypeModel;
+
+  this.transportService.getTransportByName(name).subscribe((nameTransportData: Response) => {
+    const transportTypeDataStr = JSON.stringify(nameTransportData.body);
+    JSON.parse(transportTypeDataStr, function (key, value) {
+      if (key === 'tariffPlan') {
+        transportSave.tariffPlan = value;
+        return value;
+      } else if (key === 'name_transport') {
+        transportSave.name_transport = value;
+        return value;
+      } else if (key === 'identifier') {
+        transportSave.identifier = value;
+        return value;
+      } else if (key === 'id') {
+        transportSave.id = value;
+        return value;
+      } else if (key === 'initials') {
+        transportSave.initials = value;
+        return value;
+      } else if (key === 'transport_type') {
+        transportSave.transport_type = value;
+        return value;
+      } else {
+         return value;
+      }
+    });
+    this.transport_Obj = transportSave;
+    this.fieldByTransportType();
   });
 }
 
@@ -192,8 +302,6 @@ funcParserSimulation(simulationData: Response) {
 // ------------------------------------------------------------------------//
 
   fieldByTransportType() {
-    console.log(" STATUS CUSTOS weight ", this.transport_Obj.tariffPlan.weight_plan);
-    console.log(" STATUS CUSTOS dimension_plan ", this.transport_Obj.tariffPlan.dimension_plan);
     this.viewPeople = false;
     this.viewDimension = false;
     this.viewWeight = false;
@@ -213,6 +321,8 @@ funcParserSimulation(simulationData: Response) {
         this.viewWeight = false;
         this.viewDimension = true;
     }
+    console.log('name_transport  ', this.transport_Obj.name_transport);
+
   }
 
   // ------------------------------------------------------------------------//

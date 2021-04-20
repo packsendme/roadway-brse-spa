@@ -1,5 +1,4 @@
 import { CurrencyService } from './../../../service/currency.service';
-import { CurrencyModel } from './../../../model/currency-model';
 import { TollsFuelModel } from './../../../model/tolls-fuel-model';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -9,6 +8,7 @@ import { ConfirmationDialogService } from 'app/service/confirmation-dialog.servi
 import { LocationService } from 'app/service/location.service';
 import { ToastrService } from 'ngx-toastr';
 import { TollsfuelService } from 'app/service/tollsfuel.service';
+import { CurrencyModel } from 'app/model/currency-model';
 
 @Component({
   selector: 'app-fueltolls-crud',

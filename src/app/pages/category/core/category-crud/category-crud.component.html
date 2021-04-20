@@ -12,7 +12,7 @@
                 <div class="row">
                   <div class="col-md-6 px-3">
                     <div class="form-group">
-                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Nome Categoria BRE</label>
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Nome Categoria Negocio</label>
                       <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
                       <input type="text" class="form-control" [ngStyle]="{'color': 'red', 'font-size': '13px', 'font-weight': 'bold'}" [(ngModel)]="nameBusinessCategory" name="namebusinesscat_input" disabled>
                     </div>
@@ -28,16 +28,21 @@
                  <!-- FIELD - TRANSPORT -->
                 <div class="row">
                   <div class="col-md-8 px-3">
-                    <div class="form-group">
-                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Categoria Transporte</label>
+                    <div class="form-group"  [hidden]="!isEdit">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Categoria Tipo Transporte</label>
                       <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
-                      <select class="form-control" name="transport_select"  [(ngModel)]="transportNew_Obj" (change)="onChangeTransportLevel()">
+                      <br>
+                      <span [ngStyle]="{'color': 'black', 'font-size': '13px'}">{{nameTransport}}</span>
+                    </div>
+                    <div class="form-group"  [hidden]="isEdit">
+                      <label [ngStyle]="{'color': 'black', 'font-size': '13px', 'font-weight': 'bold'}">Categoria Tipo Transporte</label>
+                      <label [ngStyle]="{'color': 'red', 'font-size': '13px'}">&nbsp;*</label>
+                      <select [(ngModel)]="transportNew_Obj"  name="transportSelect"  class="form-control" (change)="onChangeTransportLevel()">
                         <option [ngValue]="item" *ngFor="let item of transporties">{{item.name_transport}}</option>
                       </select>
                     </div>
                   </div>
-                  <!-- buttom - REDIRECT TRANSPORT-INC -->
-                  <div class="col-md-3 px-0 text-left">
+                  <div class="col-md-3 px-0 text-left" [hidden]="isEdit">
                     <label>&nbsp;</label>
                     <br>
                     <button class="btn btn-sm btn-outline-success btn-round btn-icon" (click)="functionRedirectToTransport()">
@@ -212,50 +217,54 @@
   <div class="col-md-4">
     <div class="card card-user">
       <div class="card-header">
-        <h5 class="card-title">Instancia Categoria BRE</h5>
+        <h5 class="card-title">Capacidade de Transporte</h5>
       </div>
       <div class="card-body">
         <div class="row">
           <div class="col-md-10 px-2">
             <div class="form-group">
-              <label [ngStyle]="{'color': 'black', 'font-size': '11px','font-weight': 'bold'}">Carga Maxima</label>
+              <label [ngStyle]="{'color': 'black', 'font-size': '12px','font-weight': 'bold'}">Capacidade Peso Maximo por Tipo:</label>
             </div>
           </div>
           <br>
           <br>
           <div class="row">
-          <!-- FIELD WEIGHTY_MAX   -->
-            <div class="col-md-4 px-4">
+            <div class="col-md-12 px-4">
               <div class="form-group">
-                <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">Peso Max</label>
-                <input type="number" class="form-control" disabled="" [(ngModel)]="weightMaxNew"  placeholder="Max" name="cargomaxcategory_input" required>
+                <label [ngStyle]="{'color': 'black', 'font-size': '12px'}">Peso MAX / Transporte</label>
+                <input [ngStyle]="{'color': 'red', 'font-size': '13px','width':'150px', 'font-weight': 'bold'}" disabled="" class="form-control" [(ngModel)]="weightUnityTransport_max"  placeholder="Max" name="weightMaxTransp_input">
               </div>
             </div>
-            <div class="col-md-5 px-6">
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- FIELD WEIGHTY_MAX   -->
+            <div class="col-md-12 px-2">
               <div class="form-group">
-                <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">Unidade Med.</label>
-                <input class="form-control" disabled=""  [(ngModel)]="unityWeightValue_S" placeholder="Weight" name="unitymaxcategory_input" required>
+                <label [ngStyle]="{'color': 'black', 'font-size': '12px'}">Peso MAX / Veiculo </label>
+                <input [ngStyle]="{'color': 'black', 'font-size': '13px','width':'150px', 'font-weight': 'bold'}" class="form-control" disabled="" [(ngModel)]="weightUnityVehicle_max"  placeholder="Max" name="cargomaxcategory_input" required>
               </div>
             </div>
         </div>
         <br>
-        <!-- RULE PEOPLE -->
+        <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">Carga Max dessa categoria estará limitada pelo peso do tipo de transporte, caso restriçao seja superior 0.00</label>
+
+        <!-- RULE PEOPLE
         <div class="row">
-          <div class="col-md-10 px-4">
+          <div class="col-md-10 px-3">
             <div class="form-group">
-              <label [ngStyle]="{'color': 'black', 'font-size': '11px','font-weight': 'bold'}">Total Pessoas</label>
+              <label [ngStyle]="{'color': 'black', 'font-size': '12px','font-weight': 'bold'}">Capacidade Pessoas M</label>
             </div>
           </div>
           <br>
-         <!-- <div class="row"> -->
-            <div class="col-md-4 px-4">
-              <div class="form-group">
-                <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">People Max</label>
-                <input class="form-control" disabled=""  [(ngModel)]="peopleMax" placeholder="Max" name="peoplemaxcategory_input" required>
-              </div>
+          <div class="col-md-4 px-4">
+            <div class="form-group">
+              <label [ngStyle]="{'color': 'black', 'font-size': '11px'}">People Max</label>
+              <input class="form-control" disabled=""  [(ngModel)]="peopleMax" placeholder="Max" name="peoplemaxcategory_input" required>
             </div>
-         <!-- </div> -->
-        </div>
+          </div>
+        </div>  -->
       </div>
     </div>
   </div>
