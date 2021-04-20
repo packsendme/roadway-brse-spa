@@ -156,8 +156,9 @@ prepareSimulation(event: any) {
     if ((!this.simulationRequest_Obj.weight_max) || (!this.simulationRequest_Obj.unity_weight)) {
       statusSave = false;
     }
-  } else{
+  } else {
     this.simulationRequest_Obj.weight_max = this.vlrDefault;
+    this.simulationRequest_Obj.unity_weight = this.transport_Obj.unity_weight;
   }
 
   if (this.tariffPlan.dimension_plan === true) {

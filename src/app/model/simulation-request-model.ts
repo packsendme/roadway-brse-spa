@@ -5,7 +5,7 @@ export interface SimulationRequestModel {
   product_transport: string;
   people: number;
   weight_max: number;
-  unity_weight: string;
+  unity_weight: {};
   height_max: number;
   width_max: number;
   length_max: number;
