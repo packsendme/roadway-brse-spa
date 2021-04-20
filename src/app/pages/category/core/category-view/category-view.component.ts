@@ -68,4 +68,14 @@ export class CategoryViewComponent implements OnInit {
     this.router.navigate(['/category-crud']);
   }
 
+  costsBRE() {
+    this.categoryData.categoryruleData = this.categoryOne_Obj;
+    this.router.navigate(['/roadway-new']);
+  }
+
+  viewCostsBRE() {
+    this.categoryData.categoryruleData = this.categoryOne_Obj;
+    this.router.navigate(['/roadway-view']);
+  }
+
 }

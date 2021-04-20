@@ -41,9 +41,9 @@
             </thead>
             <tbody>
               <tr (click)="select($event, tollsFuelVet)">
-                <td>{{tollsFuelVet.current}} {{tollsFuelVet.tolls_price | number : '1.2-2'}}</td>
-                <td>{{tollsFuelVet.current}} {{tollsFuelVet.fuelGasoline_price | number : '1.2-2'}}</td>
-                <td>{{tollsFuelVet.current}} {{tollsFuelVet.fuelDiesel_price | number : '1.2-2'}}</td>
+                <td>{{tollsFuelVet.currency}} {{tollsFuelVet.tolls_price | number : '1.2-2'}}</td>
+                <td>{{tollsFuelVet.currency}} {{tollsFuelVet.fuelGasoline_price | number : '1.2-2'}}</td>
+                <td>{{tollsFuelVet.currency}} {{tollsFuelVet.fuelDiesel_price | number : '1.2-2'}}</td>
               </tr>
             </tbody>
           </table>

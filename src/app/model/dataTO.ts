@@ -1,3 +1,4 @@
+import { SimulationResponseModel } from './simulation-response-model';
 import { TollsFuelModel } from './tolls-fuel-model';
 import { LocationModel } from 'app/model/location-model';
 import { TransportTypeModel } from 'app/model/transport-type-model';
@@ -14,6 +15,8 @@ export class DataTO {
   public transportData: TransportTypeModel;
   public locationData: LocationModel;
   public tollsfuelData: TollsFuelModel;
+  public simulationResponseData: SimulationResponseModel;
+
 
   public constructor() { }
 

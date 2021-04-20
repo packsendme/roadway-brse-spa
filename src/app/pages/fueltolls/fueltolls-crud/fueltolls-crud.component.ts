@@ -1,5 +1,4 @@
 import { CurrencyService } from './../../../service/currency.service';
-import { CurrencyModel } from './../../../model/currency-model';
 import { TollsFuelModel } from './../../../model/tolls-fuel-model';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -9,6 +8,7 @@ import { ConfirmationDialogService } from 'app/service/confirmation-dialog.servi
 import { LocationService } from 'app/service/location.service';
 import { ToastrService } from 'ngx-toastr';
 import { TollsfuelService } from 'app/service/tollsfuel.service';
+import { CurrencyModel } from 'app/model/currency-model';
 
 @Component({
   selector: 'app-fueltolls-crud',
@@ -51,6 +51,8 @@ export class FueltollsCrudComponent implements OnInit {
         this.isEdit = false;
         this.titlePage = 'Fuel&Tolls - Save New';
         this.isDisabled = true;
+        this.fueltollsOne_Obj.dt_inc = new Date();
+        this.dt_incS = new Date().toLocaleString();
       }
     }
 
@@ -120,7 +122,7 @@ export class FueltollsCrudComponent implements OnInit {
 
   save(event: any, msg: any) {
     // Transaction Save
-    console.log('SAVE ', this.locatioOne_Obj.cities);
+    console.log('SAVE  COUNTRY ', this.fueltollsOne_Obj.country);
 
     this.confirmationDialogService.confirm('Save', msg).then((result) => {
       if ( result === true ) {
@@ -130,7 +132,7 @@ export class FueltollsCrudComponent implements OnInit {
             error: error => this.showNotification('bottom','center', error, 'error')
           });
         } else if (this.isEdit === true) {
-          this.locationService.putLocation(this.locatioOne_Obj).subscribe({
+          this.tollsfuelService.put(this.locatioOne_Obj.countryName, this.fueltollsOne_Obj).subscribe({
             next: data => this.transactionOrchestrator(event, 'Update'),
             error: error => this.showNotification('bottom', 'center', error, 'error')
           });
